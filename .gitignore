@@ -1,0 +1,5 @@
+[Bb]in/
+[Oo]bj/
+.vscode
+.DS_Store
+project.lock.json
