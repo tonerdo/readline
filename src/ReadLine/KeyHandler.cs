@@ -131,6 +131,13 @@ namespace ReadLine
                 while (!IsStartOfLine())
                     Backspace();
             };
+            _keyActions["ControlK"] = () =>
+            {
+                int pos = _cursorPos;
+                MoveCursorEnd();
+                while (_cursorPos > pos)
+                    Backspace();
+            };
         }
 
         public void Handle(ConsoleKeyInfo keyInfo)
