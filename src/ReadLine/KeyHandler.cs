@@ -118,7 +118,7 @@ namespace ReadLine
 
             _keyActions["LeftArrow"] = MoveCursorLeft;
             _keyActions["Home"] = MoveCursorHome;
-            _keyActions["Home"] = MoveCursorEnd;
+            _keyActions["End"] = MoveCursorEnd;
             _keyActions["ControlA"] = MoveCursorHome;
             _keyActions["ControlB"] = MoveCursorLeft;
             _keyActions["RightArrow"] = MoveCursorRight;
