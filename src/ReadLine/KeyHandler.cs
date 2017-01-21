@@ -33,6 +33,18 @@ namespace ReadLine
             _cursorPos--;
         }
 
+        private void MoveCursorHome()
+        {
+            while (!IsStartOfLine())
+                MoveCursorLeft();
+        }
+
+        private string BuildKeyInput()
+        {
+            return _keyInfo.Modifiers != ConsoleModifiers.Control ? 
+                _keyInfo.Key.ToString() : _keyInfo.Modifiers.ToString() + _keyInfo.Key.ToString();
+        }
+
         private void MoveCursorRight()
         {
             if (IsEndOfLine())
@@ -99,6 +111,8 @@ namespace ReadLine
             _keyActions = new Dictionary<string, Action>();
 
             _keyActions["LeftArrow"] = MoveCursorLeft;
+            _keyActions["Home"] = MoveCursorHome;
+            _keyActions["ControlA"] = MoveCursorHome;
             _keyActions["RightArrow"] = MoveCursorRight;
             _keyActions["Backspace"] = Backspace;
         }
@@ -107,7 +121,7 @@ namespace ReadLine
         {
             _keyInfo = keyInfo;
             Action action;
-            _keyActions.TryGetValue(keyInfo.Key.ToString(), out action);
+            _keyActions.TryGetValue(BuildKeyInput(), out action);
             action = action ?? WriteChar;
             action.Invoke();
         }
