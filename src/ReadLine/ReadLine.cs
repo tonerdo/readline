@@ -1,46 +1,26 @@
 ﻿using System;
-using System.Text;
 
 namespace ReadLine
 {
     public static class ReadLine
     {
-        private static int _cursorPos;
-        private static int _cursorLimit;
-        private static StringBuilder _text;
+        private static KeyHandler _keyHandler;
 
-        static bool IsStartOfLine() => _cursorPos == 0;
-
-        private static bool IsEndOfLine() => _cursorPos == _cursorLimit;
-
-        private static bool IsStartOfBuffer() => Console.CursorLeft == 0;
-
-        private static bool IsEndOfBuffer() => Console.CursorLeft == Console.BufferWidth - 1;
-
-        private static void MoveCursorLeft()
+        static ReadLine()
         {
-            if (IsStartOfLine())
-                return;
-
-            if (IsStartOfBuffer())
-                Console.SetCursorPosition(Console.BufferWidth - 1, Console.CursorTop - 1);
-            else
-                Console.SetCursorPosition(Console.CursorLeft - 1, Console.CursorTop);
-
-            _cursorPos--;
+            _keyHandler = new KeyHandler();
         }
 
-        private static void MoveCursorRight()
+        public static string Read()
         {
-            if (IsEndOfLine())
-                return;
+            ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+            while (keyInfo.Key != ConsoleKey.Enter)
+            {
+                _keyHandler.Handle(keyInfo);
+                keyInfo = Console.ReadKey(true);
+            }
 
-            if (IsEndOfBuffer())
-                Console.SetCursorPosition(0, Console.CursorTop + 1);
-            else
-                Console.SetCursorPosition(Console.CursorLeft + 1, Console.CursorTop);
-
-            _cursorPos++;
+            return _keyHandler.Text;
         }
     }
 }
