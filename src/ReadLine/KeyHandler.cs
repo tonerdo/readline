@@ -126,6 +126,11 @@ namespace ReadLine
             _keyActions["ControlE"] = MoveCursorEnd;
             _keyActions["Backspace"] = Backspace;
             _keyActions["ControlH"] = Backspace;
+            _keyActions["ControlU"] = () =>
+            {
+                while (!IsStartOfLine())
+                    Backspace();
+            };
         }
 
         public void Handle(ConsoleKeyInfo keyInfo)
