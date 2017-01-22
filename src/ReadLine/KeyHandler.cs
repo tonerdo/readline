@@ -144,6 +144,11 @@ namespace ReadLine
                 while (!IsStartOfLine())
                     Backspace();
             };
+            _keyActions["ControlW"] = () =>
+            {
+                while (!IsStartOfLine() && _text[_cursorPos - 1] != ' ')
+                    Backspace();
+            };
         }
 
         public void Handle(ConsoleKeyInfo keyInfo)
