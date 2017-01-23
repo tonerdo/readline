@@ -64,6 +64,13 @@ namespace ReadLine
                 MoveCursorRight();
         }
 
+        private void ClearLine()
+        {
+            MoveCursorEnd();
+            while (!IsStartOfLine())
+                Backspace();
+        }
+
         private void WriteChar()
         {
             char key = _keyInfo.KeyChar;
@@ -126,6 +133,7 @@ namespace ReadLine
             _keyActions["ControlE"] = MoveCursorEnd;
             _keyActions["Backspace"] = Backspace;
             _keyActions["ControlH"] = Backspace;
+            _keyActions["ControlL"] = ClearLine;
             _keyActions["ControlU"] = () =>
             {
                 while (!IsStartOfLine())
@@ -136,12 +144,6 @@ namespace ReadLine
                 int pos = _cursorPos;
                 MoveCursorEnd();
                 while (_cursorPos > pos)
-                    Backspace();
-            };
-            _keyActions["ControlL"] = () =>
-            {
-                MoveCursorEnd();
-                while (!IsStartOfLine())
                     Backspace();
             };
             _keyActions["ControlW"] = () =>
