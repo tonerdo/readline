@@ -6,13 +6,9 @@ namespace ReadLine
     {
         private static KeyHandler _keyHandler;
 
-        static ReadLine()
-        {
-            _keyHandler = new KeyHandler();
-        }
-
         public static string Read()
         {
+            _keyHandler = new KeyHandler();
             ConsoleKeyInfo keyInfo = Console.ReadKey(true);
             while (keyInfo.Key != ConsoleKey.Enter)
             {
