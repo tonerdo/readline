@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ReadLine
 {
@@ -6,9 +7,16 @@ namespace ReadLine
     {
         private static KeyHandler _keyHandler;
 
+        public static List<string> History { get; }
+
+        static ReadLine()
+        {
+            History = new List<string>();
+        }
+
         public static string Read()
         {
-            _keyHandler = new KeyHandler();
+            _keyHandler = new KeyHandler(History);
             ConsoleKeyInfo keyInfo = Console.ReadKey(true);
             while (keyInfo.Key != ConsoleKey.Enter)
             {
@@ -16,7 +24,10 @@ namespace ReadLine
                 keyInfo = Console.ReadKey(true);
             }
 
-            return _keyHandler.Text;
+            string text = _keyHandler.Text;
+            History.Add(text);
+
+            return text;
         }
     }
 }

@@ -8,7 +8,9 @@ namespace ReadLine
     {
         private int _cursorPos;
         private int _cursorLimit;
+        private int _historyIndex;
         private StringBuilder _text;
+        private List<string> _history;
         private ConsoleKeyInfo _keyInfo;
         private Dictionary<string, Action> _keyActions;
 
@@ -71,13 +73,21 @@ namespace ReadLine
                 Backspace();
         }
 
-        private void WriteChar()
+        private void WriteString(string str)
         {
-            char key = _keyInfo.KeyChar;
+            ClearLine();
+            foreach (char character in str)
+                WriteChar(character);
+        }
+
+        private void WriteChar() => WriteChar(_keyInfo.KeyChar);
+
+        private void WriteChar(char character)
+        {
             if (IsEndOfLine())
             {
-                _text.Append(key);
-                Console.Write(key);
+                _text.Append(character);
+                Console.Write(character);
                 _cursorPos++;
             }
             else
@@ -85,8 +95,8 @@ namespace ReadLine
                 int left = Console.CursorLeft;
                 int top = Console.CursorTop;
                 string str = _text.ToString().Substring(_cursorPos);
-                _text.Insert(_cursorPos, key);
-                Console.Write(key.ToString() + str);
+                _text.Insert(_cursorPos, character);
+                Console.Write(character.ToString() + str);
                 Console.SetCursorPosition(left, top);
                 MoveCursorRight();
             }
@@ -118,8 +128,10 @@ namespace ReadLine
             }
         }
 
-        public KeyHandler()
+        public KeyHandler(List<string> history)
         {
+            _historyIndex = history.Count;
+            _history = history;
             _text = new StringBuilder();
             _keyActions = new Dictionary<string, Action>();
 
@@ -150,6 +162,25 @@ namespace ReadLine
             {
                 while (!IsStartOfLine() && _text[_cursorPos - 1] != ' ')
                     Backspace();
+            };
+            _keyActions["UpArrow"] = () =>
+            {
+                if (_historyIndex > 0)
+                {
+                    _historyIndex--;
+                    WriteString(_history[_historyIndex]);
+                }
+            };
+            _keyActions["DownArrow"] = () =>
+            {
+                if (_historyIndex < _history.Count)
+                {
+                    _historyIndex++;
+                    if (_historyIndex == _history.Count)
+                        ClearLine();
+                    else
+                        WriteString(_history[_historyIndex]);
+                }
             };
         }
 
