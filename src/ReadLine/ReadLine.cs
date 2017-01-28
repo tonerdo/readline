@@ -33,6 +33,7 @@ namespace ReadLine
                 keyInfo = Console.ReadKey(true);
             }
 
+            Console.WriteLine();
             string text = _keyHandler.Text;
             _history.Add(text);
 
