@@ -6,17 +6,26 @@ namespace ReadLine
     public static class ReadLine
     {
         private static KeyHandler _keyHandler;
+        private static List<string> _history;
 
-        public static List<string> History { get; }
+        public static List<string> History
+        {
+            get
+            {
+                return _history;
+            }
+        }
 
         static ReadLine()
         {
-            History = new List<string>();
+            _history = new List<string>();
         }
+
+        public static void AddHistory(params string[] text) => _history.AddRange(text);
 
         public static string Read()
         {
-            _keyHandler = new KeyHandler(History);
+            _keyHandler = new KeyHandler(_history);
             ConsoleKeyInfo keyInfo = Console.ReadKey(true);
             while (keyInfo.Key != ConsoleKey.Enter)
             {
@@ -25,7 +34,7 @@ namespace ReadLine
             }
 
             string text = _keyHandler.Text;
-            History.Add(text);
+            _history.Add(text);
 
             return text;
         }
