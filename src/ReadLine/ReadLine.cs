@@ -16,6 +16,8 @@ namespace ReadLine
             }
         }
 
+        public static Func<string, int, string[]> AutoCompletionHandler { private get; set; }
+
         static ReadLine()
         {
             _history = new List<string>();
@@ -25,7 +27,7 @@ namespace ReadLine
 
         public static string Read()
         {
-            _keyHandler = new KeyHandler(_history);
+            _keyHandler = new KeyHandler(_history, AutoCompletionHandler);
             ConsoleKeyInfo keyInfo = Console.ReadKey(true);
             while (keyInfo.Key != ConsoleKey.Enter)
             {

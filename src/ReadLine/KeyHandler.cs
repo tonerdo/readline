@@ -1,6 +1,7 @@
 using System;
-using System.Text;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace ReadLine
 {
@@ -13,6 +14,9 @@ namespace ReadLine
         private List<string> _history;
         private ConsoleKeyInfo _keyInfo;
         private Dictionary<string, Action> _keyActions;
+        private string[] _completions;
+        private int _completionStart;
+        private int _completionsIdx;
 
         private bool IsStartOfLine() => _cursorPos == 0;
 
@@ -21,6 +25,7 @@ namespace ReadLine
         private bool IsStartOfBuffer() => Console.CursorLeft == 0;
 
         private bool IsEndOfBuffer() => Console.CursorLeft == Console.BufferWidth - 1;
+        private bool IsInAutoCompleteMode() => _completions != null;
 
         private void MoveCursorLeft()
         {
@@ -43,7 +48,7 @@ namespace ReadLine
 
         private string BuildKeyInput()
         {
-            return _keyInfo.Modifiers != ConsoleModifiers.Control ? 
+            return _keyInfo.Modifiers != ConsoleModifiers.Control ?
                 _keyInfo.Key.ToString() : _keyInfo.Modifiers.ToString() + _keyInfo.Key.ToString();
         }
 
@@ -73,9 +78,15 @@ namespace ReadLine
                 Backspace();
         }
 
-        private void WriteString(string str)
+        private void WriteNewString(string str)
         {
             ClearLine();
+            foreach (char character in str)
+                WriteChar(character);
+        }
+
+        private void WriteString(string str)
+        {
             foreach (char character in str)
                 WriteChar(character);
         }
@@ -120,6 +131,18 @@ namespace ReadLine
             }
         }
 
+        private void AutoComplete()
+        {
+            while (_cursorPos > _completionStart)
+                Backspace();
+
+            WriteString(_completions[_completionsIdx]);
+            _completionsIdx++;
+
+            if (_completionsIdx == _completions.Length)
+                _completionsIdx = 0;
+        }
+
         public string Text
         {
             get
@@ -128,7 +151,7 @@ namespace ReadLine
             }
         }
 
-        public KeyHandler(List<string> history)
+        public KeyHandler(List<string> history, Func<string, int, string[]> autoCompleteHandler)
         {
             _historyIndex = history.Count;
             _history = history;
@@ -168,7 +191,7 @@ namespace ReadLine
                 if (_historyIndex > 0)
                 {
                     _historyIndex--;
-                    WriteString(_history[_historyIndex]);
+                    WriteNewString(_history[_historyIndex]);
                 }
             };
             _keyActions["DownArrow"] = () =>
@@ -179,7 +202,32 @@ namespace ReadLine
                     if (_historyIndex == _history.Count)
                         ClearLine();
                     else
-                        WriteString(_history[_historyIndex]);
+                        WriteNewString(_history[_historyIndex]);
+                }
+            };
+
+            _keyActions["Tab"] = () =>
+            {
+                if (IsInAutoCompleteMode())
+                {
+                    AutoComplete();
+                }
+                else
+                {
+                    if (autoCompleteHandler == null || !IsEndOfLine())
+                        return;
+
+                    char[] anyOf = new char[] { ' ', '.', '/', '\\', ':' };
+                    string text = _text.ToString();
+
+                    _completionStart = text.LastIndexOfAny(anyOf);
+                    _completionStart = _completionStart == -1 ? 0 : _completionStart + 1;
+
+                    _completions = autoCompleteHandler.Invoke(text, _completionStart);
+                    if (_completions == null || _completions.Length == 0)
+                        return;
+
+                    AutoComplete();
                 }
             };
         }
@@ -187,6 +235,11 @@ namespace ReadLine
         public void Handle(ConsoleKeyInfo keyInfo)
         {
             _keyInfo = keyInfo;
+
+            // If in auto complete mode and Tab wasn't pressed
+            if (IsInAutoCompleteMode() && _keyInfo.Key != ConsoleKey.Tab)
+                _completions = null;
+
             Action action;
             _keyActions.TryGetValue(BuildKeyInput(), out action);
             action = action ?? WriteChar;
