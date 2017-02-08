@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace ReadLine
+namespace System
 {
     public static class ReadLine
     {

@@ -1,8 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ReadLine
+namespace System
 {
     internal class KeyHandler
     {
