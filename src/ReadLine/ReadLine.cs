@@ -7,14 +7,6 @@ namespace System
         private static KeyHandler _keyHandler;
         private static List<string> _history;
 
-        public static List<string> History
-        {
-            get
-            {
-                return _history;
-            }
-        }
-
         public static Func<string, int, string[]> AutoCompletionHandler { private get; set; }
 
         static ReadLine()
@@ -23,6 +15,7 @@ namespace System
         }
 
         public static void AddHistory(params string[] text) => _history.AddRange(text);
+        public static List<string> GetHistory() => _history;
         public static void ClearHistory() => _history = new List<string>();
 
         public static string Read()
