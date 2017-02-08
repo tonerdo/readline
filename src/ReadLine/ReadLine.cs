@@ -23,6 +23,7 @@ namespace System
         }
 
         public static void AddHistory(params string[] text) => _history.AddRange(text);
+        public static void ClearHistory() => _history = new List<string>();
 
         public static string Read()
         {
