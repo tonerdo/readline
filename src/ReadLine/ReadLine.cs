@@ -18,8 +18,9 @@ namespace System
         public static List<string> GetHistory() => _history;
         public static void ClearHistory() => _history = new List<string>();
 
-        public static string Read()
+        public static string Read(string prompt = "")
         {
+            Console.Write(prompt);
             _keyHandler = new KeyHandler(_history, AutoCompletionHandler);
             ConsoleKeyInfo keyInfo = Console.ReadKey(true);
             while (keyInfo.Key != ConsoleKey.Enter)
