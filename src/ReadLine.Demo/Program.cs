@@ -15,10 +15,17 @@ namespace ConsoleApplication
 
             ReadLine.AutoCompletionHandler = (t, s) =>
             {
-                if (t.StartsWith("git"))
-                    return new string[] { "git init", "git clone", "git pull", "git push", "git add" };
-                else
-                    return null;
+                
+                string _command = t.Substring(0, t.Length);
+                switch(_command)
+                {
+                    case "git":
+                        return new string[] { "git init", "git clone", "git pull", "git push", "git add" };
+                    case "dotnet":
+                        return new string[] { "dotnet restore", "dotnet run", "dotnet new" };
+                    default:
+                        return null;
+                }
             };
 
             string input = ReadLine.Read("(prompt)> ");

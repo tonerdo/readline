@@ -90,6 +90,7 @@ Things you can help with:
 ## Author
 
 [Toni Solarin-Sodara](https://github.com/tsolarin)
+[Temi Lajumoke](https://github.com/temilaj)
 
 ## License
 
