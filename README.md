@@ -1,10 +1,12 @@
-[![Windows build status](https://ci.appveyor.com/api/projects/status/github/tsolarin/readline?branch=master)](https://ci.appveyor.com/project/tsolarin/readline) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Windows build status](https://ci.appveyor.com/api/projects/status/github/tsolarin/readline?branch=master)](https://ci.appveyor.com/project/tsolarin/readline)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![NuGet version](https://badge.fury.io/nu/ReadLine.png)](https://www.nuget.org/packages/ReadLine)
 # ReadLine
 
 ReadLine is a [GNU Readline](https://en.wikipedia.org/wiki/GNU_Readline) like library built in pure C#. It can serve as a drop in replacement for the inbuilt `Console.ReadLine()` and brings along
-with it some of the terminal goodness you get from shells like bash, like command history navigation and tab auto completion.
+with it some of the terminal goodness you get from unix shells, like command history navigation and tab auto completion.
 
-It is cross platform an runs anywhere .NET is supported, targeting `netstandard1.3` means that it can be used with .NET Core as well as the full .NET Framework.
+It is cross platform and runs anywhere .NET is supported, targeting `netstandard1.3` means that it can be used with .NET Core as well as the full .NET Framework.
 
 ## Shortcut Guide
 
@@ -59,7 +61,7 @@ ReadLine.AddHistory("dotnet run");
 ReadLine.ClearHistory();
 ```
 
-_Note: History information is persisted for an entire application session. Also, calls to `ReadLine.Read()` automatically add the console input to history_
+_Note: History information is persisted for an entire application session. Also, calls to `ReadLine.Read()` automatically adds the console input to history_
 
 ### Auto-Completion
 
@@ -77,9 +79,13 @@ ReadLine.AutoCompletionHandler = (t, s) =>
 
 _Note: If no "AutoCompletionHandler" is set, tab autocompletion will be disabled_
 
-## Issue Reporting
+## Contributing
 
-If you have found a bug or if you have a feature request, please report them at this repository issues section.
+Contributions are highly welcome. If you have found a bug or if you have a feature request, please report them at this repository issues section.
+
+Things you can help with:
+* Achieve better command parity with [GNU Readline](https://en.wikipedia.org/wiki/GNU_Readline).
+* The current test coverage can be GREATLY improved.
 
 ## Author
 
