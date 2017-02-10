@@ -1,3 +1,4 @@
+[![Windows build status](https://ci.appveyor.com/api/projects/status/github/tsolarin/readline?branch=master)](https://ci.appveyor.com/project/tsolarin/readline) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 # ReadLine
 
 ReadLine is a [GNU Readline](https://en.wikipedia.org/wiki/GNU_Readline) like library built in pure C#. It can serve as a drop in replacement for the inbuilt `Console.ReadLine()` and brings along
@@ -11,6 +12,7 @@ It is cross platform an runs anywhere .NET is supported, targeting `netstandard1
 | ------------------------------ | --------------------------------- |
 | `Ctrl`+`A` / `HOME`            | Beginning of line                 |
 | `Ctrl`+`B` / `←`               | Backward one character            |
+| `Ctrl`+`C`                     | Send EOF                          |
 | `Ctrl`+`E` / `END`             | End of line                       |
 | `Ctrl`+`F` / `→`               | Forward one character             |
 | `Ctrl`+`H` / `Backspace`       | Delete previous character         |
