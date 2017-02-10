@@ -89,7 +89,7 @@ Things you can help with:
 
 ## Author
 
-[Toni Solarin-Sodara](https://github.com/tsolarin)
+[Toni Solarin-Sodara](https://twitter.com/tonerdo)
 
 ## License
 
