@@ -141,6 +141,27 @@ namespace System
                 _completionsIdx = 0;
         }
 
+        private void PrevHistory()
+        {
+            if (_historyIndex > 0)
+            {
+                _historyIndex--;
+                WriteNewString(_history[_historyIndex]);
+            }
+        }
+
+        private void NextHistory()
+        {
+            if (_historyIndex < _history.Count)
+            {
+                _historyIndex++;
+                if (_historyIndex == _history.Count)
+                    ClearLine();
+                else
+                    WriteNewString(_history[_historyIndex]);
+            }
+        }
+
         public string Text
         {
             get
@@ -167,6 +188,9 @@ namespace System
             _keyActions["Backspace"] = Backspace;
             _keyActions["ControlH"] = Backspace;
             _keyActions["ControlL"] = ClearLine;
+            _keyActions["UpArrow"] = PrevHistory;
+            _keyActions["ControlP"] = PrevHistory;
+            _keyActions["DownArrow"] = NextHistory;
             _keyActions["ControlU"] = () =>
             {
                 while (!IsStartOfLine())
@@ -183,25 +207,6 @@ namespace System
             {
                 while (!IsStartOfLine() && _text[_cursorPos - 1] != ' ')
                     Backspace();
-            };
-            _keyActions["UpArrow"] = () =>
-            {
-                if (_historyIndex > 0)
-                {
-                    _historyIndex--;
-                    WriteNewString(_history[_historyIndex]);
-                }
-            };
-            _keyActions["DownArrow"] = () =>
-            {
-                if (_historyIndex < _history.Count)
-                {
-                    _historyIndex++;
-                    if (_historyIndex == _history.Count)
-                        ClearLine();
-                    else
-                        WriteNewString(_history[_historyIndex]);
-                }
             };
 
             _keyActions["Tab"] = () =>
