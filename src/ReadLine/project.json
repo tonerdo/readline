@@ -1,5 +1,21 @@
 {
-  "version": "1.0.0-*",
+  "version": "1.0.0",
+  "title": "ReadLine",
+  "description": "A GNU-Readline like library for .NET/.NET Core",
+  "authors": [
+      "Toni Solarin-Sodara"
+  ],
+  "packOptions": {
+    "licenseUrl": "https://github.com/tsolarin/readline/blob/master/LICENSE",
+    "projectUrl": "https://github.com/tsolarin/readline",
+    "tags": [
+      "readline",
+      "gnu",
+      "console",
+      "shell",
+      "cui"
+    ]
+  },
   "buildOptions": {
     "debugType": "portable"
   },
