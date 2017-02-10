@@ -19,8 +19,8 @@ It is cross platform an runs anywhere .NET is supported, targeting `netstandard1
 | `Ctrl`+`K`                     | Cut text to the end of line       |
 | `Ctrl`+`L`                     | Clear line                        |
 | `Ctrl`+`M`                     | Same as Enter key                 |
-| `↓`                            | Forward in history                |
-| `↑`                            | Backward in history               |
+| `Ctrl`+`N` / `↓`               | Forward in history                |
+| `Ctrl`+`P` / `↑`               | Backward in history               |
 | `Ctrl`+`U`                     | Cut text to the start of line     |
 | `Ctrl`+`W`                     | Cut previous word                 |
 | `Backspace`                    | Delete previous character         |
@@ -57,7 +57,7 @@ ReadLine.AddHistory("dotnet run");
 ReadLine.ClearHistory();
 ```
 
-_Note: History information is persisted for an entire application session_
+_Note: History information is persisted for an entire application session. Also, calls to `ReadLine.Read()` automatically add the console input to history_
 
 ### Auto-Completion
 
@@ -66,7 +66,7 @@ _Note: History information is persisted for an entire application session_
 // s:int - The index of the command fragment that needs to be completed
 ReadLine.AutoCompletionHandler = (t, s) =>
 {
-    var suggestions = new string[] { };
+    var suggestions = /* logic to generate suggestions */;
     // return string array of suggestions 
     // or null if no suggestions are available
     return suggestions;
