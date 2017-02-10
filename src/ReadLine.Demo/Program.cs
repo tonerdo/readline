@@ -21,6 +21,8 @@ namespace ConsoleApplication
                 {
                     case "git":
                         return new string[] { "git init", "git clone", "git pull", "git push", "git add" };
+                    case "ls":
+                        return new string[] { "ls -a", "ls -al"};
                     case "dotnet":
                         return new string[] { "dotnet restore", "dotnet run", "dotnet new" };
                     default:
