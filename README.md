@@ -1,4 +1,4 @@
-# readline
+# ReadLine
 
 ReadLine is a [GNU Readline](https://en.wikipedia.org/wiki/GNU_Readline) like library built in pure C#. It can serve as a drop in replacement for the inbuilt `Console.ReadLine()` and brings along
 with it some of the terminal goodness you get from shells like bash, like command history navigation and tab auto completion.
@@ -28,7 +28,7 @@ It is cross platform an runs anywhere .NET is supported, targeting `netstandard1
 
 ## Usage
 
-Add ReadLine as a dependency:
+### Add ReadLine as a dependency
 
 ```json
 "dependencies": {
@@ -36,7 +36,7 @@ Add ReadLine as a dependency:
 }
 ```
 
-Read input from the console:
+### Read input from the console
 
 ```csharp
 string input = ReadLine.Read("(prompt)> ");
@@ -44,7 +44,7 @@ string input = ReadLine.Read("(prompt)> ");
 
 _Note: The `(prompt>)` is  optional_
 
-History management:
+### History management
 
 ```csharp
 // Get command history
@@ -59,7 +59,7 @@ ReadLine.ClearHistory();
 
 _Note: History information is persisted for an entire application session_
 
-Auto-Completion:
+### Auto-Completion
 
 ```csharp
 // t:string - The current text entered in the console
@@ -73,7 +73,7 @@ ReadLine.AutoCompletionHandler = (t, s) =>
 };
 ```
 
-_Note: If no "AutoCompletionHandler" is not set, tab autocompletion will be disabled_
+_Note: If no "AutoCompletionHandler" is set, tab autocompletion will be disabled_
 
 ## Issue Reporting
 
