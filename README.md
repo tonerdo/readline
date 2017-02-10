@@ -87,9 +87,10 @@ Things you can help with:
 * Achieve better command parity with [GNU Readline](https://en.wikipedia.org/wiki/GNU_Readline).
 * The current test coverage can be GREATLY improved.
 
-## Author
+## Authors
 
-[Toni Solarin-Sodara](https://twitter.com/tonerdo)
+[Toni Solarin-Sodara](https://github.com/tsolarin),
+[Temi Lajumoke](https://github.com/temilaj)
 
 ## License
 
