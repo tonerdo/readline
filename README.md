@@ -1,6 +1,6 @@
 [![Windows build status](https://ci.appveyor.com/api/projects/status/github/tsolarin/readline?branch=master)](https://ci.appveyor.com/project/tsolarin/readline)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![NuGet version](https://badge.fury.io/nu/ReadLine.png)](https://www.nuget.org/packages/ReadLine)
+[![NuGet version](https://badge.fury.io/nu/ReadLine.svg)](https://www.nuget.org/packages/ReadLine)
 # ReadLine
 
 ReadLine is a [GNU Readline](https://en.wikipedia.org/wiki/GNU_Readline) like library built in pure C#. It can serve as a drop in replacement for the inbuilt `Console.ReadLine()` and brings along
