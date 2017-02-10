@@ -191,6 +191,7 @@ namespace System
             _keyActions["UpArrow"] = PrevHistory;
             _keyActions["ControlP"] = PrevHistory;
             _keyActions["DownArrow"] = NextHistory;
+            _keyActions["ControlN"] = NextHistory;
             _keyActions["ControlU"] = () =>
             {
                 while (!IsStartOfLine())
