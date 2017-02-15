@@ -1,3 +1,5 @@
+using Internal.ReadLine.Abstractions;
+
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,22 +10,23 @@ namespace Internal.ReadLine
     {
         private int _cursorPos;
         private int _cursorLimit;
-        private int _historyIndex;
         private StringBuilder _text;
         private List<string> _history;
+        private int _historyIndex;
         private ConsoleKeyInfo _keyInfo;
         private Dictionary<string, Action> _keyActions;
         private string[] _completions;
         private int _completionStart;
-        private int _completionsIdx;
+        private int _completionsIndex;
+        private IConsole Console2;
 
         private bool IsStartOfLine() => _cursorPos == 0;
 
         private bool IsEndOfLine() => _cursorPos == _cursorLimit;
 
-        private bool IsStartOfBuffer() => Console.CursorLeft == 0;
+        private bool IsStartOfBuffer() => Console2.CursorLeft == 0;
 
-        private bool IsEndOfBuffer() => Console.CursorLeft == Console.BufferWidth - 1;
+        private bool IsEndOfBuffer() => Console2.CursorLeft == Console2.BufferWidth - 1;
         private bool IsInAutoCompleteMode() => _completions != null;
 
         private void MoveCursorLeft()
@@ -32,9 +35,9 @@ namespace Internal.ReadLine
                 return;
 
             if (IsStartOfBuffer())
-                Console.SetCursorPosition(Console.BufferWidth - 1, Console.CursorTop - 1);
+                Console2.SetCursorPosition(Console2.BufferWidth - 1, Console2.CursorTop - 1);
             else
-                Console.SetCursorPosition(Console.CursorLeft - 1, Console.CursorTop);
+                Console2.SetCursorPosition(Console2.CursorLeft - 1, Console2.CursorTop);
 
             _cursorPos--;
         }
@@ -57,9 +60,9 @@ namespace Internal.ReadLine
                 return;
 
             if (IsEndOfBuffer())
-                Console.SetCursorPosition(0, Console.CursorTop + 1);
+                Console2.SetCursorPosition(0, Console2.CursorTop + 1);
             else
-                Console.SetCursorPosition(Console.CursorLeft + 1, Console.CursorTop);
+                Console2.SetCursorPosition(Console2.CursorLeft + 1, Console2.CursorTop);
 
             _cursorPos++;
         }
@@ -97,17 +100,17 @@ namespace Internal.ReadLine
             if (IsEndOfLine())
             {
                 _text.Append(character);
-                Console.Write(character);
+                Console2.Write(character.ToString());
                 _cursorPos++;
             }
             else
             {
-                int left = Console.CursorLeft;
-                int top = Console.CursorTop;
+                int left = Console2.CursorLeft;
+                int top = Console2.CursorTop;
                 string str = _text.ToString().Substring(_cursorPos);
                 _text.Insert(_cursorPos, character);
-                Console.Write(character.ToString() + str);
-                Console.SetCursorPosition(left, top);
+                Console2.Write(character.ToString() + str);
+                Console2.SetCursorPosition(left, top);
                 MoveCursorRight();
             }
 
@@ -122,10 +125,10 @@ namespace Internal.ReadLine
                 int index = _cursorPos;
                 _text.Remove(index, 1);
                 string replacement = _text.ToString().Substring(index);
-                int left = Console.CursorLeft;
-                int top = Console.CursorTop;
-                Console.Write(string.Format("{0} ", replacement));
-                Console.SetCursorPosition(left, top);
+                int left = Console2.CursorLeft;
+                int top = Console2.CursorTop;
+                Console2.Write(string.Format("{0} ", replacement));
+                Console2.SetCursorPosition(left, top);
                 _cursorLimit--;
             }
         }
@@ -135,11 +138,11 @@ namespace Internal.ReadLine
             while (_cursorPos > _completionStart)
                 Backspace();
 
-            WriteString(_completions[_completionsIdx]);
-            _completionsIdx++;
+            WriteString(_completions[_completionsIndex]);
+            _completionsIndex++;
 
-            if (_completionsIdx == _completions.Length)
-                _completionsIdx = 0;
+            if (_completionsIndex == _completions.Length)
+                _completionsIndex = 0;
         }
 
         private void PrevHistory()
@@ -166,7 +169,7 @@ namespace Internal.ReadLine
         private void ResetAutoComplete()
         {
             _completions = null;
-            _completionsIdx = 0;
+            _completionsIndex = 0;
         }
 
         public string Text
@@ -177,8 +180,10 @@ namespace Internal.ReadLine
             }
         }
 
-        public KeyHandler(List<string> history, Func<string, int, string[]> autoCompleteHandler)
+        public KeyHandler(IConsole console, List<string> history, Func<string, int, string[]> autoCompleteHandler)
         {
+            Console2 = console;
+
             _historyIndex = history.Count;
             _history = history;
             _text = new StringBuilder();
