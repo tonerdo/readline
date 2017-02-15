@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Internal.ReadLine;
+using System.Collections.Generic;
 
 namespace System
 {
@@ -21,8 +22,10 @@ namespace System
         public static string Read(string prompt = "")
         {
             Console.Write(prompt);
+
             _keyHandler = new KeyHandler(_history, AutoCompletionHandler);
             ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+
             while (keyInfo.Key != ConsoleKey.Enter)
             {
                 _keyHandler.Handle(keyInfo);
@@ -30,10 +33,9 @@ namespace System
             }
 
             Console.WriteLine();
-            string text = _keyHandler.Text;
-            _history.Add(text);
 
-            return text;
+            _history.Add(_keyHandler.Text);
+            return _keyHandler.Text;
         }
     }
 }
