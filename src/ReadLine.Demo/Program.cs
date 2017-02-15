@@ -15,7 +15,7 @@ namespace ConsoleApplication
 
             ReadLine.AutoCompletionHandler = (t, s) =>
             {
-                if (t.StartsWith("git"))
+                if (t.StartsWith("git "))
                     return new string[] { "init", "clone", "pull", "push" };
                 else
                     return null;
