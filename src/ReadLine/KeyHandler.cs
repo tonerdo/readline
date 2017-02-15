@@ -162,6 +162,12 @@ namespace System
             }
         }
 
+        private void ResetAutoComplete()
+        {
+            _completions = null;
+            _completionsIdx = 0;
+        }
+
         public string Text
         {
             get
@@ -242,7 +248,7 @@ namespace System
 
             // If in auto complete mode and Tab wasn't pressed
             if (IsInAutoCompleteMode() && _keyInfo.Key != ConsoleKey.Tab)
-                _completions = null;
+                ResetAutoComplete();
 
             Action action;
             _keyActions.TryGetValue(BuildKeyInput(), out action);
