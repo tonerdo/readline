@@ -2,43 +2,45 @@
 using System.Linq;
 using Xunit;
 
-namespace Tests
+using static System.ReadLine;
+
+namespace ReadLine.Tests
 {
-    public class Tests : IDisposable
+    public class ReadLineTests : IDisposable
     {
-        public Tests()
+        public ReadLineTests()
         {
             string[] history = new string[] { "ls -a", "dotnet run", "git init" };
-            ReadLine.AddHistory(history);
+            AddHistory(history);
         }
 
         [Fact]
         public void TestNoInitialHistory() 
         {
-            Assert.Equal(3, ReadLine.GetHistory().Count);
+            Assert.Equal(3, GetHistory().Count);
         }
 
         [Fact]
         public void TestUpdatesHistory() 
         {
-            ReadLine.AddHistory("mkdir");
-            Assert.Equal(4, ReadLine.GetHistory().Count);
+            AddHistory("mkdir");
+            Assert.Equal(4, GetHistory().Count);
+            Assert.Equal("mkdir", GetHistory().Last());
         }
 
         [Fact]
         public void TestGetCorrectHistory() 
         {
-            var history = ReadLine.GetHistory();
-
-            Assert.Equal(3, history.Count);
-            Assert.Equal("git init", history.Last());
+            Assert.Equal("ls -a", GetHistory()[0]);
+            Assert.Equal("dotnet run", GetHistory()[1]);
+            Assert.Equal("git init", GetHistory()[2]);
         }
 
         public void Dispose()
         {
             // If all above tests pass
             // clear history works
-            ReadLine.ClearHistory();
+            ClearHistory();
         }
     }
 }
