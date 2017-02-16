@@ -85,7 +85,7 @@ Contributions are highly welcome. If you have found a bug or if you have a featu
 
 Things you can help with:
 * Achieve better command parity with [GNU Readline](https://en.wikipedia.org/wiki/GNU_Readline).
-* The current test coverage can be GREATLY improved.
+* Add more test cases.
 
 ## License
 
