@@ -50,7 +50,7 @@ namespace Internal.ReadLine
 
         private string BuildKeyInput()
         {
-            return _keyInfo.Modifiers != ConsoleModifiers.Control ?
+            return (_keyInfo.Modifiers != ConsoleModifiers.Control && _keyInfo.Modifiers != ConsoleModifiers.Shift) ?
                 _keyInfo.Key.ToString() : _keyInfo.Modifiers.ToString() + _keyInfo.Key.ToString();
         }
 
@@ -133,16 +133,40 @@ namespace Internal.ReadLine
             }
         }
 
-        private void AutoComplete()
+        private void StartAutoComplete()
         {
             while (_cursorPos > _completionStart)
                 Backspace();
 
+            _completionsIndex = 0;
+
             WriteString(_completions[_completionsIndex]);
+        }
+
+        private void NextAutoComplete()
+        {
+            while (_cursorPos > _completionStart)
+                Backspace();
+
             _completionsIndex++;
 
             if (_completionsIndex == _completions.Length)
                 _completionsIndex = 0;
+
+            WriteString(_completions[_completionsIndex]);
+        }
+
+        private void PreviousAutoComplete()
+        {
+            while (_cursorPos > _completionStart)
+                Backspace();
+
+            _completionsIndex--;
+
+            if (_completionsIndex == -1)
+                _completionsIndex = _completions.Length - 1;
+
+            WriteString(_completions[_completionsIndex]);
         }
 
         private void PrevHistory()
@@ -226,7 +250,7 @@ namespace Internal.ReadLine
             {
                 if (IsInAutoCompleteMode())
                 {
-                    AutoComplete();
+                    NextAutoComplete();
                 }
                 else
                 {
@@ -243,7 +267,15 @@ namespace Internal.ReadLine
                     if (_completions == null || _completions.Length == 0)
                         return;
 
-                    AutoComplete();
+                    StartAutoComplete();
+                }
+            };
+
+            _keyActions["ShiftTab"] = () =>
+            {
+                if (IsInAutoCompleteMode())
+                {
+                    PreviousAutoComplete();
                 }
             };
         }
