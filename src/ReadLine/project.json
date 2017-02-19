@@ -26,6 +26,8 @@
         "NETStandard.Library": "1.6.1",
         "System.Console": "4.3.0"
       }
+    },
+    "net452": {
     }
   }
 }
