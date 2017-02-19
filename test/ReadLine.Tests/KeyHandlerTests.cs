@@ -366,5 +366,38 @@ namespace ReadLine.Tests
                 Assert.Equal($"Hi {_completions[i]}", _keyHandler.Text);
             }
         }
+
+        [Fact]
+        public void TestBackwardsTab()
+        {
+            _keyInfo = new ConsoleKeyInfo('\0', ConsoleKey.Tab, false, false, false);
+            _keyHandler.Handle(_keyInfo);
+
+            // Nothing happens when no auto complete handler is set
+            Assert.Equal("Hello", _keyHandler.Text);
+
+            _keyHandler = new KeyHandler(new Console2(), _history, (t, s) => _completions);
+
+            _keyInfo = new ConsoleKeyInfo('H', ConsoleKey.H, false, false, false);
+            _keyHandler.Handle(_keyInfo);
+
+            _keyInfo = new ConsoleKeyInfo('i', ConsoleKey.I, false, false, false);
+            _keyHandler.Handle(_keyInfo);
+
+            _keyInfo = new ConsoleKeyInfo(' ', ConsoleKey.Spacebar, false, false, false);
+            _keyHandler.Handle(_keyInfo);
+
+            // Bring up the first Autocomplete
+            _keyInfo = new ConsoleKeyInfo('\0', ConsoleKey.Tab, false, false, false);
+            _keyHandler.Handle(_keyInfo);
+
+            for (int i = _completions.Length - 1; i >= 0; i--)
+            {
+                _keyInfo = new ConsoleKeyInfo('\0', ConsoleKey.Tab, true, false, false);
+                _keyHandler.Handle(_keyInfo);
+
+                Assert.Equal($"Hi {_completions[i]}", _keyHandler.Text);
+            }
+        }
     }
 }

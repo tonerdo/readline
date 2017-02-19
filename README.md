@@ -19,6 +19,7 @@ It is cross platform and runs anywhere .NET is supported, targeting `netstandard
 | `Ctrl`+`F` / `→`               | Forward one character             |
 | `Ctrl`+`H` / `Backspace`       | Delete previous character         |
 | `Tab`                          | Command line completion           |
+| `Shift`+`Tab`                  | Backwards command line completion |
 | `Ctrl`+`J` / `Enter`           | Line feed                         |
 | `Ctrl`+`K`                     | Cut text to the end of line       |
 | `Ctrl`+`L`                     | Clear line                        |
