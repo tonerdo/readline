@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Internal.ReadLine;
+using Internal.ReadLine.Abstractions;
+
+using System.Collections.Generic;
 
 namespace System
 {
@@ -21,8 +24,10 @@ namespace System
         public static string Read(string prompt = "", string defaultInput = "")
         {
             Console.Write(prompt);
-            _keyHandler = new KeyHandler(_history, AutoCompletionHandler);
+
+            _keyHandler = new KeyHandler(new Console2(), _history, AutoCompletionHandler);
             ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+
             while (keyInfo.Key != ConsoleKey.Enter)
             {
                 _keyHandler.Handle(keyInfo);

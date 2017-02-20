@@ -19,6 +19,7 @@ It is cross platform and runs anywhere .NET is supported, targeting `netstandard
 | `Ctrl`+`F` / `→`               | Forward one character             |
 | `Ctrl`+`H` / `Backspace`       | Delete previous character         |
 | `Tab`                          | Command line completion           |
+| `Shift`+`Tab`                  | Backwards command line completion |
 | `Ctrl`+`J` / `Enter`           | Line feed                         |
 | `Ctrl`+`K`                     | Cut text to the end of line       |
 | `Ctrl`+`L`                     | Clear line                        |
@@ -85,7 +86,7 @@ Contributions are highly welcome. If you have found a bug or if you have a featu
 
 Things you can help with:
 * Achieve better command parity with [GNU Readline](https://en.wikipedia.org/wiki/GNU_Readline).
-* The current test coverage can be GREATLY improved.
+* Add more test cases.
 
 ## License
 
