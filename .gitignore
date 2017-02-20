@@ -2,5 +2,4 @@
 [Oo]bj/
 .vscode
 .DS_Store
-project.lock.json
-/src/ReadLine/*.user
+*.user
