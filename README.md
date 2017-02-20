@@ -53,13 +53,13 @@ _Note: The `(prompt>)` is  optional_
 
 ```csharp
 // Get command history
-ReadLine.GetHistory();
+ReadLine.History;
 
 // Add command to history
-ReadLine.AddHistory("dotnet run");
+ReadLine.History.Add("dotnet run");
 
 // Clear history
-ReadLine.ClearHistory();
+ReadLine.History.Clear();
 ```
 
 _Note: History information is persisted for an entire application session. Also, calls to `ReadLine.Read()` automatically adds the console input to history_

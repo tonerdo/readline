@@ -11,7 +11,7 @@ namespace Internal.ReadLine
         private int _cursorPos;
         private int _cursorLimit;
         private StringBuilder _text;
-        private List<string> _history;
+        private IHistoryCollection _history;
         private int _historyIndex;
         private ConsoleKeyInfo _keyInfo;
         private Dictionary<string, Action> _keyActions;
@@ -204,7 +204,7 @@ namespace Internal.ReadLine
             }
         }
 
-        public KeyHandler(IConsole console, List<string> history, Func<string, int, string[]> autoCompleteHandler)
+        public KeyHandler(IConsole console, IHistoryCollection history, Func<string, int, string[]> autoCompleteHandler)
         {
             Console2 = console;
 

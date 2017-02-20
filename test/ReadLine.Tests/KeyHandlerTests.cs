@@ -11,13 +11,13 @@ namespace ReadLine.Tests
     {
         private KeyHandler _keyHandler;
         private ConsoleKeyInfo _keyInfo;
-        private List<string> _history;
+        private IHistoryCollection _history;
         private string[] _completions;
 
         public KeyHandlerTests()
         {
             _completions = new string[] { "World", "Angel", "Love" };
-            _history = new List<string>(new string[] { "dotnet run", "git init", "clear" });
+            _history = new HistoryCollection(new string[] { "dotnet run", "git init", "clear" });
             _keyHandler = new KeyHandler(new Console2(), _history, null);
 
             _keyInfo = new ConsoleKeyInfo('H', ConsoleKey.H, false, false, false);

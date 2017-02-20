@@ -11,36 +11,36 @@ namespace ReadLine.Tests
         public ReadLineTests()
         {
             string[] history = new string[] { "ls -a", "dotnet run", "git init" };
-            AddHistory(history);
+            History.Add(history);
         }
 
         [Fact]
         public void TestNoInitialHistory() 
         {
-            Assert.Equal(3, GetHistory().Count);
+            Assert.Equal(3, History.Count);
         }
 
         [Fact]
         public void TestUpdatesHistory() 
         {
-            AddHistory("mkdir");
-            Assert.Equal(4, GetHistory().Count);
-            Assert.Equal("mkdir", GetHistory().Last());
+            History.Add("mkdir");
+            Assert.Equal(4, History.Count);
+            Assert.Equal("mkdir", History.Last());
         }
 
         [Fact]
         public void TestGetCorrectHistory() 
         {
-            Assert.Equal("ls -a", GetHistory()[0]);
-            Assert.Equal("dotnet run", GetHistory()[1]);
-            Assert.Equal("git init", GetHistory()[2]);
+            Assert.Equal("ls -a", History[0]);
+            Assert.Equal("dotnet run", History[1]);
+            Assert.Equal("git init", History[2]);
         }
 
         public void Dispose()
         {
             // If all above tests pass
             // clear history works
-            ClearHistory();
+            History.Clear();
         }
     }
 }

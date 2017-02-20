@@ -11,7 +11,7 @@ namespace ConsoleApplication
             Console.WriteLine();
 
             string[] history = new string[] { "ls -a", "dotnet run", "git init" };
-            ReadLine.AddHistory(history);
+            ReadLine.History.Add(history);
 
             ReadLine.AutoCompletionHandler = (t, s) =>
             {
@@ -21,8 +21,19 @@ namespace ConsoleApplication
                     return null;
             };
 
-            string input = ReadLine.Read("(prompt)> ");
-            Console.Write(input);
+            // VS.NET attached debbugger needes this event to break the loop.
+            Console.CancelKeyPress += delegate(object sender, ConsoleCancelEventArgs eventArgs)
+            {
+              Console.WriteLine("[Ctrl] + [C] detected. Closing app ...");
+              Environment.Exit(0);
+            };
+
+            Console.WriteLine("Press [Ctrl] + [C] to break prompt loop.");
+            while (true)
+            {
+              string input = ReadLine.Read("(prompt)> ");
+              Console.Write(input);
+            }
         }
     }
 }
