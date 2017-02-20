@@ -14,13 +14,6 @@ namespace System
             _history = new List<string>();
         }
 
-        /// <summary>
-        /// Will be placed at the end of the prompt. 
-        /// Would you like to continue [Y]:
-        ///                               ^
-        /// </summary>
-        public static string PromptCloser = ":";
-
         public static void AddHistory(params string[] text) => _history.AddRange(text);
         public static List<string> GetHistory() => _history;
         public static void ClearHistory() => _history = new List<string>();
@@ -28,11 +21,6 @@ namespace System
         public static string Read(string prompt = "", string defaultInput = "")
         {
             Console.Write(prompt);
-            if (!String.IsNullOrWhiteSpace(defaultInput))
-            {
-                Console.Write($"[{defaultInput}]");
-            }
-            Console.Write(PromptCloser);
             _keyHandler = new KeyHandler(_history, AutoCompletionHandler);
             ConsoleKeyInfo keyInfo = Console.ReadKey(true);
             while (keyInfo.Key != ConsoleKey.Enter)
