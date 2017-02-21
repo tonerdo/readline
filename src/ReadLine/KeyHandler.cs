@@ -20,14 +20,29 @@ namespace Internal.ReadLine
         private int _completionsIndex;
         private IConsole Console2;
 
-        private bool IsStartOfLine() => _cursorPos == 0;
+        private bool IsStartOfLine()
+        {
+            return _cursorPos == 0;
+        }
 
-        private bool IsEndOfLine() => _cursorPos == _cursorLimit;
+        private bool IsEndOfLine()
+        {
+            return _cursorPos == _cursorLimit;
+        }
 
-        private bool IsStartOfBuffer() => Console2.CursorLeft == 0;
+        private bool IsStartOfBuffer()
+        {
+            return Console2.CursorLeft == 0;
+        }
 
-        private bool IsEndOfBuffer() => Console2.CursorLeft == Console2.BufferWidth - 1;
-        private bool IsInAutoCompleteMode() => _completions != null;
+        private bool IsEndOfBuffer()
+        {
+            return Console2.CursorLeft == Console2.BufferWidth - 1;
+        }
+        private bool IsInAutoCompleteMode()
+        {
+            return _completions != null;
+        }
 
         private void MoveCursorLeft()
         {
@@ -93,7 +108,10 @@ namespace Internal.ReadLine
                 WriteChar(character);
         }
 
-        private void WriteChar() => WriteChar(_keyInfo.KeyChar);
+        private void WriteChar()
+        {
+            WriteChar(_keyInfo.KeyChar);
+        }
 
         private void WriteChar(char character)
         {
