@@ -21,7 +21,7 @@ namespace System
         public static List<string> GetHistory() => _history;
         public static void ClearHistory() => _history = new List<string>();
 
-        public static string Read(string prompt = "")
+        public static string Read(string prompt = "", string defaultInput = "")
         {
             Console.Write(prompt);
 
@@ -35,9 +35,17 @@ namespace System
             }
 
             Console.WriteLine();
+            string text = _keyHandler.Text;
+            if (String.IsNullOrWhiteSpace(text) && !String.IsNullOrWhiteSpace(defaultInput))
+            {
+                text = defaultInput;
+            }
+            else
+            {
+                _history.Add(text);
+            }
 
-            _history.Add(_keyHandler.Text);
-            return _keyHandler.Text;
+            return text;
         }
     }
 }
