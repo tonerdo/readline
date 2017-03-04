@@ -6,8 +6,13 @@
       "Toni Solarin-Sodara"
   ],
   "packOptions": {
+    "summary": "A GNU-Readline like library for .NET/.NET Core",
     "licenseUrl": "https://github.com/tsolarin/readline/blob/master/LICENSE",
     "projectUrl": "https://github.com/tsolarin/readline",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/tsolarin/readline"
+    },
     "tags": [
       "readline",
       "gnu",
