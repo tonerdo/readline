@@ -264,7 +264,9 @@ namespace Internal.ReadLine
                     _completionStart = _completionStart == -1 ? 0 : _completionStart + 1;
 
                     _completions = autoCompleteHandler.Invoke(text, _completionStart);
-                    if (_completions == null || _completions.Length == 0)
+                    _completions = _completions?.Length == 0 ? null : _completions;
+                    
+                    if (_completions == null)
                         return;
 
                     StartAutoComplete();
