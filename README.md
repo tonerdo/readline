@@ -37,7 +37,7 @@ It is cross platform and runs anywhere .NET is supported, targeting `netstandard
 
 ```json
 "dependencies": {
-    "ReadLine": "1.0.0"
+    "ReadLine": "1.1.0"
 }
 ```
 
