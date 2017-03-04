@@ -1,4 +1,4 @@
-version: 1.0.{build}
+version: {build}
 configuration:
   - Debug
   - Release
