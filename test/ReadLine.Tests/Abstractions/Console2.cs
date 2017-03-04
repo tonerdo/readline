@@ -1,7 +1,5 @@
 using Internal.ReadLine.Abstractions;
 
-using System;
-
 namespace ReadLine.Tests.Abstractions
 {
     internal class Console2 : IConsole
