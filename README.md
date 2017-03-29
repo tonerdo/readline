@@ -35,10 +35,15 @@ It is cross platform and runs anywhere .NET is supported, targeting `netstandard
 
 ### Add ReadLine as a dependency
 
-```json
-"dependencies": {
-    "ReadLine": "1.1.0"
-}
+#### .NET Core CLI
+
+```bash
+dotnet add package ReadLine
+```
+#### Package Manager Console
+
+```powershell
+Install-Package ReadLine
 ```
 
 ### Read input from the console
@@ -69,9 +74,10 @@ _Note: History information is persisted for an entire application session. Also,
 ```csharp
 // t:string - The current text entered in the console
 // s:int - The index of the command fragment that needs to be completed
+// returns string[]
 ReadLine.AutoCompletionHandler = (t, s) =>
 {
-    var suggestions = /* logic to generate suggestions */;
+    string[] suggestions = /* logic to generate suggestions */;
     // return string array of suggestions 
     // or null if no suggestions are available
     return suggestions;
