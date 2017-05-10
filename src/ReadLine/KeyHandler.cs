@@ -18,6 +18,8 @@ namespace Internal.ReadLine
         private string[] _completions;
         private int _completionStart;
         private int _completionsIndex;
+        private bool _passwordMode;
+        private char _passwordChar;
         private IConsole Console2;
 
         private bool IsStartOfLine() => _cursorPos == 0;
@@ -100,7 +102,7 @@ namespace Internal.ReadLine
             if (IsEndOfLine())
             {
                 _text.Append(character);
-                Console2.Write(character.ToString());
+                Console2.Write(_passwordMode ? _passwordChar.ToString() : character.ToString());
                 _cursorPos++;
             }
             else
@@ -109,7 +111,7 @@ namespace Internal.ReadLine
                 int top = Console2.CursorTop;
                 string str = _text.ToString().Substring(_cursorPos);
                 _text.Insert(_cursorPos, character);
-                Console2.Write(character.ToString() + str);
+                Console2.Write(_passwordMode ? _passwordChar.ToString() : character.ToString() + str);
                 Console2.SetCursorPosition(left, top);
                 MoveCursorRight();
             }
@@ -204,7 +206,7 @@ namespace Internal.ReadLine
             }
         }
 
-        public KeyHandler(IConsole console, List<string> history, Func<string, int, string[]> autoCompleteHandler)
+        public KeyHandler(IConsole console, List<string> history, Func<string, int, string[]> autoCompleteHandler, bool passwordMode = false, char passwordChar = '*')
         {
             Console2 = console;
 
@@ -212,6 +214,8 @@ namespace Internal.ReadLine
             _history = history;
             _text = new StringBuilder();
             _keyActions = new Dictionary<string, Action>();
+            _passwordMode = passwordMode;
+            _passwordChar = passwordChar;
 
             _keyActions["LeftArrow"] = MoveCursorLeft;
             _keyActions["Home"] = MoveCursorHome;
