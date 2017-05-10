@@ -206,7 +206,11 @@ namespace Internal.ReadLine
             }
         }
 
-        public KeyHandler(IConsole console, List<string> history, Func<string, int, string[]> autoCompleteHandler, bool passwordMode = false, char passwordChar = '*')
+        public KeyHandler(IConsole console, List<string> history) : this(console, history, null, false, '*') { }
+        public KeyHandler(IConsole console, List<string> history, Func<string, int, string[]> autoCompleteHandler) : this(console, history, autoCompleteHandler, false, '*') { }
+        public KeyHandler(IConsole console, List<string> history, bool passwordMode, char passwordChar) : this(console, history, null, passwordMode, passwordChar) { }
+
+        public KeyHandler(IConsole console, List<string> history, Func<string, int, string[]> autoCompleteHandler, bool passwordMode, char passwordChar)
         {
             Console2 = console;
 
@@ -269,7 +273,7 @@ namespace Internal.ReadLine
 
                     _completions = autoCompleteHandler.Invoke(text, _completionStart);
                     _completions = _completions?.Length == 0 ? null : _completions;
-                    
+
                     if (_completions == null)
                         return;
 
