@@ -20,7 +20,7 @@ namespace System
         public static void ClearHistory() => _history = new List<string>();
         public static Func<string, int, string[]> AutoCompletionHandler { private get; set; }
         public static bool PasswordMode { private get; set; }
-        public static char PasswordChar { private get; set; } = '*';
+        public static char PasswordChar { private get; set; } = '\0';
 
         public static string Read(string prompt = "", string defaultInput = "")
         {

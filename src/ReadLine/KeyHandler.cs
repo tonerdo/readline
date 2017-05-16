@@ -210,8 +210,8 @@ namespace Internal.ReadLine
             }
         }
 
-        public KeyHandler(IConsole console, List<string> history) : this(console, history, null, false, '*') { }
-        public KeyHandler(IConsole console, List<string> history, Func<string, int, string[]> autoCompleteHandler) : this(console, history, autoCompleteHandler, false, '*') { }
+        public KeyHandler(IConsole console, List<string> history) : this(console, history, null, false, '\0') { }
+        public KeyHandler(IConsole console, List<string> history, Func<string, int, string[]> autoCompleteHandler) : this(console, history, autoCompleteHandler, false, '\0') { }
         public KeyHandler(IConsole console, List<string> history, bool passwordMode, char passwordChar) : this(console, history, null, passwordMode, passwordChar) { }
 
         public KeyHandler(IConsole console, List<string> history, Func<string, int, string[]> autoCompleteHandler, bool passwordMode, char passwordChar)
