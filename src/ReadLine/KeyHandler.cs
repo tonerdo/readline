@@ -125,18 +125,18 @@ namespace Internal.ReadLine
 
         private void Backspace()
         {
-            if (!IsStartOfLine())
-            {
-                MoveCursorLeft();
-                int index = _cursorPos;
-                _text.Remove(index, 1);
-                string replacement = _text.ToString().Substring(index);
-                int left = Console2.CursorLeft;
-                int top = Console2.CursorTop;
-                Console2.Write(string.Format("{0} ", replacement));
-                Console2.SetCursorPosition(left, top);
-                _cursorLimit--;
-            }
+            if (IsStartOfLine())
+                return;
+
+            MoveCursorLeft();
+            int index = _cursorPos;
+            _text.Remove(index, 1);
+            string replacement = _text.ToString().Substring(index);
+            int left = Console2.CursorLeft;
+            int top = Console2.CursorTop;
+            Console2.Write(string.Format("{0} ", replacement));
+            Console2.SetCursorPosition(left, top);
+            _cursorLimit--;
         }
 
         private void StartAutoComplete()
