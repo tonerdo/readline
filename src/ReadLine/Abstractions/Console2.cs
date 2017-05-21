@@ -12,6 +12,10 @@ namespace Internal.ReadLine.Abstractions
 
         public int BufferHeight => Console.BufferHeight;
 
+        public bool PasswordMode { get; set; } = false;
+
+        public char PasswordChar { get; set; } = '\0';
+
         public void SetBufferSize(int width, int height) => Console.SetBufferSize(width, height);
 
         public void SetCursorPosition(int left, int top) => Console.SetCursorPosition(left, top);
