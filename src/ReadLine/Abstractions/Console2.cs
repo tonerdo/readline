@@ -4,8 +4,6 @@ namespace Internal.ReadLine.Abstractions
 {
     internal class Console2 : IConsole
     {
-        private bool IsSeenOnScreen(char c) => !(char.IsControl(c) || char.IsWhiteSpace(c));
-
         public int CursorLeft => Console.CursorLeft;
 
         public int CursorTop => Console.CursorTop;
