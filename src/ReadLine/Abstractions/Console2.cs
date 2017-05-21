@@ -14,7 +14,7 @@ namespace Internal.ReadLine.Abstractions
 
         public int BufferHeight => Console.BufferHeight;
 
-        public bool PasswordMode { get; set; } = false;
+        public bool PasswordMode { get; set; }
 
         public char PasswordChar { get; set; } = '\0';
 
