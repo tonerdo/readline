@@ -14,22 +14,18 @@ namespace Internal.ReadLine.Abstractions
 
         public bool PasswordMode { get; set; }
 
-        public char PasswordChar { get; set; }
-
-        private bool ScreenVisible { get => !(char.IsControl(PasswordChar) || char.IsWhiteSpace(PasswordChar)); }
-
         public void SetBufferSize(int width, int height) => Console.SetBufferSize(width, height);
 
         public void SetCursorPosition(int left, int top)
         {
-            if (!PasswordMode || ScreenVisible)
+            if (!PasswordMode)
                 Console.SetCursorPosition(left, top);
         }
 
         public void Write(string value)
         {
             if (PasswordMode)
-                value = new String(PasswordChar, value.Length);
+                value = new String(default(char), value.Length);
 
             Console.Write(value);
         }
