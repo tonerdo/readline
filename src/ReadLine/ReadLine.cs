@@ -26,7 +26,7 @@ namespace System
         {
             Console.Write(prompt);
 
-            _keyHandler = new KeyHandler(new Console2(), _history, AutoCompletionHandler);
+            _keyHandler = new KeyHandler(new Console2() { PasswordMode = PasswordMode, PasswordChar = PasswordChar }, _history, AutoCompletionHandler);
             ConsoleKeyInfo keyInfo = Console.ReadKey(true);
 
             while (keyInfo.Key != ConsoleKey.Enter)
