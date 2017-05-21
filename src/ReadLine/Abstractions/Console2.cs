@@ -16,7 +16,7 @@ namespace Internal.ReadLine.Abstractions
 
         public bool PasswordMode { get; set; }
 
-        public char PasswordChar { get; set; } = '\0';
+        public char PasswordChar { get; set; }
 
         private bool ScreenVisible { get => !(char.IsControl(PasswordChar) || char.IsWhiteSpace(PasswordChar)); }
 
