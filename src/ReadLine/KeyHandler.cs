@@ -95,12 +95,12 @@ namespace Internal.ReadLine
 
         private void WriteChar() => WriteChar(_keyInfo.KeyChar);
 
-        private void WriteChar(char character)
+        private void WriteChar(char c)
         {
             if (IsEndOfLine())
             {
-                _text.Append(character);
-                Console2.Write(character.ToString());
+                _text.Append(c);
+                Console2.Write(c.ToString());
                 _cursorPos++;
             }
             else
@@ -108,8 +108,8 @@ namespace Internal.ReadLine
                 int left = Console2.CursorLeft;
                 int top = Console2.CursorTop;
                 string str = _text.ToString().Substring(_cursorPos);
-                _text.Insert(_cursorPos, character);
-                Console2.Write(character.ToString() + str);
+                _text.Insert(_cursorPos, c);
+                Console2.Write(c.ToString() + str);
                 Console2.SetCursorPosition(left, top);
                 MoveCursorRight();
             }
@@ -119,18 +119,18 @@ namespace Internal.ReadLine
 
         private void Backspace()
         {
-            if (!IsStartOfLine())
-            {
-                MoveCursorLeft();
-                int index = _cursorPos;
-                _text.Remove(index, 1);
-                string replacement = _text.ToString().Substring(index);
-                int left = Console2.CursorLeft;
-                int top = Console2.CursorTop;
-                Console2.Write(string.Format("{0} ", replacement));
-                Console2.SetCursorPosition(left, top);
-                _cursorLimit--;
-            }
+            if (IsStartOfLine())
+                return;
+
+            MoveCursorLeft();
+            int index = _cursorPos;
+            _text.Remove(index, 1);
+            string replacement = _text.ToString().Substring(index);
+            int left = Console2.CursorLeft;
+            int top = Console2.CursorTop;
+            Console2.Write(string.Format("{0} ", replacement));
+            Console2.SetCursorPosition(left, top);
+            _cursorLimit--;
         }
 
         private void StartAutoComplete()
@@ -265,7 +265,7 @@ namespace Internal.ReadLine
 
                     _completions = autoCompleteHandler.Invoke(text, _completionStart);
                     _completions = _completions?.Length == 0 ? null : _completions;
-                    
+
                     if (_completions == null)
                         return;
 

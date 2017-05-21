@@ -52,6 +52,13 @@ Install-Package ReadLine
 string input = ReadLine.Read("(prompt)> ");
 ```
 
+### Read password from the console
+
+```csharp
+ReadLine.PasswordMode = true;
+string password = ReadLine.Read("(prompt)> ");
+```
+
 _Note: The `(prompt>)` is  optional_
 
 ### History management
