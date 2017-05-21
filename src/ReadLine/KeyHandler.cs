@@ -18,8 +18,6 @@ namespace Internal.ReadLine
         private string[] _completions;
         private int _completionStart;
         private int _completionsIndex;
-        private bool _passwordMode;
-        private char _passwordChar;
         private IConsole Console2;
 
         private bool IsStartOfLine() => _cursorPos == 0;
@@ -30,7 +28,6 @@ namespace Internal.ReadLine
 
         private bool IsEndOfBuffer() => Console2.CursorLeft == Console2.BufferWidth - 1;
         private bool IsInAutoCompleteMode() => _completions != null;
-        private bool IsSeenOnScreen(char c) => !(char.IsControl(c) || char.IsWhiteSpace(c));
 
         private void MoveCursorLeft()
         {
@@ -100,13 +97,11 @@ namespace Internal.ReadLine
 
         private void WriteChar(char c)
         {
-            char character = _passwordMode ? _passwordChar : c;
             if (IsEndOfLine())
             {
                 _text.Append(c);
-                Console2.Write(character.ToString());
-                if (IsSeenOnScreen(character))
-                    _cursorPos++;
+                Console2.Write(c.ToString());
+                _cursorPos++;
             }
             else
             {
@@ -114,13 +109,12 @@ namespace Internal.ReadLine
                 int top = Console2.CursorTop;
                 string str = _text.ToString().Substring(_cursorPos);
                 _text.Insert(_cursorPos, c);
-                Console2.Write(character.ToString() + str);
+                Console2.Write(c.ToString() + str);
                 Console2.SetCursorPosition(left, top);
                 MoveCursorRight();
             }
 
-            if (IsSeenOnScreen(character))
-                _cursorLimit++;
+            _cursorLimit++;
         }
 
         private void Backspace()
