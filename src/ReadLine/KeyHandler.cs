@@ -210,11 +210,7 @@ namespace Internal.ReadLine
             }
         }
 
-        public KeyHandler(IConsole console, List<string> history) : this(console, history, null, false, '\0') { }
-        public KeyHandler(IConsole console, List<string> history, Func<string, int, string[]> autoCompleteHandler) : this(console, history, autoCompleteHandler, false, '\0') { }
-        public KeyHandler(IConsole console, List<string> history, bool passwordMode, char passwordChar) : this(console, history, null, passwordMode, passwordChar) { }
-
-        public KeyHandler(IConsole console, List<string> history, Func<string, int, string[]> autoCompleteHandler, bool passwordMode, char passwordChar)
+        public KeyHandler(IConsole console, List<string> history, Func<string, int, string[]> autoCompleteHandler)
         {
             Console2 = console;
 
@@ -222,8 +218,6 @@ namespace Internal.ReadLine
             _history = history;
             _text = new StringBuilder();
             _keyActions = new Dictionary<string, Action>();
-            _passwordMode = passwordMode;
-            _passwordChar = passwordChar;
 
             _keyActions["LeftArrow"] = MoveCursorLeft;
             _keyActions["Home"] = MoveCursorHome;
