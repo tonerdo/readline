@@ -35,15 +35,12 @@ namespace System
             }
 
             Console.WriteLine();
+
             string text = _keyHandler.Text;
             if (String.IsNullOrWhiteSpace(text) && !String.IsNullOrWhiteSpace(defaultInput))
-            {
                 text = defaultInput;
-            }
             else
-            {
                 _history.Add(text);
-            }
 
             return text;
         }
