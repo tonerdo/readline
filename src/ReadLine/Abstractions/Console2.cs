@@ -24,7 +24,7 @@ namespace Internal.ReadLine.Abstractions
 
         public void SetCursorPosition(int left, int top)
         {
-            if (ScreenVisible)
+            if (!PasswordMode || ScreenVisible)
                 Console.SetCursorPosition(left, top);
         }
 
