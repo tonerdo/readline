@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Description>A GNU-Readline like library for .NET/.NET Core</Description>
     <AssemblyTitle>ReadLine</AssemblyTitle>
-    <VersionPrefix>1.1.1</VersionPrefix>
+    <VersionPrefix>1.2.0</VersionPrefix>
     <Authors>Toni Solarin-Sodara</Authors>
     <TargetFrameworks>netstandard1.3;net45</TargetFrameworks>
     <DebugType>portable</DebugType>
