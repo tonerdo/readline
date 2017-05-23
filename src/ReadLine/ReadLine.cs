@@ -20,12 +20,16 @@ namespace System
         public static void ClearHistory() => _history = new List<string>();
         public static Func<string, int, string[]> AutoCompletionHandler { private get; set; }
         public static bool PasswordMode { private get; set; }
+        public static bool DisableHistory { get; set; }
 
-        public static string Read(string prompt = "", string defaultInput = "")
+        public static string Read(string prompt = "", string defaultInput = "", bool? enableHistory = null)
         {
             Console.Write(prompt);
 
-            _keyHandler = new KeyHandler(new Console2() { PasswordMode = PasswordMode }, _history, AutoCompletionHandler);
+            bool useHistory = enableHistory ?? !DisableHistory;
+            var history = useHistory ? _history : new List<string>();
+
+            _keyHandler = new KeyHandler(new Console2() { PasswordMode = PasswordMode }, history, AutoCompletionHandler);
             ConsoleKeyInfo keyInfo = Console.ReadKey(true);
 
             while (keyInfo.Key != ConsoleKey.Enter)
@@ -39,7 +43,7 @@ namespace System
             string text = _keyHandler.Text;
             if (String.IsNullOrWhiteSpace(text) && !String.IsNullOrWhiteSpace(defaultInput))
                 text = defaultInput;
-            else
+            else if (useHistory)
                 _history.Add(text);
 
             return text;
