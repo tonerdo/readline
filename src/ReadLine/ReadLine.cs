@@ -13,6 +13,7 @@ namespace System
         static ReadLine()
         {
             _history = new List<string>();
+            RollingComplete = true;
         }
 
         public static void AddHistory(params string[] text) => _history.AddRange(text);
@@ -20,12 +21,15 @@ namespace System
         public static void ClearHistory() => _history = new List<string>();
         public static Func<string, int, string[]> AutoCompletionHandler { private get; set; }
         public static bool PasswordMode { private get; set; }
+        public static bool RollingComplete { get; set; }
 
         public static string Read(string prompt = "", string defaultInput = "")
         {
             Console.Write(prompt);
 
             _keyHandler = new KeyHandler(new Console2() { PasswordMode = PasswordMode }, _history, AutoCompletionHandler);
+            _keyHandler.RollingAutoComplete = RollingComplete;
+            _keyHandler.Prompt = prompt;
             ConsoleKeyInfo keyInfo = Console.ReadKey(true);
 
             while (keyInfo.Key != ConsoleKey.Enter)

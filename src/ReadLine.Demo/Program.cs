@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace ConsoleApplication
 {
@@ -16,13 +17,17 @@ namespace ConsoleApplication
             ReadLine.AutoCompletionHandler = (t, s) =>
             {
                 if (t.StartsWith("git "))
-                    return new string[] { "init", "clone", "pull", "push" };
+                    return new string[] { "init", "clone", "pull", "push", "cherry-pick", "merge", "rebase", "commit", "status" };
                 else
-                    return null;
+                    return new string[] { "ls", "la", "li", "longcommandwhichwillbeononeline", "move", "moll", "moun" }.Where(x => x.StartsWith(t)).ToArray();
             };
 
+            //string input = ReadLine.Read("(prompt)> ");
+            //Console.Write(input);
+
+            ReadLine.RollingComplete = false;
             string input = ReadLine.Read("(prompt)> ");
-            Console.Write(input);
+            Console.Write($"input was : [{input}]");
         }
     }
 }
