@@ -204,13 +204,19 @@ namespace Internal.ReadLine
             }
         }
 
-        public KeyHandler(IConsole console, List<string> history, Func<string, int, string[]> autoCompleteHandler)
+        public KeyHandler(IConsole console, string initialInput, List<string> history, Func<string, int, string[]> autoCompleteHandler)
         {
             Console2 = console;
 
             _historyIndex = history.Count;
             _history = history;
             _text = new StringBuilder();
+
+            if (initialInput.Length > 0) 
+            {
+                WriteNewString(initialInput);
+            }
+
             _keyActions = new Dictionary<string, Action>();
 
             _keyActions["LeftArrow"] = MoveCursorLeft;

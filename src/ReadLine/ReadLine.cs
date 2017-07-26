@@ -1,6 +1,7 @@
 ﻿using Internal.ReadLine;
 using Internal.ReadLine.Abstractions;
 
+using System.Threading;
 using System.Collections.Generic;
 
 namespace System
@@ -21,17 +22,30 @@ namespace System
         public static Func<string, int, string[]> AutoCompletionHandler { private get; set; }
         public static bool PasswordMode { private get; set; }
 
-        public static string Read(string prompt = "", string defaultInput = "")
+        public static string Read(string prompt = "", string defaultInput = "", string initialInput = "")
         {
             Console.Write(prompt);
 
-            _keyHandler = new KeyHandler(new Console2() { PasswordMode = PasswordMode }, _history, AutoCompletionHandler);
-            ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+            _keyHandler = new KeyHandler(new Console2() { PasswordMode = PasswordMode }, initialInput, _history, AutoCompletionHandler);
 
-            while (keyInfo.Key != ConsoleKey.Enter)
-            {
-                _keyHandler.Handle(keyInfo);
-                keyInfo = Console.ReadKey(true);
+            bool done = false;
+
+            while (!done) {
+                while (Console.KeyAvailable)
+                {
+                    ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+                    if (keyInfo.Key == ConsoleKey.Enter)
+                    {
+                        done = true;
+                        break;
+                    }
+                    _keyHandler.Handle(keyInfo);
+                }
+
+                if (!done)
+                {
+                    Thread.Sleep(50);
+                }
             }
 
             Console.WriteLine();
