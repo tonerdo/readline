@@ -1,6 +1,7 @@
 ﻿using Internal.ReadLine;
 using Internal.ReadLine.Abstractions;
 
+using System.Diagnostics;
 using System.Threading;
 using System.Collections.Generic;
 
@@ -21,6 +22,8 @@ namespace System
         public static void ClearHistory() => _history = new List<string>();
         public static Func<string, int, string[]> AutoCompletionHandler { private get; set; }
         public static bool PasswordMode { private get; set; }
+        public static int InterruptInterval = 5;
+        public static Func<bool> CheckInterrupt;
 
         public static string Read(string prompt = "", string defaultInput = "", string initialInput = "")
         {
@@ -30,8 +33,20 @@ namespace System
 
             bool done = false;
 
+            Stopwatch stopwatch = null;
+            int sleeptime = InterruptInterval;
+            if (sleeptime > 5)
+            {
+                sleeptime = 5;
+                if (CheckInterrupt != null)
+                {
+                    stopwatch = new Stopwatch();
+                    stopwatch.Start();
+                }
+            }
+
             while (!done) {
-                while (Console.KeyAvailable)
+                while (!done && Console.KeyAvailable)
                 {
                     ConsoleKeyInfo keyInfo = Console.ReadKey(true);
                     if (keyInfo.Key == ConsoleKey.Enter)
@@ -42,9 +57,28 @@ namespace System
                     _keyHandler.Handle(keyInfo);
                 }
 
+                if (!done && CheckInterrupt != null)
+                {
+                    if (stopwatch == null)
+                    {
+                        // Check every tick.
+                        done = CheckInterrupt();
+                    }
+                    else 
+                    {
+                        // Check if enough time has elapsed.
+                        var elapsed = stopwatch.ElapsedMilliseconds;
+                        if (elapsed >= InterruptInterval)
+                        {
+                            stopwatch.Reset();
+                            done = CheckInterrupt();
+                        }
+                    }
+                }
+
                 if (!done)
                 {
-                    Thread.Sleep(50);
+                    Thread.Sleep(sleeptime);
                 }
             }
 

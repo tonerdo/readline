@@ -9,6 +9,9 @@ namespace ConsoleApplication
             Console.WriteLine("ReadLine Library Timer Demo");
             Console.WriteLine();
 
+            ReadLine.InterruptInterval = 1000;
+            ReadLine.CheckInterrupt = () => true;
+
             while (true)
             {
                 string input = ReadLine.Read("(prompt)> ");
