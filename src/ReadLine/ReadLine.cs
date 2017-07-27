@@ -11,6 +11,7 @@ namespace System
     {
         private static KeyHandler _keyHandler;
         private static List<string> _history;
+        private static bool _active;
 
         static ReadLine()
         {
@@ -24,9 +25,11 @@ namespace System
         public static bool PasswordMode { private get; set; }
         public static int InterruptInterval = 5;
         public static Func<bool> CheckInterrupt;
+        public static bool IsReading => _active;
 
         public static string Read(string prompt = "", string defaultInput = "", string initialInput = "")
         {
+            _active = true;
             Console.Write(prompt);
 
             _keyHandler = new KeyHandler(new Console2() { PasswordMode = PasswordMode }, initialInput, _history, AutoCompletionHandler);
@@ -90,6 +93,7 @@ namespace System
             else
                 _history.Add(text);
 
+            _active = false;
             return text;
         }
     }
