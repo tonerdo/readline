@@ -58,6 +58,7 @@ namespace System
                         break;
                     }
                     _keyHandler.Handle(keyInfo);
+                    Thread.Sleep(0);
                 }
 
                 if (!done && CheckInterrupt != null)
@@ -73,7 +74,7 @@ namespace System
                         var elapsed = stopwatch.ElapsedMilliseconds;
                         if (elapsed >= InterruptInterval)
                         {
-                            stopwatch.Reset();
+                            stopwatch.Restart();
                             done = CheckInterrupt();
                         }
                     }
