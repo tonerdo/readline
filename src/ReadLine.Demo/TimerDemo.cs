@@ -28,6 +28,7 @@ namespace ConsoleApplication
                     if (info.Result.Length != 0)
                     {
                         Console.WriteLine("You typed: \"" + info.Result + "\"");
+                        break;
                     }
                 }
             }
