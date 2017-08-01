@@ -10,13 +10,8 @@ namespace System
     public static class ReadLine
     {
         private static KeyHandler _keyHandler;
-        private static List<string> _history;
+        private static List<string> _history = new List<string>();
         private static bool _active;
-
-        static ReadLine()
-        {
-            _history = new List<string>();
-        }
 
         public static void AddHistory(params string[] text) => _history.AddRange(text);
         public static List<string> GetHistory() => _history;
