@@ -28,6 +28,7 @@ namespace System
         public static Func<bool> CheckInterrupt;
         public static bool IsReading => _active;
 
+        // Wrapper for users who don't care about ReadLineResult.
         public static string Read(string prompt = "", string defaultInput = "", string initialInput = "")
         {
             ReadLineResult res = ReadExt(prompt, defaultInput, initialInput);
@@ -44,6 +45,9 @@ namespace System
             bool done = false;
             bool interrupted = false;
 
+            /* We need to poll KeyAvailable very frequently so that typing doesn't feel laggy. So we cap the sleep interval at a maximum of 5 ms; if the InterruptInterval is longer than that, we set a Stopwatch to know when to call CheckInterrupt.
+               (We should be calling Console.ReadKey with a timeout, but C# doesn't support that, sigh.)
+            */
             Stopwatch stopwatch = null;
             int sleeptime = InterruptInterval;
             if (sleeptime > 5)
@@ -57,6 +61,7 @@ namespace System
             }
 
             while (!done) {
+                // Handle all keys that have come in.
                 while (!done && Console.KeyAvailable)
                 {
                     ConsoleKeyInfo keyInfo = Console.ReadKey(true);
@@ -69,11 +74,12 @@ namespace System
                     Thread.Sleep(0);
                 }
 
+                // Handle the timer, if there is one.
                 if (!done && CheckInterrupt != null)
                 {
                     if (stopwatch == null)
                     {
-                        // Check every tick.
+                        // Check every 5ms tick.
                         interrupted = CheckInterrupt();
                     }
                     else 
