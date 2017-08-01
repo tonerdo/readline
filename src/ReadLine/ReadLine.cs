@@ -9,6 +9,12 @@ namespace System
 {
     public static class ReadLine
     {
+        public struct ReadLineResult
+        {
+            public string Result;
+            public bool Interrupted;
+        }
+
         private static KeyHandler _keyHandler;
         private static List<string> _history = new List<string>();
         private static bool _active;
@@ -24,12 +30,19 @@ namespace System
 
         public static string Read(string prompt = "", string defaultInput = "", string initialInput = "")
         {
+            ReadLineResult res = ReadExt(prompt, defaultInput, initialInput);
+            return res.Result;
+        }
+
+        public static ReadLineResult ReadExt(string prompt = "", string defaultInput = "", string initialInput = "")
+        {
             _active = true;
             Console.Write(prompt);
 
             _keyHandler = new KeyHandler(new Console2() { PasswordMode = PasswordMode }, initialInput, _history, AutoCompletionHandler);
 
             bool done = false;
+            bool interrupted = false;
 
             Stopwatch stopwatch = null;
             int sleeptime = InterruptInterval;
@@ -61,7 +74,7 @@ namespace System
                     if (stopwatch == null)
                     {
                         // Check every tick.
-                        done = CheckInterrupt();
+                        interrupted = CheckInterrupt();
                     }
                     else 
                     {
@@ -70,8 +83,12 @@ namespace System
                         if (elapsed >= InterruptInterval)
                         {
                             stopwatch.Restart();
-                            done = CheckInterrupt();
+                            interrupted = CheckInterrupt();
                         }
+                    }
+                    if (interrupted)
+                    {
+                        done = true;
                     }
                 }
 
@@ -90,7 +107,10 @@ namespace System
                 _history.Add(text);
 
             _active = false;
-            return text;
+            return new ReadLineResult() {
+                Result = text,
+                Interrupted = interrupted
+            };
         }
     }
 }

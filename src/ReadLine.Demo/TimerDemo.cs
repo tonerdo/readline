@@ -12,14 +12,24 @@ namespace ConsoleApplication
             ReadLine.InterruptInterval = 1000;
             ReadLine.CheckInterrupt = () => true;
 
+            string initial = "";
+
             while (true)
             {
-                string input = ReadLine.Read("(prompt)> ");
-                if (input.Length == 0)
+                ReadLine.ReadLineResult info = ReadLine.ReadExt("(prompt)> ", "", initial);
+                if (info.Interrupted)
                 {
-                    continue;
+                    initial = info.Result;
+                    Console.WriteLine("Tick...");
                 }
-                Console.WriteLine("You typed: \"" + input + "\"");
+                else
+                {
+                    initial = "";
+                    if (info.Result.Length != 0)
+                    {
+                        Console.WriteLine("You typed: \"" + info.Result + "\"");
+                    }
+                }
             }
         }
     }
