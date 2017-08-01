@@ -93,6 +93,39 @@ ReadLine.AutoCompletionHandler = (t, s) =>
 
 _Note: If no "AutoCompletionHandler" is set, tab autocompletion will be disabled_
 
+### Initial Buffer
+
+```csharp
+string input = ReadLine.Read("(prompt)> ", "", "initial");
+```
+
+The editing session will begin with "initial" in the readline buffer.
+
+### Background Processing
+
+```csharp
+ReadLine.CheckInterrupt = () =>
+{
+    bool interrupt = /* whether to interrupt the readline */
+    return interrupt;
+}
+ReadLine.InterruptInterval = 1000; /* milliseconds */
+```
+
+Every `InterruptInterval` milliseconds, the library will silently run the `CheckInterrupt()` function. If this returns true, the read operation will stop immediately and return what the user has typed so far.
+
+The `CheckInterrupt()` function should not print anything, as this will be mixed in with the editing line. Do your printing after the read operation stops.
+
+If you want to know whether the operation was interrupted:
+
+```csharp
+ReadLine.ReadLineResult info = ReadLine.ReadExt("(prompt)> ");
+```
+
+`info.Result` is the string result. `info.Interrupted` is a bool indicating whether the operation was stopped by the interrupt routine or by the user hitting Enter.
+
+By combining background processing and the initial buffer option in a loop, you can achieve the effect of an interruption which prints something and then resumes editing. See the [TimerDemo.cs](src/ReadLine.Demo/TimerDemo.cs) demo.
+
 ## Contributing
 
 Contributions are highly welcome. If you have found a bug or if you have a feature request, please report them at this repository issues section.
