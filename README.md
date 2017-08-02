@@ -1,4 +1,4 @@
-[![Windows build status](https://ci.appveyor.com/api/projects/status/github/tsolarin/readline?branch=master&svg=true)](https://ci.appveyor.com/project/tsolarin/readline)
+[![Windows build status](https://ci.appveyor.com/api/projects/status/github/tonerdo/readline?branch=master&svg=true)](https://ci.appveyor.com/project/tonerdo/readline)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![NuGet version](https://badge.fury.io/nu/ReadLine.svg)](https://www.nuget.org/packages/ReadLine)
 # ReadLine
