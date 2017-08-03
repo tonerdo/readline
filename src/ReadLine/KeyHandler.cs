@@ -133,6 +133,21 @@ namespace Internal.ReadLine
             _cursorLimit--;
         }
 
+        private void Delete()
+        {
+            if (IsEndOfLine())
+                return;
+
+            int index = _cursorPos;
+            _text.Remove(index, 1);
+            string replacement = _text.ToString().Substring(index);
+            int left = Console2.CursorLeft;
+            int top = Console2.CursorTop;
+            Console2.Write(string.Format("{0} ", replacement));
+            Console2.SetCursorPosition(left, top);
+            _cursorLimit--;
+        }
+
         private void StartAutoComplete()
         {
             while (_cursorPos > _completionStart)
@@ -222,6 +237,7 @@ namespace Internal.ReadLine
             _keyActions["ControlF"] = MoveCursorRight;
             _keyActions["ControlE"] = MoveCursorEnd;
             _keyActions["Backspace"] = Backspace;
+            _keyActions["Delete"] = Delete;
             _keyActions["ControlH"] = Backspace;
             _keyActions["ControlL"] = ClearLine;
             _keyActions["UpArrow"] = PrevHistory;

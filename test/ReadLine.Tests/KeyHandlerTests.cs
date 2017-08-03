@@ -72,6 +72,26 @@ namespace ReadLine.Tests
         }
 
         [Fact]
+        public void TestDelete()
+        {
+            _keyInfo = new ConsoleKeyInfo('\0', ConsoleKey.LeftArrow, false, false, false);
+            _keyHandler.Handle(_keyInfo);
+            _keyInfo = new ConsoleKeyInfo('\0', ConsoleKey.Delete, false, false, false);
+            _keyHandler.Handle(_keyInfo);
+
+            Assert.Equal("Hell", _keyHandler.Text);
+        }
+
+        [Fact]
+        public void TestDelete_EndOfLine()
+        {
+            _keyInfo = new ConsoleKeyInfo('\0', ConsoleKey.Delete, false, false, false);
+            _keyHandler.Handle(_keyInfo);
+
+            Assert.Equal("Hello", _keyHandler.Text);
+        }
+
+        [Fact]
         public void TestControlH()
         {
             _keyInfo = new ConsoleKeyInfo('H', ConsoleKey.H, false, false, true);
