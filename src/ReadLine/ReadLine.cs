@@ -107,10 +107,24 @@ namespace System
             Console.WriteLine();
 
             string text = _keyHandler.Text;
-            if (String.IsNullOrWhiteSpace(text) && !String.IsNullOrWhiteSpace(defaultInput))
-                text = defaultInput;
+
+            /* If the entry was blank, we substitute the default value (if there was one). If the entry was non-blank, we add it to history. */
+            if (String.IsNullOrWhiteSpace(text))
+            {
+                if ((!interrupted) && (!String.IsNullOrWhiteSpace(defaultInput)))
+                {
+                    text = defaultInput;
+                }
+            }
             else
-                _history.Add(text);
+            {
+                /* We never add blank or default values to the history list. We also don't add value that duplicates the most recent value. */
+                var len = _history.Count;
+                if (len == 0 || text != _history[len-1])
+                {
+                    _history.Add(text);
+                }
+            }
 
             _active = false;
             return new ReadLineResult() {
