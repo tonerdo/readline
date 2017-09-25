@@ -1,32 +1,31 @@
-using Internal.ReadLine.Abstractions;
-
 using System;
 using System.Collections.Generic;
 using System.Text;
+using ReadLine.Abstractions;
 
-namespace Internal.ReadLine
+namespace ReadLine
 {
     internal class KeyHandler
     {
         private int _cursorPos;
         private int _cursorLimit;
-        private StringBuilder _text;
-        private List<string> _history;
+        private readonly StringBuilder _text;
+        private readonly List<string> _history;
         private int _historyIndex;
         private ConsoleKeyInfo _keyInfo;
-        private Dictionary<string, Action> _keyActions;
+        private readonly Dictionary<string, Action> _keyActions;
         private string[] _completions;
         private int _completionStart;
         private int _completionsIndex;
-        private IConsole Console2;
+        private readonly IConsole _console2;
 
         private bool IsStartOfLine() => _cursorPos == 0;
 
         private bool IsEndOfLine() => _cursorPos == _cursorLimit;
 
-        private bool IsStartOfBuffer() => Console2.CursorLeft == 0;
+        private bool IsStartOfBuffer() => _console2.CursorLeft == 0;
 
-        private bool IsEndOfBuffer() => Console2.CursorLeft == Console2.BufferWidth - 1;
+        private bool IsEndOfBuffer() => _console2.CursorLeft == _console2.BufferWidth - 1;
         private bool IsInAutoCompleteMode() => _completions != null;
 
         private void MoveCursorLeft()
@@ -35,9 +34,9 @@ namespace Internal.ReadLine
                 return;
 
             if (IsStartOfBuffer())
-                Console2.SetCursorPosition(Console2.BufferWidth - 1, Console2.CursorTop - 1);
+                _console2.SetCursorPosition(_console2.BufferWidth - 1, _console2.CursorTop - 1);
             else
-                Console2.SetCursorPosition(Console2.CursorLeft - 1, Console2.CursorTop);
+                _console2.SetCursorPosition(_console2.CursorLeft - 1, _console2.CursorTop);
 
             _cursorPos--;
         }
@@ -51,7 +50,7 @@ namespace Internal.ReadLine
         private string BuildKeyInput()
         {
             return (_keyInfo.Modifiers != ConsoleModifiers.Control && _keyInfo.Modifiers != ConsoleModifiers.Shift) ?
-                _keyInfo.Key.ToString() : _keyInfo.Modifiers.ToString() + _keyInfo.Key.ToString();
+                _keyInfo.Key.ToString() : _keyInfo.Modifiers + _keyInfo.Key.ToString();
         }
 
         private void MoveCursorRight()
@@ -60,9 +59,9 @@ namespace Internal.ReadLine
                 return;
 
             if (IsEndOfBuffer())
-                Console2.SetCursorPosition(0, Console2.CursorTop + 1);
+                _console2.SetCursorPosition(0, _console2.CursorTop + 1);
             else
-                Console2.SetCursorPosition(Console2.CursorLeft + 1, Console2.CursorTop);
+                _console2.SetCursorPosition(_console2.CursorLeft + 1, _console2.CursorTop);
 
             _cursorPos++;
         }
@@ -83,13 +82,13 @@ namespace Internal.ReadLine
         private void WriteNewString(string str)
         {
             ClearLine();
-            foreach (char character in str)
+            foreach (var character in str)
                 WriteChar(character);
         }
 
         private void WriteString(string str)
         {
-            foreach (char character in str)
+            foreach (var character in str)
                 WriteChar(character);
         }
 
@@ -100,17 +99,17 @@ namespace Internal.ReadLine
             if (IsEndOfLine())
             {
                 _text.Append(c);
-                Console2.Write(c.ToString());
+                _console2.Write(c.ToString());
                 _cursorPos++;
             }
             else
             {
-                int left = Console2.CursorLeft;
-                int top = Console2.CursorTop;
-                string str = _text.ToString().Substring(_cursorPos);
+                var left = _console2.CursorLeft;
+                var top = _console2.CursorTop;
+                var str = _text.ToString().Substring(_cursorPos);
                 _text.Insert(_cursorPos, c);
-                Console2.Write(c.ToString() + str);
-                Console2.SetCursorPosition(left, top);
+                _console2.Write(c + str);
+                _console2.SetCursorPosition(left, top);
                 MoveCursorRight();
             }
 
@@ -123,13 +122,13 @@ namespace Internal.ReadLine
                 return;
 
             MoveCursorLeft();
-            int index = _cursorPos;
+            var index = _cursorPos;
             _text.Remove(index, 1);
-            string replacement = _text.ToString().Substring(index);
-            int left = Console2.CursorLeft;
-            int top = Console2.CursorTop;
-            Console2.Write(string.Format("{0} ", replacement));
-            Console2.SetCursorPosition(left, top);
+            var replacement = _text.ToString().Substring(index);
+            var left = _console2.CursorLeft;
+            var top = _console2.CursorTop;
+            _console2.Write(string.Format("{0} ", replacement));
+            _console2.SetCursorPosition(left, top);
             _cursorLimit--;
         }
 
@@ -138,13 +137,13 @@ namespace Internal.ReadLine
             if (IsEndOfLine())
                 return;
 
-            int index = _cursorPos;
+            var index = _cursorPos;
             _text.Remove(index, 1);
-            string replacement = _text.ToString().Substring(index);
-            int left = Console2.CursorLeft;
-            int top = Console2.CursorTop;
-            Console2.Write(string.Format("{0} ", replacement));
-            Console2.SetCursorPosition(left, top);
+            var replacement = _text.ToString().Substring(index);
+            var left = _console2.CursorLeft;
+            var top = _console2.CursorTop;
+            _console2.Write(string.Format("{0} ", replacement));
+            _console2.SetCursorPosition(left, top);
             _cursorLimit--;
         }
 
@@ -211,91 +210,83 @@ namespace Internal.ReadLine
             _completionsIndex = 0;
         }
 
-        public string Text
-        {
-            get
-            {
-                return _text.ToString();
-            }
-        }
+        public string Text => _text.ToString();
 
         public KeyHandler(IConsole console, List<string> history, Func<string, int, string[]> autoCompleteHandler)
         {
-            Console2 = console;
+            _console2 = console;
 
             _historyIndex = history.Count;
             _history = history;
             _text = new StringBuilder();
-            _keyActions = new Dictionary<string, Action>();
+          _keyActions = new Dictionary<string, Action> {
+            ["LeftArrow"] = MoveCursorLeft,
+            ["Home"] = MoveCursorHome,
+            ["End"] = MoveCursorEnd,
+            ["ControlA"] = MoveCursorHome,
+            ["ControlB"] = MoveCursorLeft,
+            ["RightArrow"] = MoveCursorRight,
+            ["ControlF"] = MoveCursorRight,
+            ["ControlE"] = MoveCursorEnd,
+            ["Backspace"] = Backspace,
+            ["Delete"] = Delete,
+            ["ControlH"] = Backspace,
+            ["ControlL"] = ClearLine,
+            ["UpArrow"] = PrevHistory,
+            ["ControlP"] = PrevHistory,
+            ["DownArrow"] = NextHistory,
+            ["ControlN"] = NextHistory,
+            ["ControlU"] = () => {
+              while (!IsStartOfLine())
+                Backspace();
+            },
+            ["ControlK"] = () => {
+              var pos = _cursorPos;
+              MoveCursorEnd();
+              while (_cursorPos > pos)
+                Backspace();
+            },
+            ["ControlW"] = () => {
+              while (!IsStartOfLine() && _text[_cursorPos - 1] != ' ')
+                Backspace();
+            },
+            ["Tab"] = () => {
+              if (IsInAutoCompleteMode()) {
+                NextAutoComplete();
+              } else {
+                if (autoCompleteHandler == null || !IsEndOfLine())
+                  return;
 
-            _keyActions["LeftArrow"] = MoveCursorLeft;
-            _keyActions["Home"] = MoveCursorHome;
-            _keyActions["End"] = MoveCursorEnd;
-            _keyActions["ControlA"] = MoveCursorHome;
-            _keyActions["ControlB"] = MoveCursorLeft;
-            _keyActions["RightArrow"] = MoveCursorRight;
-            _keyActions["ControlF"] = MoveCursorRight;
-            _keyActions["ControlE"] = MoveCursorEnd;
-            _keyActions["Backspace"] = Backspace;
-            _keyActions["Delete"] = Delete;
-            _keyActions["ControlH"] = Backspace;
-            _keyActions["ControlL"] = ClearLine;
-            _keyActions["UpArrow"] = PrevHistory;
-            _keyActions["ControlP"] = PrevHistory;
-            _keyActions["DownArrow"] = NextHistory;
-            _keyActions["ControlN"] = NextHistory;
-            _keyActions["ControlU"] = () =>
-            {
-                while (!IsStartOfLine())
-                    Backspace();
-            };
-            _keyActions["ControlK"] = () =>
-            {
-                int pos = _cursorPos;
-                MoveCursorEnd();
-                while (_cursorPos > pos)
-                    Backspace();
-            };
-            _keyActions["ControlW"] = () =>
-            {
-                while (!IsStartOfLine() && _text[_cursorPos - 1] != ' ')
-                    Backspace();
-            };
+                var anyOf = new[] {
+                  ' ',
+                  '.',
+                  '/',
+                  '\\',
+                  ':'
+                };
+                var text = _text.ToString();
 
-            _keyActions["Tab"] = () =>
-            {
-                if (IsInAutoCompleteMode())
-                {
-                    NextAutoComplete();
-                }
-                else
-                {
-                    if (autoCompleteHandler == null || !IsEndOfLine())
-                        return;
+                _completionStart = text.LastIndexOfAny(anyOf);
+                _completionStart = _completionStart == -1 ? 0 : _completionStart + 1;
 
-                    char[] anyOf = new char[] { ' ', '.', '/', '\\', ':' };
-                    string text = _text.ToString();
+                _completions = autoCompleteHandler.Invoke(text, _completionStart);
+                _completions = _completions?.Length == 0 ? null : _completions;
 
-                    _completionStart = text.LastIndexOfAny(anyOf);
-                    _completionStart = _completionStart == -1 ? 0 : _completionStart + 1;
+                if (_completions == null)
+                  return;
 
-                    _completions = autoCompleteHandler.Invoke(text, _completionStart);
-                    _completions = _completions?.Length == 0 ? null : _completions;
+                StartAutoComplete();
+              }
+            },
+            ["ShiftTab"] = () => {
+              if (IsInAutoCompleteMode()) {
+                PreviousAutoComplete();
+              }
+            }
+          };
 
-                    if (_completions == null)
-                        return;
 
-                    StartAutoComplete();
-                }
-            };
 
-            _keyActions["ShiftTab"] = () =>
-            {
-                if (IsInAutoCompleteMode())
-                {
-                    PreviousAutoComplete();
-                }
-            };
         }
 
         public void Handle(ConsoleKeyInfo keyInfo)
@@ -306,8 +297,7 @@ namespace Internal.ReadLine
             if (IsInAutoCompleteMode() && _keyInfo.Key != ConsoleKey.Tab)
                 ResetAutoComplete();
 
-            Action action;
-            _keyActions.TryGetValue(BuildKeyInput(), out action);
+            _keyActions.TryGetValue(BuildKeyInput(), out var action);
             action = action ?? WriteChar;
             action.Invoke();
         }

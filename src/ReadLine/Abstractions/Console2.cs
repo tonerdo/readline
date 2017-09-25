@@ -1,6 +1,6 @@
 using System;
 
-namespace Internal.ReadLine.Abstractions
+namespace ReadLine.Abstractions
 {
     internal class Console2 : IConsole
     {
@@ -25,7 +25,7 @@ namespace Internal.ReadLine.Abstractions
         public void Write(string value)
         {
             if (PasswordMode)
-                value = new String(default(char), value.Length);
+                value = new string(default(char), value.Length);
 
             Console.Write(value);
         }

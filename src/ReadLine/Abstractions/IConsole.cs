@@ -1,4 +1,4 @@
-namespace Internal.ReadLine.Abstractions
+namespace ReadLine.Abstractions
 {
     internal interface IConsole
     {

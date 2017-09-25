@@ -1,9 +1,8 @@
-﻿using Internal.ReadLine;
-using Internal.ReadLine.Abstractions;
-
+﻿using System;
 using System.Collections.Generic;
+using ReadLine.Abstractions;
 
-namespace System
+namespace ReadLine
 {
     public static class ReadLine
     {
@@ -26,7 +25,7 @@ namespace System
             Console.Write(prompt);
 
             _keyHandler = new KeyHandler(new Console2() { PasswordMode = PasswordMode }, _history, AutoCompletionHandler);
-            ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+            var keyInfo = Console.ReadKey(true);
 
             while (keyInfo.Key != ConsoleKey.Enter)
             {
@@ -36,8 +35,8 @@ namespace System
 
             Console.WriteLine();
 
-            string text = _keyHandler.Text;
-            if (String.IsNullOrWhiteSpace(text) && !String.IsNullOrWhiteSpace(defaultInput))
+            var text = _keyHandler.Text;
+            if (string.IsNullOrWhiteSpace(text) && !string.IsNullOrWhiteSpace(defaultInput))
                 text = defaultInput;
             else
                 _history.Add(text);
