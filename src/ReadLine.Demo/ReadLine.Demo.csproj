@@ -6,7 +6,6 @@
     <AssemblyName>ReadLine.Demo</AssemblyName>
     <OutputType>Exe</OutputType>
     <PackageId>ReadLine.Demo</PackageId>
-    <PackageTargetFallback>$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
   </PropertyGroup>
 
   <ItemGroup>

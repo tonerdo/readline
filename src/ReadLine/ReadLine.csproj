@@ -3,10 +3,10 @@
   <PropertyGroup>
     <Description>A GNU-Readline like library for .NET/.NET Core</Description>
     <AssemblyTitle>ReadLine</AssemblyTitle>
-    <VersionPrefix>1.2.0</VersionPrefix>
     <Authors>Toni Solarin-Sodara;Latency McLaughlin</Authors>
-    <TargetFrameworks>netcoreapp2.0;net47</TargetFrameworks>
-    <DebugType>portable</DebugType>
+    <Owners>Toni Solarin-Sodara</Owners>
+    <TargetFrameworks>net47;netcoreapp2.0;netstandard2.0</TargetFrameworks>
+    <Version>1.2.1</Version>
     <AssemblyName>ReadLine</AssemblyName>
     <PackageId>ReadLine</PackageId>
     <PackageTags>readline;gnu;console;shell;cui</PackageTags>
@@ -14,7 +14,6 @@
     <PackageLicenseUrl>https://github.com/tsolarin/readline/blob/master/LICENSE</PackageLicenseUrl>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/tsolarin/readline</RepositoryUrl>
-    <NetStandardImplicitPackageVersion Condition=" '$(TargetFramework)' == 'netstandard1.3' ">1.6.1</NetStandardImplicitPackageVersion>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
@@ -23,13 +22,21 @@
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>snKey.snk</AssemblyOriginatorKeyFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageReleaseNotes>Updated to support .NET Core 2.0.
+Updated to support .NET Standard v2.0.
+Updated to support .NET Framework v4.7.
+Consolidated redundant code and expressions.
+Repacked for multi-frameworks.
+Updated versioning.
+Updated test projects.</PackageReleaseNotes>
+    <Company />
   </PropertyGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' Or '$(TargetFramework)' == 'netcoreapp2.0' ">
     <PackageReference Include="System.Console" Version="4.3.0" />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net47' ">
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
@@ -38,4 +45,15 @@
     <Folder Include="Properties\" />
   </ItemGroup>
 
+  <!-- @@ -->
+  <Target Name="CreateArtifactsDirectoryIfNotExists" Condition="!Exists('..\..\artifacts')">
+    <Message Text="Creating artifacts directory -&gt; '..\..\artifacts\'" Importance="high" />
+    <MakeDir Directories="..\..\artifacts" />
+  </Target>
+
+  <Target Name="PostPublish" AfterTargets="Pack" Condition=" '$(GeneratePackageOnBuild)' == 'true' ">
+    <CallTarget Targets="CreateArtifactsDirectoryIfNotExists" />
+    <Message Text="Copying artifact `.\bin\$(Configuration)\$(PackageId).$(PackageVersion).nupkg' to directory `$(SolutionDir)artifacts'" Importance="high" />
+    <Copy SourceFiles=".\bin\$(Configuration)\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(SolutionDir)artifacts" />
+  </Target>
 </Project>
