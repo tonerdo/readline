@@ -4,7 +4,7 @@ using System.Text;
 using ReadLine.Abstractions;
 
 namespace ReadLine {
-  internal class KeyHandler {
+  public class KeyHandler {
     private int _cursorPos;
     private int _cursorLimit;
     private readonly StringBuilder _text;

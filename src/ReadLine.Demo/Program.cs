@@ -1,28 +1,30 @@
 ﻿using System;
 
-namespace ConsoleApplication
-{
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            Console.WriteLine("ReadLine Library Demo");
-            Console.WriteLine("---------------------");
-            Console.WriteLine();
+namespace ReadLine.Demo {
+  public class Program {
+    public static void Main(string[] args) {
+      Console.WriteLine("ReadLine Library Demo");
+      Console.WriteLine("---------------------");
+      Console.WriteLine();
 
-            string[] history = new string[] { "ls -a", "dotnet run", "git init" };
-            ReadLine.AddHistory(history);
+      string[] history = {
+        "ls -a",
+        "dotnet run",
+        "git init"
+      };
+      ReadLine.AddHistory(history);
 
-            ReadLine.AutoCompletionHandler = (t, s) =>
-            {
-                if (t.StartsWith("git "))
-                    return new string[] { "init", "clone", "pull", "push" };
-                else
-                    return null;
-            };
-
-            string input = ReadLine.Read("(prompt)> ");
-            Console.Write(input);
+      ReadLine.AutoCompletionHandler = (t, s) => t.StartsWith("git ")
+        ? new[] {
+          "init",
+          "clone",
+          "pull",
+          "push"
         }
+        : null;
+
+      var input = ReadLine.Read("(prompt)> ");
+      Console.Write(input);
     }
+  }
 }
