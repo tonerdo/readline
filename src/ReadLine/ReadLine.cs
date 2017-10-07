@@ -2,30 +2,37 @@
 using System.Collections.Generic;
 using ReadLine.Abstractions;
 
-namespace ReadLine {
-  public static class ReadLine {
+namespace ReadLine
+{
+  public static class ReadLine
+  {
     private static KeyHandler _keyHandler;
     private static List<string> _history;
 
-    static ReadLine() {
+    static ReadLine()
+    {
       _history = new List<string>();
     }
+
+    public static Func<string, int, string[]> AutoCompletionHandler { private get; set; }
+    public static bool PasswordMode { private get; set; }
 
     public static void AddHistory(params string[] text) => _history.AddRange(text);
     public static List<string> GetHistory() => _history;
     public static void ClearHistory() => _history = new List<string>();
-    public static Func<string, int, string[]> AutoCompletionHandler { private get; set; }
-    public static bool PasswordMode { private get; set; }
 
-    public static string Read(string prompt = "", string defaultInput = "") {
+    public static string Read(string prompt = "", string defaultInput = "")
+    {
       Console.Write(prompt);
 
-      _keyHandler = new KeyHandler(new Console2() {
+      _keyHandler = new KeyHandler(new Console2
+      {
         PasswordMode = PasswordMode
       }, _history, AutoCompletionHandler);
       var keyInfo = Console.ReadKey(true);
 
-      while (keyInfo.Key != ConsoleKey.Enter) {
+      while (keyInfo.Key != ConsoleKey.Enter)
+      {
         _keyHandler.Handle(keyInfo);
         keyInfo = Console.ReadKey(true);
       }

@@ -1,5 +1,7 @@
-namespace ReadLine.Abstractions {
-  public interface IConsole {
+namespace ReadLine.Abstractions
+{
+  public interface IConsole
+  {
     int CursorLeft { get; }
     int CursorTop { get; }
     int BufferWidth { get; }

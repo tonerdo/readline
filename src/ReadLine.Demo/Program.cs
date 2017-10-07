@@ -1,13 +1,17 @@
 ﻿using System;
 
-namespace ReadLine.Demo {
-  public class Program {
-    public static void Main(string[] args) {
+namespace ReadLine.Demo
+{
+  public class Program
+  {
+    public static void Main(string[] args)
+    {
       Console.WriteLine("ReadLine Library Demo");
       Console.WriteLine("---------------------");
       Console.WriteLine();
 
-      string[] history = {
+      string[] history =
+      {
         "ls -a",
         "dotnet run",
         "git init"
@@ -15,7 +19,8 @@ namespace ReadLine.Demo {
       ReadLine.AddHistory(history);
 
       ReadLine.AutoCompletionHandler = (t, s) => t.StartsWith("git ")
-        ? new[] {
+        ? new[]
+        {
           "init",
           "clone",
           "pull",
