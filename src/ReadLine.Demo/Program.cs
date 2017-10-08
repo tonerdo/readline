@@ -22,7 +22,10 @@ namespace ConsoleApplication
             };
 
             string input = ReadLine.Read("(prompt)> ");
-            Console.Write(input);
+            Console.WriteLine(input);
+
+            input = ReadLine.ReadPassword("Enter Password> ");
+            Console.WriteLine(input);
         }
     }
 }

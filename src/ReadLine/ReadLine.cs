@@ -7,7 +7,6 @@ namespace System
 {
     public static class ReadLine
     {
-        private static KeyHandler _keyHandler;
         private static List<string> _history;
 
         static ReadLine()
@@ -25,28 +24,35 @@ namespace System
         public static string Read(string prompt = "", string defaultInput = "", bool? enableHistory = null)
         {
             Console.Write(prompt);
+            KeyHandler keyHandler = new KeyHandler(new Console2(), _history, AutoCompletionHandler);
+            string text = GetText(keyHandler);
 
-            bool useHistory = enableHistory ?? !DisableHistory;
-            var history = useHistory ? _history : new List<string>();
+            if (String.IsNullOrWhiteSpace(text) && !String.IsNullOrWhiteSpace(defaultInput))
+                text = defaultInput;
+            else
+                _history.Add(text);
 
-            _keyHandler = new KeyHandler(new Console2() { PasswordMode = PasswordMode }, history, AutoCompletionHandler);
+            return text;
+        }
+
+        public static string ReadPassword(string prompt = "")
+        {
+            Console.Write(prompt);
+            KeyHandler keyHandler = new KeyHandler(new Console2() { PasswordMode = true }, null, null);
+            return GetText(keyHandler);
+        }
+
+        private static string GetText(KeyHandler keyHandler)
+        {
             ConsoleKeyInfo keyInfo = Console.ReadKey(true);
-
             while (keyInfo.Key != ConsoleKey.Enter)
             {
-                _keyHandler.Handle(keyInfo);
+                keyHandler.Handle(keyInfo);
                 keyInfo = Console.ReadKey(true);
             }
 
             Console.WriteLine();
-
-            string text = _keyHandler.Text;
-            if (String.IsNullOrWhiteSpace(text) && !String.IsNullOrWhiteSpace(defaultInput))
-                text = defaultInput;
-            else if (useHistory)
-                _history.Add(text);
-
-            return text;
+            return keyHandler.Text;
         }
     }
 }

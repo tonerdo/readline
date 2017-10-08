@@ -223,8 +223,8 @@ namespace Internal.ReadLine
         {
             Console2 = console;
 
-            _historyIndex = history.Count;
-            _history = history;
+            _history = history ?? new List<string>();
+            _historyIndex = _history.Count;
             _text = new StringBuilder();
             _keyActions = new Dictionary<string, Action>();
 
