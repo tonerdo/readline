@@ -5,16 +5,15 @@
     <AssemblyTitle>ReadLine</AssemblyTitle>
     <VersionPrefix>1.2.0</VersionPrefix>
     <Authors>Toni Solarin-Sodara</Authors>
-    <TargetFrameworks>netstandard1.3;net45</TargetFrameworks>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <DebugType>portable</DebugType>
     <AssemblyName>ReadLine</AssemblyName>
     <PackageId>ReadLine</PackageId>
     <PackageTags>readline;gnu;console;shell;cui</PackageTags>
-    <PackageProjectUrl>https://github.com/tsolarin/readline</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/tsolarin/readline/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/tonerdo/readline</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/tonerdo/readline/blob/master/LICENSE</PackageLicenseUrl>
     <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/tsolarin/readline</RepositoryUrl>
-    <NetStandardImplicitPackageVersion Condition=" '$(TargetFramework)' == 'netstandard1.3' ">1.6.1</NetStandardImplicitPackageVersion>
+    <RepositoryUrl>https://github.com/tonerdo/readline</RepositoryUrl>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
@@ -22,13 +21,8 @@
     <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
   </PropertyGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
     <PackageReference Include="System.Console" Version="4.3.0" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
-    <Reference Include="System" />
-    <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
 
 </Project>
