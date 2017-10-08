@@ -8,6 +8,9 @@ namespace Internal.ReadLine
 {
     internal class KeyHandler
     {
+        private const int AutoCompleteColumns = 5;
+        private const int AutoCompleteColumnLength = 15;
+
         private int _cursorPos;
         private int _cursorLimit;
         private StringBuilder _text;
@@ -28,6 +31,10 @@ namespace Internal.ReadLine
 
         private bool IsEndOfBuffer() => Console2.CursorLeft == Console2.BufferWidth - 1;
         private bool IsInAutoCompleteMode() => _completions != null;
+
+        public bool RollingAutoComplete { get; set; } = true;
+
+        public string Prompt { get; set; }
 
         private void MoveCursorLeft()
         {
@@ -184,6 +191,79 @@ namespace Internal.ReadLine
             WriteString(_completions[_completionsIndex]);
         }
 
+        private void AllAutoComplete()
+        {
+            if (_completions.Length == 1)
+            {
+                while (_cursorPos > _completionStart)
+                    Backspace();
+
+                WriteString(_completions[0]);
+                return;
+            }
+
+            // max length
+
+            int maxLen = 0;
+            for (int i = 0; i < _completions.Length; i++)
+            {
+                if (maxLen < _completions[i].Length)
+                {
+                    maxLen = _completions[i].Length;
+                }
+            }
+
+            Console.WriteLine();
+
+            // display in columns
+            if (maxLen < AutoCompleteColumnLength)
+            {
+                StringBuilder line = new StringBuilder();
+                for (int i = 0; i < _completions.Length; i++)
+                {
+                    line.Append(_completions[i]);
+
+                    int fill = AutoCompleteColumnLength - (line.Length % AutoCompleteColumnLength);
+                    line.Append(' ', fill);
+
+                    if (line.Length >= AutoCompleteColumns * AutoCompleteColumnLength)
+                    {
+                        Console.WriteLine(line.ToString());
+                        line.Clear();
+                    }
+                }
+
+                if (line.Length > 0)
+                {
+                    Console.WriteLine(line.ToString());
+                    line.Clear();
+                }
+            }
+            // display in lines
+            else
+            {
+                for (int i = 0; i < _completions.Length; i++)
+                {
+                    Console.WriteLine(_completions[i]);
+                }
+            }
+
+            _completions = null;
+            string prevText = _text.ToString();
+
+            // rewrite prompt and reset
+
+            ClearLine();
+            Console.WriteLine();
+            Console.Write(this.Prompt);
+            _cursorPos = 0;
+            _cursorLimit = 0;
+            
+            // write previous string
+
+            WriteString(prevText);
+        }
+
         private void PrevHistory()
         {
             if (_historyIndex > 0)
@@ -285,7 +365,14 @@ namespace Internal.ReadLine
                     if (_completions == null)
                         return;
 
-                    StartAutoComplete();
+                    if (this.RollingAutoComplete)
+                    {
+                        StartAutoComplete();
+                    }
+                    else
+                    {
+                        AllAutoComplete();
+                    }
                 }
             };
 
