@@ -10,10 +10,10 @@
     <AssemblyName>ReadLine</AssemblyName>
     <PackageId>ReadLine</PackageId>
     <PackageTags>readline;gnu;console;shell;cui</PackageTags>
-    <PackageProjectUrl>https://github.com/tsolarin/readline</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/tsolarin/readline/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/tonerdo/readline</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/tonerdo/readline/blob/master/LICENSE</PackageLicenseUrl>
     <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/tsolarin/readline</RepositoryUrl>
+    <RepositoryUrl>https://github.com/tonerdo/readline</RepositoryUrl>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
@@ -56,4 +56,5 @@ Updated test projects.</PackageReleaseNotes>
     <Message Text="Copying artifact `.\bin\$(Configuration)\$(PackageId).$(PackageVersion).nupkg' to directory `$(SolutionDir)artifacts'" Importance="high" />
     <Copy SourceFiles=".\bin\$(Configuration)\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(SolutionDir)artifacts" />
   </Target>
+  
 </Project>
