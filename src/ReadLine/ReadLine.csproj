@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Description>A GNU-Readline like library for .NET/.NET Core</Description>
     <AssemblyTitle>ReadLine</AssemblyTitle>
-    <Authors>Toni Solarin-Sodara;Latency McLaughlin</Authors>
+    <Authors>Toni Solarin-Sodara</Authors>
     <Owners>Toni Solarin-Sodara</Owners>
     <TargetFrameworks>net47;netcoreapp2.0;netstandard2.0</TargetFrameworks>
     <Version>1.2.1</Version>
@@ -29,7 +29,7 @@ Consolidated redundant code and expressions.
 Repacked for multi-frameworks.
 Updated versioning.
 Updated test projects.</PackageReleaseNotes>
-    <Company />
+    <Company>Toni Solarin-Sodara</Company>
   </PropertyGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' Or '$(TargetFramework)' == 'netcoreapp2.0' ">

@@ -2,34 +2,34 @@
 
 namespace ReadLine.Demo
 {
-  public class Program
-  {
-    public static void Main(string[] args)
+    public class Program
     {
-      Console.WriteLine("ReadLine Library Demo");
-      Console.WriteLine("---------------------");
-      Console.WriteLine();
-
-      string[] history =
-      {
-        "ls -a",
-        "dotnet run",
-        "git init"
-      };
-      ReadLine.AddHistory(history);
-
-      ReadLine.AutoCompletionHandler = (t, s) => t.StartsWith("git ")
-        ? new[]
+        public static void Main(string[] args)
         {
-          "init",
-          "clone",
-          "pull",
-          "push"
-        }
-        : null;
+            Console.WriteLine("ReadLine Library Demo");
+            Console.WriteLine("---------------------");
+            Console.WriteLine();
 
-      var input = ReadLine.Read("(prompt)> ");
-      Console.Write(input);
+            string[] history =
+            {
+                "ls -a",
+                "dotnet run",
+                "git init"
+            };
+            ReadLine.AddHistory(history);
+
+            ReadLine.AutoCompletionHandler = (t, s) => t.StartsWith("git ")
+                ? new[]
+                {
+                    "init",
+                    "clone",
+                    "pull",
+                    "push"
+                }
+                : null;
+
+            var input = ReadLine.Read("(prompt)> ");
+            Console.Write(input);
+        }
     }
-  }
 }
