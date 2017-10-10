@@ -17,9 +17,9 @@ namespace System
         public static void AddHistory(params string[] text) => _history.AddRange(text);
         public static List<string> GetHistory() => _history;
         public static void ClearHistory() => _history = new List<string>();
-        public static Func<string, int, string[]> AutoCompletionHandler { private get; set; }
         public static bool PasswordMode { private get; set; }
         public static bool DisableHistory { get; set; }
+        public static IAutoCompleteHandler AutoCompletionHandler { private get; set; }
 
         public static string Read(string prompt = "", string defaultInput = "", bool? enableHistory = null)
         {

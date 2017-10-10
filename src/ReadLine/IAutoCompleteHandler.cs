@@ -1,8 +1,8 @@
 namespace System
 {
-    interface IAutoCompleteHandler
+    public interface IAutoCompleteHandler
     {
-        string[] Separators { get; set; }
+        char[] Separators { get; set; }
         string[] GetSuggestions(string text, int index);
     }
 }

@@ -13,19 +13,25 @@ namespace ConsoleApplication
             string[] history = new string[] { "ls -a", "dotnet run", "git init" };
             ReadLine.AddHistory(history);
 
-            ReadLine.AutoCompletionHandler = (t, s) =>
-            {
-                if (t.StartsWith("git "))
-                    return new string[] { "init", "clone", "pull", "push" };
-                else
-                    return null;
-            };
+            ReadLine.AutoCompletionHandler = new AutoCompletionHandler();
 
             string input = ReadLine.Read("(prompt)> ");
             Console.WriteLine(input);
 
             input = ReadLine.ReadPassword("Enter Password> ");
             Console.WriteLine(input);
+        }
+    }
+
+    class AutoCompletionHandler : IAutoCompleteHandler
+    {
+        public char[] Separators { get; set; } = new char[] { ' ', '.', '/', '\\', ':' };
+        public string[] GetSuggestions(string text, int index)
+        {
+            if (text.StartsWith("git "))
+                return new string[] { "init", "clone", "pull", "push" };
+            else
+                return null;
         }
     }
 }

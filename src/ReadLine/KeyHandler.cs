@@ -219,7 +219,7 @@ namespace Internal.ReadLine
             }
         }
 
-        public KeyHandler(IConsole console, List<string> history, Func<string, int, string[]> autoCompleteHandler)
+        public KeyHandler(IConsole console, List<string> history, IAutoCompleteHandler autoCompleteHandler)
         {
             Console2 = console;
 
@@ -273,13 +273,12 @@ namespace Internal.ReadLine
                     if (autoCompleteHandler == null || !IsEndOfLine())
                         return;
 
-                    char[] anyOf = new char[] { ' ', '.', '/', '\\', ':' };
                     string text = _text.ToString();
 
-                    _completionStart = text.LastIndexOfAny(anyOf);
+                    _completionStart = text.LastIndexOfAny(autoCompleteHandler.Separators);
                     _completionStart = _completionStart == -1 ? 0 : _completionStart + 1;
 
-                    _completions = autoCompleteHandler.Invoke(text, _completionStart);
+                    _completions = autoCompleteHandler.GetSuggestions(text, _completionStart);
                     _completions = _completions?.Length == 0 ? null : _completions;
 
                     if (_completions == null)
