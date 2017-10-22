@@ -21,14 +21,14 @@ namespace System
         public static bool DisableHistory { get; set; }
         public static IAutoCompleteHandler AutoCompletionHandler { private get; set; }
 
-        public static string Read(string prompt = "", string defaultInput = "", bool? enableHistory = null)
+        public static string Read(string prompt = "", string @default = "")
         {
             Console.Write(prompt);
             KeyHandler keyHandler = new KeyHandler(new Console2(), _history, AutoCompletionHandler);
             string text = GetText(keyHandler);
 
-            if (String.IsNullOrWhiteSpace(text) && !String.IsNullOrWhiteSpace(defaultInput))
-                text = defaultInput;
+            if (String.IsNullOrWhiteSpace(text) && !String.IsNullOrWhiteSpace(@default))
+                text = @default;
             else
                 _history.Add(text);
 
