@@ -22,7 +22,7 @@ It is cross platform and runs anywhere .NET is supported, targeting `netstandard
 | `Shift`+`Tab`                  | Backwards command line completion |
 | `Ctrl`+`J` / `Enter`           | Line feed                         |
 | `Ctrl`+`K`                     | Cut text to the end of line       |
-| `Ctrl`+`L`                     | Clear line                        |
+| `Ctrl`+`L` / `Esc`             | Clear line                        |
 | `Ctrl`+`M`                     | Same as Enter key                 |
 | `Ctrl`+`N` / `↓`               | Forward in history                |
 | `Ctrl`+`P` / `↑`               | Backward in history               |

@@ -240,6 +240,7 @@ namespace Internal.ReadLine
             _keyActions["Delete"] = Delete;
             _keyActions["ControlH"] = Backspace;
             _keyActions["ControlL"] = ClearLine;
+            _keyActions["Escape"] = ClearLine;
             _keyActions["UpArrow"] = PrevHistory;
             _keyActions["ControlP"] = PrevHistory;
             _keyActions["DownArrow"] = NextHistory;
