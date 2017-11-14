@@ -17,8 +17,7 @@ namespace System
         public static void AddHistory(params string[] text) => _history.AddRange(text);
         public static List<string> GetHistory() => _history;
         public static void ClearHistory() => _history = new List<string>();
-        public static bool PasswordMode { private get; set; }
-        public static bool DisableHistory { get; set; }
+        public static bool HistoryEnabled { get; set; }
         public static IAutoCompleteHandler AutoCompletionHandler { private get; set; }
 
         public static string Read(string prompt = "", string @default = "")
@@ -28,9 +27,14 @@ namespace System
             string text = GetText(keyHandler);
 
             if (String.IsNullOrWhiteSpace(text) && !String.IsNullOrWhiteSpace(@default))
+            {
                 text = @default;
+            }
             else
-                _history.Add(text);
+            {
+                if (HistoryEnabled)
+                    _history.Add(text);
+            }
 
             return text;
         }
