@@ -5,7 +5,7 @@
     <AssemblyTitle>ReadLine</AssemblyTitle>
     <Authors>Toni Solarin-Sodara</Authors>
     <Owners>Toni Solarin-Sodara</Owners>
-    <TargetFrameworks>net47;netcoreapp2.0;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net471;netcoreapp2.0;netstandard2.0</TargetFrameworks>
     <Version>1.2.1</Version>
     <AssemblyName>ReadLine</AssemblyName>
     <PackageId>ReadLine</PackageId>
@@ -24,12 +24,17 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageReleaseNotes>Updated to support .NET Core 2.0.
 Updated to support .NET Standard v2.0.
-Updated to support .NET Framework v4.7.
+Updated to support .NET Framework v4.7.1
 Consolidated redundant code and expressions.
 Repacked for multi-frameworks.
 Updated versioning.
 Updated test projects.</PackageReleaseNotes>
     <Company>Toni Solarin-Sodara</Company>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net471|AnyCPU'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;RELEASE</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' Or '$(TargetFramework)' == 'netcoreapp2.0' ">
