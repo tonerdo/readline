@@ -92,7 +92,7 @@ class AutoCompletionHandler : IAutoCompleteHandler
     public char[] Separators { get; set; } = new char[] { ' ', '.', '/' };
 
     // text - The current text entered in the console
-    // index - The index of the command fragment that needs to be completed
+    // index - The index of the terminal cursor within {text}
     public string[] GetSuggestions(string text, int index)
     {
         if (text.StartsWith("git "))
