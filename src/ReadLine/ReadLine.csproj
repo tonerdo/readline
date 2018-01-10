@@ -9,6 +9,7 @@
     <DebugType>portable</DebugType>
     <AssemblyName>ReadLine</AssemblyName>
     <PackageId>ReadLine</PackageId>
+    <PackageVersion>$(AssemblyVersion)</PackageVersion>
     <PackageTags>readline;gnu;console;shell;cui</PackageTags>
     <PackageProjectUrl>https://github.com/tonerdo/readline</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/tonerdo/readline/blob/master/LICENSE</PackageLicenseUrl>
