@@ -22,7 +22,7 @@ It is cross platform and runs anywhere .NET is supported, targeting `netstandard
 | `Shift`+`Tab`                  | Backwards command line completion |
 | `Ctrl`+`J` / `Enter`           | Line feed                         |
 | `Ctrl`+`K`                     | Cut text to the end of line       |
-| `Ctrl`+`L`                     | Clear line                        |
+| `Ctrl`+`L` / `Esc`             | Clear line                        |
 | `Ctrl`+`M`                     | Same as Enter key                 |
 | `Ctrl`+`N` / `↓`               | Forward in history                |
 | `Ctrl`+`P` / `↑`               | Backward in history               |
@@ -32,20 +32,24 @@ It is cross platform and runs anywhere .NET is supported, targeting `netstandard
 | `Delete`                       | Delete succeeding character       |
 
 
-## Usage
+## Installation
 
-### Add ReadLine as a dependency
+Available on [NuGet](https://www.nuget.org/packages/ReadLine/)
 
-#### .NET Core CLI
+Visual Studio:
+
+```powershell
+PM> Install-Package ReadLine
+```
+
+.NET Core CLI:
 
 ```bash
 dotnet add package ReadLine
 ```
-#### Package Manager Console
 
-```powershell
-Install-Package ReadLine
-```
+
+## Usage
 
 ### Read input from the console
 
@@ -56,8 +60,7 @@ string input = ReadLine.Read("(prompt)> ");
 ### Read password from the console
 
 ```csharp
-ReadLine.PasswordMode = true;
-string password = ReadLine.Read("(prompt)> ");
+string password = ReadLine.ReadPassword("(prompt)> ");
 ```
 
 _Note: The `(prompt>)` is  optional_
@@ -73,6 +76,9 @@ ReadLine.AddHistory("dotnet run");
 
 // Clear history
 ReadLine.ClearHistory();
+
+// Disable history
+ReadLine.HistoryEnabled = false;
 ```
 
 _Note: History information is persisted for an entire application session. Also, calls to `ReadLine.Read()` automatically adds the console input to history_
@@ -80,16 +86,23 @@ _Note: History information is persisted for an entire application session. Also,
 ### Auto-Completion
 
 ```csharp
-// t:string - The current text entered in the console
-// s:int - The index of the command fragment that needs to be completed
-// returns string[]
-ReadLine.AutoCompletionHandler = (t, s) =>
+class AutoCompletionHandler : IAutoCompleteHandler
 {
-    string[] suggestions = /* logic to generate suggestions */;
-    // return string array of suggestions 
-    // or null if no suggestions are available
-    return suggestions;
-};
+    // characters to start completion from
+    public char[] Separators { get; set; } = new char[] { ' ', '.', '/' };
+
+    // text - The current text entered in the console
+    // index - The index of the terminal cursor within {text}
+    public string[] GetSuggestions(string text, int index)
+    {
+        if (text.StartsWith("git "))
+            return new string[] { "init", "clone", "pull", "push" };
+        else
+            return null;
+    }
+}
+
+ReadLine.AutoCompletionHandler = new AutoCompletionHandler();
 ```
 
 _Note: If no "AutoCompletionHandler" is set, tab autocompletion will be disabled_

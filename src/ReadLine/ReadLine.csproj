@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>A GNU-Readline like library for .NET/.NET Core</Description>
     <AssemblyTitle>ReadLine</AssemblyTitle>
     <Authors>Toni Solarin-Sodara</Authors>
     <Owners>Toni Solarin-Sodara</Owners>
@@ -9,6 +8,7 @@
     <Version>1.2.1</Version>
     <AssemblyName>ReadLine</AssemblyName>
     <PackageId>ReadLine</PackageId>
+    <PackageVersion>$(AssemblyVersion)</PackageVersion>
     <PackageTags>readline;gnu;console;shell;cui</PackageTags>
     <PackageProjectUrl>https://github.com/tonerdo/readline</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/tonerdo/readline/blob/master/LICENSE</PackageLicenseUrl>
@@ -61,5 +61,5 @@ Updated test projects.</PackageReleaseNotes>
     <Message Text="Copying artifact `.\bin\$(Configuration)\$(PackageId).$(PackageVersion).nupkg' to directory `$(SolutionDir)artifacts'" Importance="high" />
     <Copy SourceFiles=".\bin\$(Configuration)\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(SolutionDir)artifacts" />
   </Target>
-  
+
 </Project>

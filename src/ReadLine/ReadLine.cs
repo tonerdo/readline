@@ -6,7 +6,6 @@ namespace ReadLine
 {
     public static class ReadLine
     {
-        private static KeyHandler _keyHandler;
         private static List<string> _history;
 
         static ReadLine()
@@ -21,31 +20,44 @@ namespace ReadLine
         public static List<string> GetHistory() => _history;
         public static void ClearHistory() => _history = new List<string>();
 
-        public static string Read(string prompt = "", string defaultInput = "")
+        public static string Read(string prompt = "", string @default = "")
         {
             Console.Write(prompt);
+            KeyHandler keyHandler = new KeyHandler(new Console2(), _history, AutoCompletionHandler);
+            string text = GetText(keyHandler);
 
-            _keyHandler = new KeyHandler(new Console2
+            if (String.IsNullOrWhiteSpace(text) && !String.IsNullOrWhiteSpace(@default))
             {
-                PasswordMode = PasswordMode
-            }, _history, AutoCompletionHandler);
-            var keyInfo = Console.ReadKey(true);
+                text = @default;
+            }
+            else
+            {
+                if (HistoryEnabled)
+                    _history.Add(text);
+            }
 
+            return text;
+        }
+
+        public static string ReadPassword(string prompt = "")
+        {
+            Console.Write(prompt);
+            KeyHandler keyHandler = new KeyHandler(new Console2() { PasswordMode = true }, null, null);
+            return GetText(keyHandler);
+        }
+
+        private static string GetText(KeyHandler keyHandler)
+        {
+            ConsoleKeyInfo keyInfo = Console.ReadKey(true);
             while (keyInfo.Key != ConsoleKey.Enter)
             {
-                _keyHandler.Handle(keyInfo);
+                keyHandler.Handle(keyInfo);
                 keyInfo = Console.ReadKey(true);
             }
 
             Console.WriteLine();
 
-            var text = _keyHandler.Text;
-            if (string.IsNullOrWhiteSpace(text) && !string.IsNullOrWhiteSpace(defaultInput))
-                text = defaultInput;
-            else
-                _history.Add(text);
-
-            return text;
+            return keyHandler.Text;
         }
     }
 }
