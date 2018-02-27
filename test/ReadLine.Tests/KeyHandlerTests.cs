@@ -371,7 +371,7 @@ namespace ReadLine.Tests
             // Nothing happens when no auto complete handler is set
             Assert.Equal("Hello", _keyHandler.Text);
 
-            _keyHandler = new KeyHandler(new Console2(), _history, _autoCompleteHandler);
+            _keyHandler = new KeyHandler(new Console2(), _history, (t, s) => _completions);
 
             _keyInfo = new ConsoleKeyInfo('H', ConsoleKey.H, false, false, false);
             _keyHandler.Handle(_keyInfo);
@@ -384,7 +384,7 @@ namespace ReadLine.Tests
 
             foreach (var t in _completions)
             {
-                _keyInfo = new ConsoleKeyInfo('\0', ConsoleKey.Tab, false, false, false);
+                _keyInfo = new ConsoleKeyInfo('\t', ConsoleKey.Tab, false, false, false);
                 _keyHandler.Handle(_keyInfo);
 
                 Assert.Equal($"Hi {t}", _keyHandler.Text);

@@ -14,7 +14,6 @@ namespace ReadLine
         }
 
         public static Func<string, int, string[]> AutoCompletionHandler { private get; set; }
-        public static bool PasswordMode { private get; set; }
 
         public static void AddHistory(params string[] text) => _history.AddRange(text);
         public static List<string> GetHistory() => _history;
@@ -32,8 +31,7 @@ namespace ReadLine
             }
             else
             {
-                if (HistoryEnabled)
-                    _history.Add(text);
+                _history.Add(text);
             }
 
             return text;
