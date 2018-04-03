@@ -23,14 +23,10 @@ namespace System
         public static string Read(string prompt = "", string @default = "")
         {
             Console.Write(prompt);
-            KeyHandler keyHandler = new KeyHandler(new Console2(), _history, AutoCompletionHandler);
+            KeyHandler keyHandler = new KeyHandler(new Console2(), _history, AutoCompletionHandler, @default);            
             string text = GetText(keyHandler);
 
-            if (String.IsNullOrWhiteSpace(text) && !String.IsNullOrWhiteSpace(@default))
-            {
-                text = @default;
-            }
-            else
+            if (!String.IsNullOrWhiteSpace(text))
             {
                 if (HistoryEnabled)
                     _history.Add(text);
