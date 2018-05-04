@@ -150,16 +150,15 @@ namespace Internal.ReadLine
 
         private void TransposeChars()
         {
+            // local helper functions
+            bool almostEndOfLine() => (_cursorLimit - _cursorPos) == 1;
+            int incrementIf(Func<bool> expression, int index) =>  expression() ? index + 1 : index;
+            int decrementIf(Func<bool> expression, int index) => expression() ? index - 1 : index;
+
             if (IsStartOfLine()) { return; }
 
-            var firstIdx = _cursorPos - 1;
-            var secondIdx = _cursorPos;
-
-            if (IsEndOfLine())
-            {
-                firstIdx--;
-                secondIdx--;
-            }
+            var firstIdx = decrementIf(IsEndOfLine, _cursorPos - 1);
+            var secondIdx = decrementIf(IsEndOfLine, _cursorPos);
 
             var secondChar = _text[secondIdx];
             var firstChar = _text[firstIdx];
@@ -167,10 +166,8 @@ namespace Internal.ReadLine
             _text[firstIdx] = secondChar;
             _text[secondIdx] = firstChar;
 
-            bool almostEndOfLine = (_cursorLimit - _cursorPos) == 1;
-
-            var left = almostEndOfLine ? Console2.CursorLeft + 1 : Console2.CursorLeft;
-            var cursorPosition = almostEndOfLine ? _cursorPos + 1 : _cursorPos;
+            var left = incrementIf(almostEndOfLine, Console2.CursorLeft);
+            var cursorPosition = incrementIf(almostEndOfLine, _cursorPos);
 
             WriteNewString(_text.ToString());
 
