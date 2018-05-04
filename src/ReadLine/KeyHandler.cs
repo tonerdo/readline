@@ -166,8 +166,20 @@ namespace Internal.ReadLine
 
             _text[firstIdx] = secondChar;
             _text[secondIdx] = firstChar;
+
+            bool almostEndOfLine = (_cursorLimit - _cursorPos) == 1;
+
+            var left = almostEndOfLine ? Console2.CursorLeft + 1 : Console2.CursorLeft;
+            var cursorPosition = almostEndOfLine ? _cursorPos + 1 : _cursorPos;
+
             WriteNewString(_text.ToString());
+
+            Console2.SetCursorPosition(left, Console2.CursorTop);
+            _cursorPos = cursorPosition;
+
+            MoveCursorRight();
         }
+
         private void StartAutoComplete()
         {
             while (_cursorPos > _completionStart)
