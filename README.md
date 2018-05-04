@@ -29,7 +29,7 @@ It is cross platform and runs anywhere .NET is supported, targeting `netstandard
 | `Ctrl`+`U`                     | Cut text to the start of line     |
 | `Ctrl`+`W`                     | Cut previous word                 |
 | `Backspace`                    | Delete previous character         |
-| `Delete`                       | Delete succeeding character       |
+| `Ctrl` + `D` / `Delete`        | Delete succeeding character       |
 
 
 ## Installation

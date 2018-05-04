@@ -238,6 +238,7 @@ namespace Internal.ReadLine
             _keyActions["ControlE"] = MoveCursorEnd;
             _keyActions["Backspace"] = Backspace;
             _keyActions["Delete"] = Delete;
+            _keyActions["ControlD"] = Delete;
             _keyActions["ControlH"] = Backspace;
             _keyActions["ControlL"] = ClearLine;
             _keyActions["Escape"] = ClearLine;

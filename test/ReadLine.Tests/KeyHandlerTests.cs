@@ -202,6 +202,21 @@ namespace ReadLine.Tests
         }
 
         [Fact]
+        public void TestControlD()
+        {
+            for (var i = 0; i < 4; i++)
+            {
+                _keyInfo = new ConsoleKeyInfo('\0', ConsoleKey.LeftArrow, false, false, false);
+                _keyHandler.Handle(_keyInfo);
+            }
+
+            _keyInfo = new ConsoleKeyInfo('\u0004', ConsoleKey.D, false, false, true);
+            _keyHandler.Handle(_keyInfo);
+
+            Assert.Equal("Hllo", _keyHandler.Text);
+        }
+
+        [Fact]
         public void TestControlF()
         {
             _keyInfo = new ConsoleKeyInfo('\0', ConsoleKey.LeftArrow, false, false, false);
