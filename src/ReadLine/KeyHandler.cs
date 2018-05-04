@@ -88,8 +88,7 @@ namespace Internal.ReadLine
         private void WriteNewString(string str)
         {
             ClearLine();
-            foreach (char character in str)
-                WriteChar(character);
+            WriteString(str);
         }
 
         private void WriteString(string str)
