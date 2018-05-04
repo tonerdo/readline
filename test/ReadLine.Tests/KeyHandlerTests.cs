@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+
 using Xunit;
 
 using ReadLine.Tests.Abstractions;
@@ -100,6 +102,42 @@ namespace ReadLine.Tests
             _keyHandler.Handle(_keyInfo);
 
             Assert.Equal("Hell", _keyHandler.Text);
+        }
+
+        [Fact]
+        public void TestControlT()
+        {
+            var ctrlT = new ConsoleKeyInfo('\u0014', ConsoleKey.T, false, false, true);
+            _keyHandler.Handle(ctrlT);
+            
+            Assert.Equal("Helol", _keyHandler.Text);
+        }
+
+        [Fact]
+        public void TestControlT_CursorInMiddleOfLine()
+        {
+            var leftArrow = new ConsoleKeyInfo('\0', ConsoleKey.LeftArrow, false, false, false);
+            Enumerable
+                .Repeat(leftArrow, 3)
+                .ToList()
+                .ForEach(_keyHandler.Handle);
+
+            var ctrlT = new ConsoleKeyInfo('\u0014', ConsoleKey.T, false, false, true);
+            _keyHandler.Handle(ctrlT);
+
+            Assert.Equal("Hlelo", _keyHandler.Text);
+        }
+
+        [Fact]
+        public void TestControlT_CursorAtBeginningOfLine_HasNoEffect()
+        {
+            var ctrlA = new ConsoleKeyInfo('\u0001', ConsoleKey.A, false, false, true);
+            _keyHandler.Handle(ctrlA);
+
+            var ctrlT = new ConsoleKeyInfo('\u0014', ConsoleKey.T, false, false, true);
+            _keyHandler.Handle(ctrlT);
+
+            Assert.Equal("Hello", _keyHandler.Text);
         }
 
         [Fact]
