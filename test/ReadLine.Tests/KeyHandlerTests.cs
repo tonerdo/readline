@@ -421,5 +421,16 @@ namespace ReadLine.Tests
                 Assert.Equal($"Hi {_completions[i]}", _keyHandler.Text);
             }
         }
+
+        [Fact]
+        public void MoveCursorThenPreviousHistory()
+        {
+            _keyInfo = new ConsoleKeyInfo('\0', ConsoleKey.LeftArrow, false, false, false);
+            _keyHandler.Handle(_keyInfo);
+            _keyInfo = new ConsoleKeyInfo('\0', ConsoleKey.UpArrow, false, false, false);
+            _keyHandler.Handle(_keyInfo);
+
+            Assert.Equal("clear", _keyHandler.Text);
+        }
     }
 }
