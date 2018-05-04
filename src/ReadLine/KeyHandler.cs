@@ -161,10 +161,8 @@ namespace Internal.ReadLine
             var secondIdx = decrementIf(IsEndOfLine, _cursorPos);
 
             var secondChar = _text[secondIdx];
-            var firstChar = _text[firstIdx];
-
+            _text[secondIdx] = _text[firstIdx];
             _text[firstIdx] = secondChar;
-            _text[secondIdx] = firstChar;
 
             var left = incrementIf(almostEndOfLine, Console2.CursorLeft);
             var cursorPosition = incrementIf(almostEndOfLine, _cursorPos);
