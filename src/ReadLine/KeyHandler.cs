@@ -76,13 +76,14 @@ namespace Internal.ReadLine
         private void ClearLine()
         {
             var currentCursorLine = Console2.CursorTop;
-            Console2.SetCursorPosition(0, currentCursorLine);
-            Console2.Write(new string(' ', Console.WindowWidth));
-            Console2.SetCursorPosition(0, currentCursorLine);
+            var startColumn = Console2.CursorLeft - _cursorPos;
+            Console2.SetCursorPosition(startColumn, currentCursorLine);
+            Console2.Write(new string(' ', _text.Length));
+            Console2.SetCursorPosition(startColumn, currentCursorLine);
 
             _text.Clear();
-            _cursorPos = Console2.CursorLeft;
-            _cursorLimit = Console2.CursorLeft;
+            _cursorPos = 0;
+            _cursorLimit = 0;
         }
 
         private void WriteNewString(string str)
