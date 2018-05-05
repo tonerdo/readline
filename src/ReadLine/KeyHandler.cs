@@ -75,16 +75,21 @@ namespace Internal.ReadLine
 
         private void ClearLine()
         {
-            MoveCursorEnd();
-            while (!IsStartOfLine())
-                Backspace();
+            var currentCursorLine = Console2.CursorTop;
+            var startColumn = Console2.CursorLeft - _cursorPos;
+            Console2.SetCursorPosition(startColumn, currentCursorLine);
+            Console2.Write(new string(' ', _text.Length));
+            Console2.SetCursorPosition(startColumn, currentCursorLine);
+
+            _text.Clear();
+            _cursorPos = 0;
+            _cursorLimit = 0;
         }
 
         private void WriteNewString(string str)
         {
             ClearLine();
-            foreach (char character in str)
-                WriteChar(character);
+            WriteString(str);
         }
 
         private void WriteString(string str)
