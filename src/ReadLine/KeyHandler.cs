@@ -148,6 +148,33 @@ namespace Internal.ReadLine
             _cursorLimit--;
         }
 
+        private void TransposeChars()
+        {
+            // local helper functions
+            bool almostEndOfLine() => (_cursorLimit - _cursorPos) == 1;
+            int incrementIf(Func<bool> expression, int index) =>  expression() ? index + 1 : index;
+            int decrementIf(Func<bool> expression, int index) => expression() ? index - 1 : index;
+
+            if (IsStartOfLine()) { return; }
+
+            var firstIdx = decrementIf(IsEndOfLine, _cursorPos - 1);
+            var secondIdx = decrementIf(IsEndOfLine, _cursorPos);
+
+            var secondChar = _text[secondIdx];
+            _text[secondIdx] = _text[firstIdx];
+            _text[firstIdx] = secondChar;
+
+            var left = incrementIf(almostEndOfLine, Console2.CursorLeft);
+            var cursorPosition = incrementIf(almostEndOfLine, _cursorPos);
+
+            WriteNewString(_text.ToString());
+
+            Console2.SetCursorPosition(left, Console2.CursorTop);
+            _cursorPos = cursorPosition;
+
+            MoveCursorRight();
+        }
+
         private void StartAutoComplete()
         {
             while (_cursorPos > _completionStart)
@@ -262,6 +289,7 @@ namespace Internal.ReadLine
                 while (!IsStartOfLine() && _text[_cursorPos - 1] != ' ')
                     Backspace();
             };
+            _keyActions["ControlT"] = TransposeChars;
 
             _keyActions["Tab"] = () =>
             {

@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+
 using Xunit;
 
 using ReadLine.Tests.Abstractions;
@@ -14,13 +16,16 @@ namespace ReadLine.Tests
         private List<string> _history;
         private AutoCompleteHandler _autoCompleteHandler;
         private string[] _completions;
+        private Internal.ReadLine.Abstractions.IConsole _console;
 
         public KeyHandlerTests()
         {
             _autoCompleteHandler = new AutoCompleteHandler();
             _completions = _autoCompleteHandler.GetSuggestions("", 0);
             _history = new List<string>(new string[] { "dotnet run", "git init", "clear" });
-            _keyHandler = new KeyHandler(new Console2(), _history, null);
+
+            _console = new Console2();
+            _keyHandler = new KeyHandler(_console, _history, null);
 
             _keyInfo = new ConsoleKeyInfo('H', ConsoleKey.H, false, false, false);
             _keyHandler.Handle(_keyInfo);
@@ -100,6 +105,64 @@ namespace ReadLine.Tests
             _keyHandler.Handle(_keyInfo);
 
             Assert.Equal("Hell", _keyHandler.Text);
+        }
+
+        [Fact]
+        public void TestControlT()
+        {
+            var initialCursorCol = _console.CursorLeft;
+            var ctrlT = new ConsoleKeyInfo('\u0014', ConsoleKey.T, false, false, true);
+            _keyHandler.Handle(ctrlT);
+
+            Assert.Equal("Helol", _keyHandler.Text);
+            Assert.Equal(initialCursorCol, _console.CursorLeft);
+        }
+
+        [Fact]
+        public void TestControlT_LeftOnce_CursorMovesToEnd()
+        {
+            var initialCursorCol = _console.CursorLeft;
+            var leftArrow = new ConsoleKeyInfo('\0', ConsoleKey.LeftArrow, false, false, false);
+            _keyHandler.Handle(leftArrow);
+
+            var ctrlT = new ConsoleKeyInfo('\u0014', ConsoleKey.T, false, false, true);
+            _keyHandler.Handle(ctrlT);
+            
+            Assert.Equal("Helol", _keyHandler.Text);
+            Assert.Equal(initialCursorCol, _console.CursorLeft);
+        }
+
+        [Fact]
+        public void TestControlT_CursorInMiddleOfLine()
+        {
+            var leftArrow = new ConsoleKeyInfo('\0', ConsoleKey.LeftArrow, false, false, false);
+            Enumerable
+                .Repeat(leftArrow, 3)
+                .ToList()
+                .ForEach(_keyHandler.Handle);
+
+            var initialCursorCol = _console.CursorLeft;
+
+            var ctrlT = new ConsoleKeyInfo('\u0014', ConsoleKey.T, false, false, true);
+            _keyHandler.Handle(ctrlT);
+
+            Assert.Equal("Hlelo", _keyHandler.Text);
+            Assert.Equal(initialCursorCol + 1, _console.CursorLeft);
+        }
+
+        [Fact]
+        public void TestControlT_CursorAtBeginningOfLine_HasNoEffect()
+        {
+            var ctrlA = new ConsoleKeyInfo('\u0001', ConsoleKey.A, false, false, true);
+            _keyHandler.Handle(ctrlA);
+
+            var initialCursorCol = _console.CursorLeft;
+
+            var ctrlT = new ConsoleKeyInfo('\u0014', ConsoleKey.T, false, false, true);
+            _keyHandler.Handle(ctrlT);
+
+            Assert.Equal("Hello", _keyHandler.Text);
+            Assert.Equal(initialCursorCol, _console.CursorLeft);
         }
 
         [Fact]
