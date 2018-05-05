@@ -49,20 +49,15 @@ namespace ReadLine.Tests
         [Fact]
         public void TestBackspace()
         {
-            var backspace = new ConsoleKeyInfo('\0', ConsoleKey.Backspace, false, false, false);
-            _keyHandler.Handle(backspace);
-
+            _keyHandler.Handle(Backspace);
             Assert.Equal("Hell", _keyHandler.Text);
         }
 
         [Fact]
         public void TestDelete()
         {
-            new List<ConsoleKeyInfo>()
-            {
-                LeftArrow,
-                new ConsoleKeyInfo('\0', ConsoleKey.Delete, false, false, false)
-            }.ForEach(_keyHandler.Handle);
+            new List<ConsoleKeyInfo>() { LeftArrow, Delete }
+                .ForEach(_keyHandler.Handle);
 
             Assert.Equal("Hell", _keyHandler.Text);
         }
@@ -70,9 +65,7 @@ namespace ReadLine.Tests
         [Fact]
         public void TestDelete_EndOfLine()
         {
-            var delete = new ConsoleKeyInfo('\0', ConsoleKey.Delete, false, false, false);
-            _keyHandler.Handle(delete);
-
+            _keyHandler.Handle(Delete);
             Assert.Equal("Hello", _keyHandler.Text);
         }
 
@@ -80,7 +73,6 @@ namespace ReadLine.Tests
         public void TestControlH()
         {
             _keyHandler.Handle(CtrlH.ToConsoleKeyInfo());
-
             Assert.Equal("Hell", _keyHandler.Text);
         }
 
@@ -99,11 +91,8 @@ namespace ReadLine.Tests
         {
             var initialCursorCol = _console.CursorLeft;
 
-            new List<ConsoleKeyInfo>()
-            {
-                LeftArrow,
-                CtrlT.ToConsoleKeyInfo()
-            }.ForEach(_keyHandler.Handle);
+            new List<ConsoleKeyInfo>() { LeftArrow, CtrlT.ToConsoleKeyInfo() }
+                .ForEach(_keyHandler.Handle);
             
             Assert.Equal("Helol", _keyHandler.Text);
             Assert.Equal(initialCursorCol, _console.CursorLeft);
@@ -141,11 +130,8 @@ namespace ReadLine.Tests
         [Fact]
         public void TestHome()
         {
-            new List<ConsoleKeyInfo>()
-            {
-                new ConsoleKeyInfo('\0', ConsoleKey.Home, false, false, false),
-                'S'.ToConsoleKeyInfo()
-            }.ForEach(_keyHandler.Handle);
+            new List<ConsoleKeyInfo>() { Home, 'S'.ToConsoleKeyInfo() }
+                .ForEach(_keyHandler.Handle);
 
             Assert.Equal("SHello", _keyHandler.Text);
         }
@@ -153,11 +139,8 @@ namespace ReadLine.Tests
         [Fact]
         public void TestControlA()
         {
-            new List<ConsoleKeyInfo>() 
-            {
-                CtrlA.ToConsoleKeyInfo(),
-                'S'.ToConsoleKeyInfo()
-            }.ForEach(_keyHandler.Handle);
+            new List<ConsoleKeyInfo>() { CtrlA.ToConsoleKeyInfo(), 'S'.ToConsoleKeyInfo() }
+                .ForEach(_keyHandler.Handle);
 
             Assert.Equal("SHello", _keyHandler.Text);
         }
@@ -165,12 +148,8 @@ namespace ReadLine.Tests
         [Fact]
         public void TestEnd()
         {
-            new List<ConsoleKeyInfo>()
-            {
-                new ConsoleKeyInfo('\0', ConsoleKey.Home, false, false, false),
-                new ConsoleKeyInfo('\0', ConsoleKey.End, false, false, false),
-                ExclamationPoint.ToConsoleKeyInfo()
-            }.ForEach(_keyHandler.Handle);
+            new List<ConsoleKeyInfo>() { Home, End, ExclamationPoint.ToConsoleKeyInfo() }
+                .ForEach(_keyHandler.Handle);
 
             Assert.Equal("Hello!", _keyHandler.Text);
         }
@@ -213,12 +192,8 @@ namespace ReadLine.Tests
         [Fact]
         public void TestRightArrow()
         {
-            new List<ConsoleKeyInfo>()
-            {
-                LeftArrow,
-                new ConsoleKeyInfo('\0', ConsoleKey.RightArrow, false, false, false),
-                ExclamationPoint.ToConsoleKeyInfo()
-            }.ForEach(_keyHandler.Handle);
+            new List<ConsoleKeyInfo>() { LeftArrow, RightArrow, ExclamationPoint.ToConsoleKeyInfo() }
+                .ForEach(_keyHandler.Handle);
 
             Assert.Equal("Hello!", _keyHandler.Text);
         }
@@ -258,7 +233,7 @@ namespace ReadLine.Tests
         public void TestUpArrow()
         {
             _history.AsEnumerable().Reverse().ToList().ForEach((history) => {
-                _keyHandler.Handle(new ConsoleKeyInfo('\0', ConsoleKey.UpArrow, false, false, false));
+                _keyHandler.Handle(UpArrow);
                 Assert.Equal(history, _keyHandler.Text);
             });
         }
@@ -275,23 +250,20 @@ namespace ReadLine.Tests
         [Fact]
         public void TestDownArrow()
         {
-            var upArrow = new ConsoleKeyInfo('\0', ConsoleKey.UpArrow, false, false, false);
-            Enumerable.Repeat(upArrow, _history.Count)
+            Enumerable.Repeat(UpArrow, _history.Count)
                     .ToList()
                     .ForEach(_keyHandler.Handle);
 
-            var downArrow = new ConsoleKeyInfo('\0', ConsoleKey.DownArrow, false, false, false);
             _history.ForEach( history => {
                 Assert.Equal(history, _keyHandler.Text);
-                _keyHandler.Handle(downArrow);
+                _keyHandler.Handle(DownArrow);
             });
         }
 
         [Fact]
         public void TestControlN()
         {
-            var upArrow = new ConsoleKeyInfo('\0', ConsoleKey.UpArrow, false, false, false);
-            Enumerable.Repeat(upArrow, _history.Count)
+            Enumerable.Repeat(UpArrow, _history.Count)
                     .ToList()
                     .ForEach(_keyHandler.Handle);
 
@@ -309,8 +281,7 @@ namespace ReadLine.Tests
 
             Assert.Equal("o", _keyHandler.Text);
 
-            var end = new ConsoleKeyInfo('\0', ConsoleKey.End, false, false, false);
-            _keyHandler.Handle(end);
+            _keyHandler.Handle(End);
             _keyHandler.Handle(CtrlU.ToConsoleKeyInfo());
 
             Assert.Equal(string.Empty, _keyHandler.Text);
@@ -324,8 +295,7 @@ namespace ReadLine.Tests
 
             Assert.Equal("Hell", _keyHandler.Text);
 
-            var home = new ConsoleKeyInfo('\0', ConsoleKey.Home, false, false, false);
-            _keyHandler.Handle(home);
+            _keyHandler.Handle(Home);
             _keyHandler.Handle(CtrlK.ToConsoleKeyInfo());
 
             Assert.Equal(string.Empty, _keyHandler.Text);
@@ -341,8 +311,7 @@ namespace ReadLine.Tests
 
             Assert.Equal("Hello ", _keyHandler.Text);
 
-            var backspace = new ConsoleKeyInfo('\0', ConsoleKey.Backspace, false, false, false);
-            _keyHandler.Handle(backspace);
+            _keyHandler.Handle(Backspace);
             _keyHandler.Handle(CtrlW.ToConsoleKeyInfo());
 
             Assert.Equal(string.Empty, _keyHandler.Text);
@@ -351,9 +320,7 @@ namespace ReadLine.Tests
         [Fact]
         public void TestTab()
         {
-             var tab = new ConsoleKeyInfo('\0', ConsoleKey.Tab, false, false, false);
-            _keyHandler.Handle(tab);
-
+            _keyHandler.Handle(Tab);
             // Nothing happens when no auto complete handler is set
             Assert.Equal("Hello", _keyHandler.Text);
 
@@ -362,7 +329,7 @@ namespace ReadLine.Tests
             "Hi ".Select(c => c.ToConsoleKeyInfo()).ToList().ForEach(_keyHandler.Handle);
 
             _completions.ToList().ForEach(completion => {
-                _keyHandler.Handle(tab);
+                _keyHandler.Handle(Tab);
                 Assert.Equal($"Hi {completion}", _keyHandler.Text);
             });
         }
@@ -370,8 +337,7 @@ namespace ReadLine.Tests
         [Fact]
         public void TestBackwardsTab()
         {
-            var tab = new ConsoleKeyInfo('\0', ConsoleKey.Tab, false, false, false);
-            _keyHandler.Handle(tab);
+            _keyHandler.Handle(Tab);
 
             // Nothing happens when no auto complete handler is set
             Assert.Equal("Hello", _keyHandler.Text);
@@ -381,12 +347,10 @@ namespace ReadLine.Tests
             "Hi ".Select(c => c.ToConsoleKeyInfo()).ToList().ForEach(_keyHandler.Handle);
 
             // Bring up the first Autocomplete
-            tab = new ConsoleKeyInfo('\0', ConsoleKey.Tab, false, false, false);
-            _keyHandler.Handle(tab);
+            _keyHandler.Handle(Tab);
 
-            var shiftTab = new ConsoleKeyInfo('\0', ConsoleKey.Tab, true, false, false);
             _completions.Reverse().ToList().ForEach(completion => {
-                _keyHandler.Handle(shiftTab);
+                _keyHandler.Handle(ShiftTab);
                 Assert.Equal($"Hi {completion}", _keyHandler.Text);
             });
         }
@@ -395,8 +359,7 @@ namespace ReadLine.Tests
         public void MoveCursorThenPreviousHistory()
         {
             _keyHandler.Handle(LeftArrow);
-            var upArrow = new ConsoleKeyInfo('\0', ConsoleKey.UpArrow, false, false, false);
-            _keyHandler.Handle(upArrow);
+            _keyHandler.Handle(UpArrow);
 
             Assert.Equal("clear", _keyHandler.Text);
         }
