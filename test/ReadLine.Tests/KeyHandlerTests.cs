@@ -8,6 +8,7 @@ using ReadLine.Tests.Abstractions;
 using Internal.ReadLine;
 
 using static ReadLine.Tests.CharExtensions;
+using static ReadLine.Tests.ConsoleKeyInfoExtensions;
 
 namespace ReadLine.Tests
 {
@@ -59,7 +60,7 @@ namespace ReadLine.Tests
         {
             new List<ConsoleKeyInfo>()
             {
-                new ConsoleKeyInfo('\0', ConsoleKey.LeftArrow, false, false, false),
+                LeftArrow,
                 new ConsoleKeyInfo('\0', ConsoleKey.Delete, false, false, false)
             }.ForEach(_keyHandler.Handle);
 
@@ -100,7 +101,7 @@ namespace ReadLine.Tests
 
             new List<ConsoleKeyInfo>()
             {
-                new ConsoleKeyInfo('\0', ConsoleKey.LeftArrow, false, false, false),
+                LeftArrow,
                 CtrlT.ToConsoleKeyInfo()
             }.ForEach(_keyHandler.Handle);
             
@@ -111,9 +112,8 @@ namespace ReadLine.Tests
         [Fact]
         public void TestControlT_CursorInMiddleOfLine()
         {
-            var leftArrow = new ConsoleKeyInfo('\0', ConsoleKey.LeftArrow, false, false, false);
             Enumerable
-                .Repeat(leftArrow, 3)
+                .Repeat(LeftArrow, 3)
                 .ToList()
                 .ForEach(_keyHandler.Handle);
 
@@ -192,7 +192,7 @@ namespace ReadLine.Tests
         public void TestLeftArrow()
         {
             " N".Select(c => c.ToConsoleKeyInfo())
-                .Prepend(new ConsoleKeyInfo('\0', ConsoleKey.LeftArrow, false, false, false))
+                .Prepend(LeftArrow)
                 .ToList()
                 .ForEach(_keyHandler.Handle);
 
@@ -215,7 +215,7 @@ namespace ReadLine.Tests
         {
             new List<ConsoleKeyInfo>()
             {
-                new ConsoleKeyInfo('\0', ConsoleKey.LeftArrow, false, false, false),
+                LeftArrow,
                 new ConsoleKeyInfo('\0', ConsoleKey.RightArrow, false, false, false),
                 ExclamationPoint.ToConsoleKeyInfo()
             }.ForEach(_keyHandler.Handle);
@@ -226,8 +226,7 @@ namespace ReadLine.Tests
         [Fact]
         public void TestControlD()
         {
-            var leftArrow = new ConsoleKeyInfo('\0', ConsoleKey.LeftArrow, false, false, false);
-            Enumerable.Repeat(leftArrow, 4)
+            Enumerable.Repeat(LeftArrow, 4)
                     .Append(CtrlD.ToConsoleKeyInfo())
                     .ToList()
                     .ForEach(_keyHandler.Handle);
@@ -240,7 +239,7 @@ namespace ReadLine.Tests
         {
             new List<ConsoleKeyInfo>()
             {
-                new ConsoleKeyInfo('\0', ConsoleKey.LeftArrow, false, false, false),
+                LeftArrow,
                 CtrlF.ToConsoleKeyInfo(),
                 ExclamationPoint.ToConsoleKeyInfo()
             }.ForEach(_keyHandler.Handle);
@@ -305,8 +304,7 @@ namespace ReadLine.Tests
         [Fact]
         public void TestControlU()
         {
-            var leftArrow = new ConsoleKeyInfo('\0', ConsoleKey.LeftArrow, false, false, false);
-            _keyHandler.Handle(leftArrow);
+            _keyHandler.Handle(LeftArrow);
             _keyHandler.Handle(CtrlU.ToConsoleKeyInfo());
 
             Assert.Equal("o", _keyHandler.Text);
@@ -321,8 +319,7 @@ namespace ReadLine.Tests
         [Fact]
         public void TestControlK()
         {
-            var leftArrow = new ConsoleKeyInfo('\0', ConsoleKey.LeftArrow, false, false, false);
-            _keyHandler.Handle(leftArrow);
+            _keyHandler.Handle(LeftArrow);
             _keyHandler.Handle(CtrlK.ToConsoleKeyInfo());
 
             Assert.Equal("Hell", _keyHandler.Text);
@@ -397,8 +394,7 @@ namespace ReadLine.Tests
         [Fact]
         public void MoveCursorThenPreviousHistory()
         {
-            var leftArrow = new ConsoleKeyInfo('\0', ConsoleKey.LeftArrow, false, false, false);
-            _keyHandler.Handle(leftArrow);
+            _keyHandler.Handle(LeftArrow);
             var upArrow = new ConsoleKeyInfo('\0', ConsoleKey.UpArrow, false, false, false);
             _keyHandler.Handle(upArrow);
 
