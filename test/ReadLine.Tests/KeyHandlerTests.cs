@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ReadLine.Abstractions;
 using ReadLine.Tests.Abstractions;
 using Xunit;
 using static ReadLine.Tests.ConsoleKeyInfoExtensions;
@@ -32,7 +33,7 @@ namespace ReadLine.Tests
         private readonly List<string> _history;
         private readonly AutoCompleteHandler _autoCompleteHandler;
         private readonly string[] _completions;
-        private readonly Internal.ReadLine.Abstractions.IConsole _console;
+        private readonly IConsole _console;
 
 
         [Fact]
