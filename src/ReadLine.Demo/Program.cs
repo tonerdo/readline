@@ -1,5 +1,6 @@
 ﻿using System;
 
+
 namespace ReadLine.Demo
 {
     public class Program
@@ -18,18 +19,13 @@ namespace ReadLine.Demo
             };
             ReadLine.AddHistory(history);
 
-            ReadLine.AutoCompletionHandler = (t, s) => t.StartsWith("git ")
-                ? new[]
-                {
-                    "init",
-                    "clone",
-                    "pull",
-                    "push"
-                }
-                : null;
+            ReadLine.AutoCompletionHandler = new AutoCompletionHandler();
 
             var input = ReadLine.Read("(prompt)> ");
-            Console.Write(input);
+            Console.WriteLine(input);
+
+            input = ReadLine.ReadPassword("Enter Password> ");
+            Console.WriteLine(input);
         }
     }
 }

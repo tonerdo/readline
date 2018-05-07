@@ -2,6 +2,7 @@
 using System.Linq;
 using Xunit;
 
+
 namespace ReadLine.Tests
 {
     public class ReadLineTests : IDisposable
@@ -17,12 +18,14 @@ namespace ReadLine.Tests
             ReadLine.AddHistory(history);
         }
 
+
         public void Dispose()
         {
             // If all above tests pass
             // clear history works
             ReadLine.ClearHistory();
         }
+
 
         [Fact]
         public void TestGetCorrectHistory()
@@ -32,11 +35,13 @@ namespace ReadLine.Tests
             Assert.Equal("git init", ReadLine.GetHistory()[2]);
         }
 
+
         [Fact]
         public void TestNoInitialHistory()
         {
             Assert.Equal(3, ReadLine.GetHistory().Count);
         }
+
 
         [Fact]
         public void TestUpdatesHistory()

@@ -1,4 +1,4 @@
-namespace System
+namespace ReadLine
 {
     public interface IAutoCompleteHandler
     {
