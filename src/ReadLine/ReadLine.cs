@@ -10,31 +10,19 @@ namespace ReadLine
         private static List<string> _history;
 
 
-        static ReadLine()
-        {
-            _history = new List<string>();
-        }
+        static ReadLine() => _history = new List<string>();
 
 
         public static IAutoCompleteHandler AutoCompletionHandler { private get; set; }
 
 
-        public static void AddHistory(params string[] text)
-        {
-            _history.AddRange(text);
-        }
+        public static void AddHistory(params string[] text) => _history.AddRange(text);
 
 
-        public static List<string> GetHistory()
-        {
-            return _history;
-        }
+        public static List<string> GetHistory() => _history;
 
 
-        public static void ClearHistory()
-        {
-            _history = new List<string>();
-        }
+        public static void ClearHistory() => _history = new List<string>();
 
 
         public static string Read(string prompt = "", string @default = "")

@@ -6,7 +6,7 @@ using ReadLine.Abstractions;
 
 namespace ReadLine
 {
-    internal class KeyHandler
+    public class KeyHandler
     {
         private readonly IConsole _console2;
         private readonly List<string> _history;
