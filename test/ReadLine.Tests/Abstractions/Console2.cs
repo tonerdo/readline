@@ -5,15 +5,6 @@ namespace ReadLine.Tests.Abstractions
 {
     internal class Console2 : IConsole
     {
-        public Console2()
-        {
-            CursorLeft = 0;
-            CursorTop = 0;
-            BufferWidth = 100;
-            BufferHeight = 100;
-        }
-
-
         public int CursorLeft { get; private set; }
 
         public int CursorTop { get; private set; }
@@ -23,12 +14,19 @@ namespace ReadLine.Tests.Abstractions
         public int BufferHeight { get; private set; }
 
 
+        public Console2()
+        {
+            CursorLeft = 0;
+            CursorTop = 0;
+            BufferWidth = 100;
+            BufferHeight = 100;
+        }
+
         public void SetBufferSize(int width, int height)
         {
             BufferWidth = width;
             BufferHeight = height;
         }
-
 
         public void SetCursorPosition(int left, int top)
         {
@@ -36,12 +34,10 @@ namespace ReadLine.Tests.Abstractions
             CursorTop = top;
         }
 
-
         public void Write(string value)
         {
             CursorLeft += value.Length;
         }
-
 
         public void WriteLine(string value)
         {
