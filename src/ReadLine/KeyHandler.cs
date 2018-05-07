@@ -164,17 +164,22 @@ namespace ReadLine
 
         private void ClearLine()
         {
-            MoveCursorEnd();
-            while (!IsStartOfLine())
-                Backspace();
+            var currentCursorLine = _console2.CursorTop;
+            var startColumn = _console2.CursorLeft - _cursorPos;
+            _console2.SetCursorPosition(startColumn, currentCursorLine);
+            _console2.Write(new string(' ', _text.Length));
+            _console2.SetCursorPosition(startColumn, currentCursorLine);
+
+            _text.Clear();
+            _cursorPos = 0;
+            _cursorLimit = 0;
         }
 
 
         private void WriteNewString(string str)
         {
             ClearLine();
-            foreach (var character in str)
-                WriteChar(character);
+            WriteString(str);
         }
 
 
