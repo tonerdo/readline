@@ -1,6 +1,7 @@
 ﻿using System;
 
-namespace ConsoleApplication
+
+namespace ReadLine.Demo
 {
     public class Program
     {

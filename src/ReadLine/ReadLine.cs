@@ -1,9 +1,9 @@
-﻿using Internal.ReadLine;
-using Internal.ReadLine.Abstractions;
-
+﻿using System;
 using System.Collections.Generic;
+using ReadLine.Abstractions;
 
-namespace System
+
+namespace ReadLine
 {
     public static class ReadLine
     {
