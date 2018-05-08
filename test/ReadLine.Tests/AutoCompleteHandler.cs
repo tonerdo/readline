@@ -1,10 +1,11 @@
 using System;
 
+
 namespace ReadLine.Tests
 {
-    class AutoCompleteHandler : IAutoCompleteHandler
+    internal class AutoCompleteHandler : IAutoCompleteHandler
     {
-        public char[] Separators { get; set; } = new char[] { ' ', '.', '/', '\\', ':' };
-        public string[] GetSuggestions(string text, int index) => new string[] { "World", "Angel", "Love" };
+        public char[] Separators { get; set; } = { ' ', '.', '/', '\\', ':' };
+        public string[] GetSuggestions(string text, int index) => new[] { "World", "Angel", "Love" };
     }
 }

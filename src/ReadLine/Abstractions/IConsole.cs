@@ -1,6 +1,6 @@
-namespace Internal.ReadLine.Abstractions
+namespace ReadLine.Abstractions
 {
-    internal interface IConsole
+    public interface IConsole
     {
         int CursorLeft { get; }
         int CursorTop { get; }
