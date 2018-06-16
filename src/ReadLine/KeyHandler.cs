@@ -246,7 +246,7 @@ namespace Internal.ReadLine
             }
         }
 
-        public KeyHandler(IConsole console, List<string> history, IAutoCompleteHandler autoCompleteHandler)
+        public KeyHandler(IConsole console, List<string> history, IAutoCompleteHandler autoCompleteHandler, string @default)
         {
             Console2 = console;
 
@@ -254,6 +254,8 @@ namespace Internal.ReadLine
             _historyIndex = _history.Count;
             _text = new StringBuilder();
             _keyActions = new Dictionary<string, Action>();
+
+            WriteNewString(@default);
 
             _keyActions["LeftArrow"] = MoveCursorLeft;
             _keyActions["Home"] = MoveCursorHome;
@@ -325,6 +327,12 @@ namespace Internal.ReadLine
                     PreviousAutoComplete();
                 }
             };
+        }
+
+        public KeyHandler(IConsole console, List<string> history, IAutoCompleteHandler autoCompleteHandler)
+            : this(console, history, autoCompleteHandler, string.Empty)
+        {
+
         }
 
         public void Handle(ConsoleKeyInfo keyInfo)
