@@ -23,10 +23,10 @@ namespace ReadLine.Tests
         {
             _autoCompleteHandler = new AutoCompleteHandler();
             _completions = _autoCompleteHandler.GetSuggestions("", 0);
-            _history = new List<string>(new string[] { "dotnet run", "git init", "clear" });
+            _history = new List<string>() { "dotnet run", "git init", "clear" };
 
             _console = new Console2();
-            _keyHandler = new KeyHandler(_console, _history, null);
+            _keyHandler = new KeyHandler(_console, _history, null, 0);
 
             "Hello".Select(c => c.ToConsoleKeyInfo())
                     .ToList()
@@ -315,7 +315,7 @@ namespace ReadLine.Tests
             // Nothing happens when no auto complete handler is set
             Assert.Equal("Hello", _keyHandler.Text);
 
-            _keyHandler = new KeyHandler(new Console2(), _history, _autoCompleteHandler);
+            _keyHandler = new KeyHandler(new Console2(), _history, _autoCompleteHandler, 0);
 
             "Hi ".Select(c => c.ToConsoleKeyInfo()).ToList().ForEach(_keyHandler.Handle);
 
@@ -333,7 +333,7 @@ namespace ReadLine.Tests
             // Nothing happens when no auto complete handler is set
             Assert.Equal("Hello", _keyHandler.Text);
 
-            _keyHandler = new KeyHandler(new Console2(), _history, _autoCompleteHandler);
+            _keyHandler = new KeyHandler(new Console2(), _history, _autoCompleteHandler, 0);
 
             "Hi ".Select(c => c.ToConsoleKeyInfo()).ToList().ForEach(_keyHandler.Handle);
 

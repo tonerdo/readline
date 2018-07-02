@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ConsoleApplication
 {
@@ -10,7 +11,7 @@ namespace ConsoleApplication
             Console.WriteLine("---------------------");
             Console.WriteLine();
 
-            string[] history = new string[] { "ls -a", "dotnet run", "git init" };
+            var history = new List<string> { "ls -a", "dotnet run", "git init" };
             ReadLine.AddHistory(history);
 
             ReadLine.AutoCompletionHandler = new AutoCompletionHandler();
@@ -31,7 +32,7 @@ namespace ConsoleApplication
             if (text.StartsWith("git "))
                 return new string[] { "init", "clone", "pull", "push" };
             else
-                return null;
+                return new string[] { "git", "ls", "cd", "pwd" };
         }
     }
 }
