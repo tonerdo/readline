@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Collections.Generic;
 using Xunit;
 
 using static System.ReadLine;
@@ -10,7 +11,7 @@ namespace ReadLine.Tests
     {
         public ReadLineTests()
         {
-            string[] history = new string[] { "ls -a", "dotnet run", "git init" };
+            var history = new List<string>() { "ls -a", "dotnet run", "git init" };
             AddHistory(history);
         }
 
