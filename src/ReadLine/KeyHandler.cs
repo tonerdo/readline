@@ -238,6 +238,14 @@ namespace Internal.ReadLine
             _completionsIndex = 0;
         }
 
+        private int GetPreviousWordPosition()
+        {
+            int pos = _cursorPos - 1;
+            while (pos > 0 && _text[pos] == ' ') pos -= 1;
+            while (pos >= 0 && _text[pos] != ' ') pos -= 1;
+            return pos + 1;
+        }
+
         public string Text
         {
             get
@@ -287,7 +295,8 @@ namespace Internal.ReadLine
             };
             _keyActions["ControlW"] = () =>
             {
-                while (!IsStartOfLine() && _text[_cursorPos - 1] != ' ')
+                int targetPos = GetPreviousWordPosition();
+                while (!IsStartOfLine() && _cursorPos > targetPos)
                     Backspace();
             };
             _keyActions["ControlT"] = TransposeChars;
