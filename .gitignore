@@ -17,13 +17,18 @@
 [Rr]eleases/
 x64/
 x86/
-build/
+src/**/build/
+tests/**/build/
 bld/
 [Bb]in/
 [Oo]bj/
+packages/
 
 # Visual Studo 2015 cache/options directory
 .vs/
+
+# Jetbrains Rider cache/options directory
+.idea/
 
 # MSTest test Results
 [Tt]est[Rr]esult*/
@@ -36,7 +41,6 @@ TestResult.xml
 # Build Results of an ATL Project
 [Dd]ebugPS/
 [Rr]eleasePS/
-dlldata.c
 
 *_i.c
 *_p.c
@@ -88,7 +92,11 @@ $tf/
 # ReSharper is a .NET coding add-in
 _ReSharper*/
 *.[Rr]e[Ss]harper
+
+# Visual Studio preference files
 *.DotSettings.user
+*.csproj.user
+*.vcxproj.filters
 
 # JustCode is a .NET coding addin-in
 .JustCode
@@ -134,6 +142,8 @@ publish/
 *.pubxml
 *.publishproj
 
+# NuGet Packages
+#*.nupkg
 # The packages folder can be ignored because of Package Restore
 **/packages/*
 # except build/, which is used as an MSBuild target.
@@ -151,12 +161,10 @@ AppPackages/
 # Others
 *.[Cc]ache
 ClientBin/
-[Ss]tyle[Cc]op.*
 ~$*
 *~
 *.dbmdl
 *.dbproj.schemaview
-*.pfx
 *.publishsettings
 node_modules/
 bower_components/
@@ -193,9 +201,20 @@ FakesAssemblies/
 # Visual Studio 6 workspace options file
 *.opt
 
-# NuGet
-NuGet/
+**/node_modules
+**/node_modules/*
+**/Images/ActualOutput
+**/Images/ReferenceOutput
 
-# Git
-.gitignore
-.gitattributes
+# ASP.NET 5
+project.lock.json
+
+#BenchmarkDotNet
+**/BenchmarkDotNet.Artifacts/
+
+# Build process
+*.csproj.bak
+
+# Advanced Installer
+*-cache/
+*-SetupFiles/

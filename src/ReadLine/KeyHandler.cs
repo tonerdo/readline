@@ -20,7 +20,6 @@ namespace ReadLine
         private int _historyIndex;
         private ConsoleKeyInfo _keyInfo;
 
-
         public KeyHandler(IConsole console, List<string> history, IAutoCompleteHandler autoCompleteHandler)
         {
             _console2 = console;
@@ -48,17 +47,12 @@ namespace ReadLine
                 ["ControlP"] = PrevHistory,
                 ["DownArrow"] = NextHistory,
                 ["ControlN"] = NextHistory,
-                ["ControlU"] = () =>
-                {
-                    while (!IsStartOfLine())
-                        Backspace();
-                },
+                ["ControlU"] = () => { Backspace(_cursorPos); },
                 ["ControlK"] = () =>
                 {
                     var pos = _cursorPos;
                     MoveCursorEnd();
-                    while (_cursorPos > pos)
-                        Backspace();
+                    Backspace(_cursorPos - pos);
                 },
                 ["ControlW"] = () =>
                 {
@@ -71,7 +65,8 @@ namespace ReadLine
                     if (IsInAutoCompleteMode())
                     {
                         NextAutoComplete();
-                    } else
+                    }
+                    else
                     {
                         if (autoCompleteHandler == null || !IsEndOfLine())
                             return;
@@ -117,17 +112,19 @@ namespace ReadLine
         private bool IsInAutoCompleteMode() => _completions != null;
 
 
-        private void MoveCursorLeft()
-        {
-            if (IsStartOfLine())
-                return;
+        private void MoveCursorLeft() => MoveCursorLeft(1);
 
-            if (IsStartOfBuffer())
+        private void MoveCursorLeft(int count)
+        {
+            if (count > _cursorPos)
+                count = _cursorPos;
+
+            if (count > _console2.CursorLeft)
                 _console2.SetCursorPosition(_console2.BufferWidth - 1, _console2.CursorTop - 1);
             else
                 _console2.SetCursorPosition(_console2.CursorLeft - 1, _console2.CursorTop);
 
-            _cursorPos--;
+            _cursorPos -= count;
         }
 
 
@@ -164,15 +161,8 @@ namespace ReadLine
 
         private void ClearLine()
         {
-            var currentCursorLine = _console2.CursorTop;
-            var startColumn = _console2.CursorLeft - _cursorPos;
-            _console2.SetCursorPosition(startColumn, currentCursorLine);
-            _console2.Write(new string(' ', _text.Length));
-            _console2.SetCursorPosition(startColumn, currentCursorLine);
-
-            _text.Clear();
-            _cursorPos = 0;
-            _cursorLimit = 0;
+            MoveCursorEnd();
+            Backspace(_cursorPos);
         }
 
 
@@ -200,7 +190,8 @@ namespace ReadLine
                 _text.Append(c);
                 _console2.Write(c.ToString());
                 _cursorPos++;
-            } else
+            }
+            else
             {
                 var left = _console2.CursorLeft;
                 var top = _console2.CursorTop;
@@ -215,20 +206,23 @@ namespace ReadLine
         }
 
 
-        private void Backspace()
-        {
-            if (IsStartOfLine())
-                return;
+        private void Backspace() => Backspace(1);
 
-            MoveCursorLeft();
+        private void Backspace(int count)
+        {
+            if (count > _cursorPos)
+                count = _cursorPos;
+
+            MoveCursorLeft(count);
             var index = _cursorPos;
-            _text.Remove(index, 1);
+            _text.Remove(index, count);
             var replacement = _text.ToString().Substring(index);
             var left = _console2.CursorLeft;
             var top = _console2.CursorTop;
-            _console2.Write($"{replacement} ");
+            var spaces = new string(' ', count);
+            _console2.Write($"{replacement}{spaces}");
             _console2.SetCursorPosition(left, top);
-            _cursorLimit--;
+            _cursorLimit -= count;
         }
 
 
@@ -251,20 +245,11 @@ namespace ReadLine
         private void TransposeChars()
         {
             // local helper functions
-            bool AlmostEndOfLine()
-            {
-                return _cursorLimit - _cursorPos == 1;
-            }
+            bool AlmostEndOfLine() => _cursorLimit - _cursorPos == 1;
 
-            int IncrementIf(Func<bool> expression, int index)
-            {
-                return expression() ? index + 1 : index;
-            }
+            int IncrementIf(Func<bool> expression, int index) => expression() ? index + 1 : index;
 
-            int DecrementIf(Func<bool> expression, int index)
-            {
-                return expression() ? index - 1 : index;
-            }
+            int DecrementIf(Func<bool> expression, int index) => expression() ? index - 1 : index;
 
             if (IsStartOfLine())
                 return;
@@ -290,8 +275,7 @@ namespace ReadLine
 
         private void StartAutoComplete()
         {
-            while (_cursorPos > _completionStart)
-                Backspace();
+            Backspace(_cursorPos - _completionStart);
 
             _completionsIndex = 0;
 
@@ -301,8 +285,7 @@ namespace ReadLine
 
         private void NextAutoComplete()
         {
-            while (_cursorPos > _completionStart)
-                Backspace();
+            Backspace(_cursorPos - _completionStart);
 
             _completionsIndex++;
 
@@ -315,8 +298,7 @@ namespace ReadLine
 
         private void PreviousAutoComplete()
         {
-            while (_cursorPos > _completionStart)
-                Backspace();
+            Backspace(_cursorPos - _completionStart);
 
             _completionsIndex--;
 
