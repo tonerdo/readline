@@ -5,7 +5,7 @@
     <Authors>Toni Solarin-Sodara</Authors>
     <Owners>Toni Solarin-Sodara</Owners>
     <Company>Toni Solarin-Sodara</Company>
-    <TargetFrameworks>net45;net462;net472;netcoreapp2.1;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net45;net462;net472;netcoreapp2.2;netcoreapp3.0;netstandard2.0</TargetFrameworks>
     <AssemblyName>ReadLine</AssemblyName>
     <PackageId>ReadLine</PackageId>
     <PackageTags>readline;gnu;console;shell;cui</PackageTags>
@@ -16,8 +16,8 @@
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>snKey.snk</AssemblyOriginatorKeyFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageReleaseNotes>Updated to support .NET Standard v2.0 / Core 2.1 / Framework v4.5 / v4.6.2 / v4.7.2</PackageReleaseNotes>
-    <Version>2.0.2</Version>
+    <PackageReleaseNotes>Updated to support .NET Standard v2.0 / Core 2.2 &amp; 3.0 / Framework v4.5 / v4.6.2 / v4.7.2</PackageReleaseNotes>
+    <Version>2.0.3</Version>
     <Description>A GNU-Readline like library for .NET</Description>
   </PropertyGroup>
 
