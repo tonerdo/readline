@@ -5,3 +5,4 @@
 *.user
 project.lock.json
 .vs/
+.idea/

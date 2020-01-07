@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ConsoleApplication
 {
@@ -20,6 +22,13 @@ namespace ConsoleApplication
 
             input = ReadLine.ReadPassword("Enter Password> ");
             Console.WriteLine(input);
+
+            var src = new CancellationTokenSource();
+            src.CancelAfter(3000);
+            input = ReadLine.ReadAsync("You have 3 sec to prompt: ", cancellationToken: src.Token).Result;
+            if (!src.IsCancellationRequested)
+                Console.WriteLine(input);
+            src.Dispose();
         }
     }
 
