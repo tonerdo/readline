@@ -2,6 +2,8 @@
 using Internal.ReadLine.Abstractions;
 
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace System
 {
@@ -39,6 +41,25 @@ namespace System
             return text;
         }
 
+        public static async Task<string> ReadAsync(string prompt = "", string @default = "", CancellationToken cancellationToken = default)
+        {
+            Console.Write(prompt);
+            KeyHandler keyHandler = new KeyHandler(new Console2(), _history, AutoCompletionHandler);
+            string text = await GetTextAsync(keyHandler, cancellationToken);
+            if (String.IsNullOrWhiteSpace(text) && !String.IsNullOrWhiteSpace(@default))
+            {
+                text = @default;
+            }
+            else
+            {
+                if (HistoryEnabled)
+                    _history.Add(text);
+            }
+            if (cancellationToken.IsCancellationRequested)
+                Console.WriteLine("");
+            return text;
+        }
+
         public static string ReadPassword(string prompt = "")
         {
             Console.Write(prompt);
@@ -56,6 +77,34 @@ namespace System
             }
 
             Console.WriteLine();
+            return keyHandler.Text;
+        }
+
+        private static async Task<string> GetTextAsync(KeyHandler keyHandler, CancellationToken cancellationToken = default)
+        {
+            Task.Run(() =>
+            {
+                while (!Console.KeyAvailable)
+                {
+                    if (cancellationToken.IsCancellationRequested)
+                        return;
+                    Thread.Sleep(50);
+                }
+                ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+                while (keyInfo.Key != ConsoleKey.Enter)
+                {
+                    keyHandler.Handle(keyInfo);
+                    while (!Console.KeyAvailable)
+                    {
+                        if (cancellationToken.IsCancellationRequested)
+                            return;
+                        Thread.Sleep(50);
+                    }
+                    keyInfo = Console.ReadKey(true);
+                }
+
+                Console.WriteLine();
+            }).Wait();
             return keyHandler.Text;
         }
     }
