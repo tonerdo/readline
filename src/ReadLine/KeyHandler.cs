@@ -340,5 +340,10 @@ namespace Internal.ReadLine
             action = action ?? WriteChar;
             action.Invoke();
         }
+
+        public void ClearText()
+        {
+            _text.Clear();
+        }
     }
 }

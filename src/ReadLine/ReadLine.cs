@@ -7,11 +7,17 @@ namespace System
 {
     public static class ReadLine
     {
+        public const string CTRL_C = "^C";
+
         private static List<string> _history;
+
+        private static bool _cancelPressed = false;
 
         static ReadLine()
         {
             _history = new List<string>();
+
+            Console.CancelKeyPress += new ConsoleCancelEventHandler(delegate (object sender, ConsoleCancelEventArgs e) { e.Cancel = true; _cancelPressed = true; });
         }
 
         public static void AddHistory(params string[] text) => _history.AddRange(text);
@@ -48,15 +54,37 @@ namespace System
 
         private static string GetText(KeyHandler keyHandler)
         {
-            ConsoleKeyInfo keyInfo = Console.ReadKey(true);
-            while (keyInfo.Key != ConsoleKey.Enter)
+            ConsoleKeyInfo keyInfo = new ConsoleKeyInfo();
+            do
             {
-                keyHandler.Handle(keyInfo);
-                keyInfo = Console.ReadKey(true);
-            }
+                while (true)
+                {
+                    if (Console.KeyAvailable || _cancelPressed)
+                        break;
+                    System.Threading.Thread.Sleep(200);
+                }
 
-            Console.WriteLine();
-            return keyHandler.Text;
+                if (!_cancelPressed)
+                {
+                    keyInfo = Console.ReadKey(true);
+                    keyHandler.Handle(keyInfo);
+                }
+
+            } while (!_cancelPressed && keyInfo.Key != ConsoleKey.Enter);
+
+
+            if (_cancelPressed)
+            {
+                keyHandler.ClearText();
+                Console.WriteLine(CTRL_C);
+                _cancelPressed = false;
+                return CTRL_C;
+            }
+            else
+            {
+                Console.WriteLine();
+                return keyHandler.Text;
+            }
         }
     }
 }
