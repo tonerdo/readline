@@ -10,6 +10,8 @@ namespace ConsoleApplication
             Console.WriteLine("---------------------");
             Console.WriteLine();
 
+            ReadLine.CancelKeyPressEnabled = true;
+
             string[] history = new string[] { "ls -a", "dotnet run", "git init" };
             ReadLine.AddHistory(history);
 

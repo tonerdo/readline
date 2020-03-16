@@ -11,13 +11,31 @@ namespace System
 
         private static List<string> _history;
 
+        private static bool _cancelEnabled = false;
+
         private static bool _cancelPressed = false;
 
         static ReadLine()
         {
             _history = new List<string>();
+        }
 
-            Console.CancelKeyPress += new ConsoleCancelEventHandler(delegate (object sender, ConsoleCancelEventArgs e) { e.Cancel = true; _cancelPressed = true; });
+        public static bool CancelKeyPressEnabled
+        {
+            get { return _cancelEnabled; }
+            set
+            {
+                if (_cancelEnabled = value)
+                    Console.CancelKeyPress += new ConsoleCancelEventHandler(HandleConsoleCancelEvent);
+                else
+                    Console.CancelKeyPress -= new ConsoleCancelEventHandler(HandleConsoleCancelEvent);
+            }
+        }
+
+        private static void HandleConsoleCancelEvent(object sender, ConsoleCancelEventArgs e)
+        {
+            e.Cancel = true;
+            _cancelPressed = true;
         }
 
         public static void AddHistory(params string[] text) => _history.AddRange(text);
