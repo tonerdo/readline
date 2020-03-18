@@ -5,27 +5,29 @@ using ReadLine.Abstractions;
 
 namespace ReadLine
 {
-    public static class ReadLine
+    public class ReadLine : IReadLine
     {
-        private static List<string> _history;
+        private List<string> _history;
+
+        private ReadLine() {
+            _history = new List<string>();
+        }
+
+        public static ReadLine Instance = new ReadLine(); // Singleton implementation
+
+        public IAutoCompleteHandler AutoCompletionHandler { get; set; }
 
 
-        static ReadLine() => _history = new List<string>();
+        public void AddHistory(params string[] text) => _history.AddRange(text);
 
 
-        public static IAutoCompleteHandler AutoCompletionHandler { private get; set; }
+        public List<string> GetHistory() => _history;
 
 
-        public static void AddHistory(params string[] text) => _history.AddRange(text);
+        public void ClearHistory() => _history = new List<string>();
 
 
-        public static List<string> GetHistory() => _history;
-
-
-        public static void ClearHistory() => _history = new List<string>();
-
-
-        public static string Read(string prompt = "", string @default = "")
+        public string Read(string prompt = "", string @default = "")
         {
             Console.Write(prompt);
             var keyHandler = new KeyHandler(new Console2(), _history, AutoCompletionHandler);
@@ -40,7 +42,7 @@ namespace ReadLine
         }
 
 
-        public static string ReadPassword(string prompt = "")
+        public string ReadPassword(string prompt = "")
         {
             Console.Write(prompt);
             var keyHandler = new KeyHandler(new Console2
@@ -53,6 +55,8 @@ namespace ReadLine
 
         private static string GetText(KeyHandler keyHandler)
         {
+            Console.TreatControlCAsInput = true;
+
             var keyInfo = Console.ReadKey(true);
             while (keyInfo.Key != ConsoleKey.Enter)
             {
