@@ -8,7 +8,7 @@
     <PackageTags>readline gnu console shell cui</PackageTags>
     <PackageProjectUrl>https://github.com/tonerdo/readline</PackageProjectUrl>
     <RepositoryType>GIT</RepositoryType>
-    <RepositoryUrl>https://github.com/tonerdo/readline</RepositoryUrl>
+    <RepositoryUrl>https://github.com/Latency/ReadLine</RepositoryUrl>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>snKey.snk</AssemblyOriginatorKeyFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
