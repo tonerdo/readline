@@ -13,7 +13,7 @@
     <AssemblyOriginatorKeyFile>snKey.snk</AssemblyOriginatorKeyFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageReleaseNotes>Updated to support .NET Standard v2.0 / Core 2.2 &amp; 3.0 / Framework v4.5 - v4.8</PackageReleaseNotes>
-    <Version>2.1.3</Version>
+    <Version>2.1.4</Version>
     <Description>A GNU-Readline like library for .NET</Description>
     <ArtifactsDirName>artifacts</ArtifactsDirName>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>

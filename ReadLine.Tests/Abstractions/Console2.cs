@@ -5,6 +5,8 @@ namespace ReadLine.Tests.Abstractions
 {
     internal class Console2 : IConsole
     {
+        public bool PasswordMode { get; set; }
+
         public int CursorLeft { get; private set; }
 
         public int CursorTop { get; private set; }

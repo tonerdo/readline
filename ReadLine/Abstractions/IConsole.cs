@@ -2,6 +2,7 @@ namespace ReadLine.Abstractions
 {
     public interface IConsole
     {
+        bool PasswordMode { get; set; }
         int CursorLeft { get; }
         int CursorTop { get; }
         int BufferWidth { get; }

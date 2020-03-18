@@ -218,3 +218,6 @@ project.lock.json
 # Advanced Installer
 *-cache/
 *-SetupFiles/
+
+# GitHub
+.github/*
