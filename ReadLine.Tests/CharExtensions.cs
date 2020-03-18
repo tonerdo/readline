@@ -11,6 +11,7 @@ namespace ReadLine.Tests
 
         public const char CtrlA = '\u0001';
         public const char CtrlB = '\u0002';
+        public const char CtrlC = '\u0003';
         public const char CtrlD = '\u0004';
         public const char CtrlE = '\u0005';
         public const char CtrlF = '\u0006';
@@ -29,6 +30,7 @@ namespace ReadLine.Tests
             {Space, Tuple.Create(ConsoleKey.Spacebar,  NoModifiers())},
             {CtrlA, Tuple.Create(ConsoleKey.A, ConsoleModifiers.Control)},
             {CtrlB, Tuple.Create(ConsoleKey.B, ConsoleModifiers.Control)},
+            {CtrlC, Tuple.Create(ConsoleKey.C, ConsoleModifiers.Control)},
             {CtrlD, Tuple.Create(ConsoleKey.D, ConsoleModifiers.Control)},
             {CtrlE, Tuple.Create(ConsoleKey.E, ConsoleModifiers.Control)},
             {CtrlF, Tuple.Create(ConsoleKey.F, ConsoleModifiers.Control)},
