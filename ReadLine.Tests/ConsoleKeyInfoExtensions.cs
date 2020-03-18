@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Generic;
+
 
 namespace ReadLine.Tests
 {
@@ -23,6 +23,7 @@ namespace ReadLine.Tests
         public static readonly ConsoleKeyInfo Space = CharExtensions.Space.ToConsoleKeyInfo();
         public static readonly ConsoleKeyInfo CtrlA = CharExtensions.CtrlA.ToConsoleKeyInfo();
         public static readonly ConsoleKeyInfo CtrlB = CharExtensions.CtrlB.ToConsoleKeyInfo();
+        public static readonly ConsoleKeyInfo CtrlC = CharExtensions.CtrlC.ToConsoleKeyInfo();
         public static readonly ConsoleKeyInfo CtrlD = CharExtensions.CtrlD.ToConsoleKeyInfo();
         public static readonly ConsoleKeyInfo CtrlE = CharExtensions.CtrlE.ToConsoleKeyInfo();
         public static readonly ConsoleKeyInfo CtrlF = CharExtensions.CtrlF.ToConsoleKeyInfo();

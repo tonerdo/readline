@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyTitle>ReadLine</AssemblyTitle>
+    <TargetFrameworks>net45;net461;net472;net48;netcoreapp2.2;netcoreapp3.0;netstandard2.0</TargetFrameworks>
+    <AssemblyName>ReadLine</AssemblyName>
+    <PackageId>ReadLine</PackageId>
+    <PackageTags>readline gnu console shell cui</PackageTags>
+    <PackageProjectUrl>https://github.com/tonerdo/readline</PackageProjectUrl>
+    <RepositoryType>GIT</RepositoryType>
+    <RepositoryUrl>https://github.com/Latency/ReadLine</RepositoryUrl>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>snKey.snk</AssemblyOriginatorKeyFile>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageReleaseNotes>Updated to support .NET Standard v2.0 / Core 2.2 &amp; 3.0 / Framework v4.5 - v4.8</PackageReleaseNotes>
+    <Version>2.1.4</Version>
+    <Description>A GNU-Readline like library for .NET</Description>
+    <ArtifactsDirName>artifacts</ArtifactsDirName>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+  </PropertyGroup>
+
+  <!-- @@ -->
+  <Target Name="CreateArtifactsDirectoryIfNotExists" Condition="!Exists('$(MSBuildProjectDirectory)\..\$(ArtifactsDirName)')">
+    <Message Text="Creating artifacts directory -&gt; '$(MSBuildProjectDirectory)\..\$(ArtifactsDirName)\'" Importance="high" />
+    <MakeDir Directories="$(MSBuildProjectDirectory)\..\$(ArtifactsDirName)" />
+  </Target>
+
+  <Target Name="PostPublish" AfterTargets="Pack" Condition=" '$(GeneratePackageOnBuild)' == 'true' ">
+    <CallTarget Targets="CreateArtifactsDirectoryIfNotExists" />
+    <Message Text="Copying artifact `.\bin\$(Configuration)\$(PackageId).$(PackageVersion).nupkg' to directory `$(MSBuildProjectDirectory)\..\$(ArtifactsDirName)\'" Importance="high" />
+    <Copy SourceFiles=".\bin\$(Configuration)\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(MSBuildProjectDirectory)\..\$(ArtifactsDirName)" />
+  </Target>
+
+</Project>

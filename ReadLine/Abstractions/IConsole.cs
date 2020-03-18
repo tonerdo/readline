@@ -1,7 +1,8 @@
-namespace Internal.ReadLine.Abstractions
+namespace ReadLine.Abstractions
 {
-    internal interface IConsole
+    public interface IConsole
     {
+        bool PasswordMode { get; set; }
         int CursorLeft { get; }
         int CursorTop { get; }
         int BufferWidth { get; }

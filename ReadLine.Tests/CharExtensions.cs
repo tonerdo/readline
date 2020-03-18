@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 
+
 namespace ReadLine.Tests
 {
     public static class CharExtensions
@@ -10,6 +11,7 @@ namespace ReadLine.Tests
 
         public const char CtrlA = '\u0001';
         public const char CtrlB = '\u0002';
+        public const char CtrlC = '\u0003';
         public const char CtrlD = '\u0004';
         public const char CtrlE = '\u0005';
         public const char CtrlF = '\u0006';
@@ -22,12 +24,13 @@ namespace ReadLine.Tests
         public const char CtrlU = '\u0015';
         public const char CtrlW = '\u0017';
 
-        private static readonly Dictionary<char, Tuple<ConsoleKey, ConsoleModifiers>> specialKeyCharMap = new Dictionary<char, Tuple<ConsoleKey, ConsoleModifiers>>() 
+        private static readonly Dictionary<char, Tuple<ConsoleKey, ConsoleModifiers>> SpecialKeyCharMap = new Dictionary<char, Tuple<ConsoleKey, ConsoleModifiers>>() 
         {
             {ExclamationPoint, Tuple.Create(ConsoleKey.D0, NoModifiers())},
             {Space, Tuple.Create(ConsoleKey.Spacebar,  NoModifiers())},
             {CtrlA, Tuple.Create(ConsoleKey.A, ConsoleModifiers.Control)},
             {CtrlB, Tuple.Create(ConsoleKey.B, ConsoleModifiers.Control)},
+            {CtrlC, Tuple.Create(ConsoleKey.C, ConsoleModifiers.Control)},
             {CtrlD, Tuple.Create(ConsoleKey.D, ConsoleModifiers.Control)},
             {CtrlE, Tuple.Create(ConsoleKey.E, ConsoleModifiers.Control)},
             {CtrlF, Tuple.Create(ConsoleKey.F, ConsoleModifiers.Control)},
@@ -55,12 +58,12 @@ namespace ReadLine.Tests
         private static Tuple<ConsoleKey, ConsoleModifiers> ParseKeyInfo(this char c) 
         {
             {
-                var success = Enum.TryParse<ConsoleKey>(c.ToString().ToUpper(), out ConsoleKey result);
+                var success = Enum.TryParse<ConsoleKey>(c.ToString().ToUpper(), out var result);
                 if (success) {return Tuple.Create(result, NoModifiers());}
             }
             
             {
-                var success = specialKeyCharMap.TryGetValue(c, out Tuple<ConsoleKey, ConsoleModifiers> result);
+                var success = SpecialKeyCharMap.TryGetValue(c, out var result);
                 if (success) { return result; }
             }
 
@@ -68,9 +71,6 @@ namespace ReadLine.Tests
             return Tuple.Create(default(ConsoleKey), NoModifiers());
         }
 
-        private static ConsoleModifiers NoModifiers()
-        {
-            return (ConsoleModifiers)0;
-        }
+        private static ConsoleModifiers NoModifiers() => 0;
     }
 }
