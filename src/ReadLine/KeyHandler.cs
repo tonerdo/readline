@@ -246,7 +246,7 @@ namespace Internal.ReadLine
             }
         }
 
-        public KeyHandler(IConsole console, List<string> history, IAutoCompleteHandler autoCompleteHandler)
+        public KeyHandler(IConsole console, List<string> history, IAutoCompleteHandler autoCompleteHandler, Dictionary<string, Action> keyHandlers = null)
         {
             Console2 = console;
 
@@ -325,6 +325,22 @@ namespace Internal.ReadLine
                     PreviousAutoComplete();
                 }
             };
+
+            // do overrides and additional handlers.
+            if (_keyActions != null)
+            {
+                foreach (var kvp in keyHandlers)
+                {
+                    if (_keyActions.ContainsKey(kvp.Key))
+                    {
+                        _keyActions[kvp.Key] = kvp.Value;
+                    }
+                    else
+                    {
+                        _keyActions.Add(kvp.Key, kvp.Value);
+                    }
+                }
+            }
         }
 
         public void Handle(ConsoleKeyInfo keyInfo)

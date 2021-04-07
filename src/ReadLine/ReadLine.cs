@@ -19,11 +19,13 @@ namespace System
         public static void ClearHistory() => _history = new List<string>();
         public static bool HistoryEnabled { get; set; }
         public static IAutoCompleteHandler AutoCompletionHandler { private get; set; }
+        public static Dictionary<string, Action> KeyHandlers { private get; set; }
+        public static Action<string> WritePrompt { private get; set; } = (prompt) => Console.Write(prompt);
 
         public static string Read(string prompt = "", string @default = "")
         {
-            Console.Write(prompt);
-            KeyHandler keyHandler = new KeyHandler(new Console2(), _history, AutoCompletionHandler);
+            WritePrompt(prompt);
+            KeyHandler keyHandler = new KeyHandler(new Console2(), _history, AutoCompletionHandler, KeyHandlers);
             string text = GetText(keyHandler);
 
             if (String.IsNullOrWhiteSpace(text) && !String.IsNullOrWhiteSpace(@default))
@@ -41,7 +43,7 @@ namespace System
 
         public static string ReadPassword(string prompt = "")
         {
-            Console.Write(prompt);
+            WritePrompt(prompt);
             KeyHandler keyHandler = new KeyHandler(new Console2() { PasswordMode = true }, null, null);
             return GetText(keyHandler);
         }
