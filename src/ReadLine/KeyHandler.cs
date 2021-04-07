@@ -327,7 +327,7 @@ namespace Internal.ReadLine
             };
 
             // do overrides and additional handlers.
-            if (_keyActions != null)
+            if (keyHandlers != null)
             {
                 foreach (var kvp in keyHandlers)
                 {
