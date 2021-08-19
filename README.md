@@ -88,11 +88,16 @@ _Note: History information is persisted for an entire application session. Also,
 ```csharp
 class AutoCompletionHandler : IAutoCompleteHandler
 {
-    // characters to start completion from
+    /// <summary>
+    /// Characters to start completion from.
+    /// </summary>
     public char[] Separators { get; set; } = new char[] { ' ', '.', '/' };
 
-    // text - The current text entered in the console
-    // index - The index of the terminal cursor within {text}
+    /// <summary>
+    /// Used to resolve possible completions.
+    /// </summary>
+    /// <param name="text">The current text entered in the console.</param>
+    /// <param name="index">The index of the terminal cursor within <paramref name="text"/>.</param>
     public string[] GetSuggestions(string text, int index)
     {
         if (text.StartsWith("git "))
